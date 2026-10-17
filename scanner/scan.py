@@ -47,13 +47,13 @@ def fetch(symbol, ver="40"):
 
 def fetch_retry(s):
     last = None
-    for a in range(3):
+    for a in range(5):
         try:
             b, e = fetch(s)
             if b: return s, b, None
             last = e
-        except Exception as ex: last = str(ex)
-        time.sleep(2 + a * 2)
+        except Exception as ex: last = str(ex)[:200]
+        time.sleep((8 if "429" in str(last) else 2) * (a + 1) + random.random() * 3)
     return s, [], last or "no data"
 
 def wma(x, L):
@@ -130,12 +130,23 @@ def analyse(s, B, today):
 
 def main():
     now = datetime.now(timezone.utc); today = now.strftime("%Y-%m-%d")
-    with ThreadPoolExecutor(6) as ex:
+    prev = None
+    if os.path.exists(OUT):
+        try: prev = json.load(open(OUT))
+        except Exception: prev = None
+    with ThreadPoolExecutor(2) as ex:
         res = list(ex.map(fetch_retry, SYMS))
     summ, matches, errors = [], [], {}
     trx = {}
+    prev_summ = {r["coin"]: r for r in (prev or {}).get("summary", [])}
     for s, B, err in res:
-        if err and not B: errors[s] = err
+        if err and not B:
+            errors[s] = err
+            if s in prev_summ:  # carry forward last good data for this coin
+                summ.append(dict(prev_summ[s], stale=True))
+                matches += [m for m in prev.get("matches", []) if m["coin"] == s]
+                if s == "BINGX:TRXUSDT.P": trx = prev.get("trx", {})
+                continue
         rec, m, af, bricks = analyse(s, B, today)
         summ.append(rec); matches += m
         if s == "BINGX:TRXUSDT.P": trx = {"flips": af, "bricks": bricks}
@@ -149,12 +160,8 @@ def main():
         "rules": {"SELL": "green->red flip AND Hull RED AND hist DARK GREEN->LIGHT GREEN or LIGHT RED->DARK RED",
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
-        "summary": summ, "matches": matches, "trx": trx, "fetch_errors": errors,
+        "summary": summ, "matches": matches, "trx": trx, "fetch_errors": {k: v[:120] for k, v in errors.items()},
     }
-    prev = None
-    if os.path.exists(OUT):
-        try: prev = json.load(open(OUT))
-        except Exception: prev = None
     core_changed = prev is None or {k: v for k, v in prev.items() if k not in ("last_scan_utc", "last_change_utc")} != data
     data["last_change_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ") if core_changed else prev.get("last_change_utc")
     data["last_scan_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ")
