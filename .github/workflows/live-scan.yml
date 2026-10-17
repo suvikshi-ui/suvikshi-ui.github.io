@@ -1,7 +1,7 @@
 name: Live strategy scan
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,7 +11,7 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,20 +19,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install websocket-client==1.8.0
+      - run: pip install websocket-client==1.8.0 matplotlib==3.9.2
       - name: Scan 37 coins (TradingView feed)
         id: scan
         run: python scanner/scan.py trx/data.json
-      - name: Commit (on change, or heartbeat every ~15 min)
+      - name: Commit every run (new data or heartbeat)
         run: |
           set -e
           last=$(git log -1 --format=%ct -- trx/data.json || echo 0); last=${last:-0}
           age=$(( $(date +%s) - last ))
           echo "changed=${{ steps.scan.outputs.changed }} heartbeat_age=${age}s"
-          if [ "${{ steps.scan.outputs.changed }}" = "true" ] || [ "$age" -ge 840 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if true; then
             git config user.name "trx-scan-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add trx/data.json trx/data
+            git add trx/data.json trx/data trx/charts
             if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
             if [ "${{ steps.scan.outputs.changed }}" = "true" ]; then msg="scan: new data"; else msg="scan: heartbeat"; fi
             git commit -m "$msg $(date -u +%Y-%m-%dT%H:%MZ)"

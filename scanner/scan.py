@@ -6,6 +6,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor
 import websocket
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "trx", "data.json")
@@ -167,6 +168,56 @@ def main():
     # Guard: if most fetches failed keep previous data untouched
     if len(errors) > len(SYMS) // 3 and os.path.exists(OUT):
         print("Too many fetch errors, keeping previous data:", errors); sys.exit(1)
+    # ---- active flag + charts ----
+    cols_idx = {k: i for i, k in enumerate(["brick_date", "brick_time_utc", "brick_seq_in_day", "open", "high", "low", "close", "brick_color", "box_size", "mhull", "shull", "hull_color", "macd", "signal", "histogram", "hist_color", "indicators_ready", "flip", "forming"])}
+    def rowdict(r):
+        g = lambda k: r[cols_idx[k]]
+        return {"date": g("brick_date"), "open": g("open"), "high": g("high"), "low": g("low"), "close": g("close"), "mhull": g("mhull"),
+                "shull": g("shull"), "macd": g("macd"), "signal": g("signal"), "hist": g("histogram"), "hist_color": g("hist_color")}
+    charts_dir = os.path.join(os.path.dirname(OUT), "charts")
+    man_path = os.path.join(charts_dir, "manifest.json")
+    try: manifest = json.load(open(man_path))
+    except Exception: manifest = {}
+    rendered = 0
+    try:
+        import charts as CH
+    except Exception as ex:
+        CH = None; print("charts disabled:", ex)
+    def chart(fname, sym, box, rows, mark):
+        nonlocal rendered
+        h = CH.slice_hash(sym, rows, mark)
+        fp = os.path.join(charts_dir, fname)
+        if manifest.get(fname) != h or not os.path.exists(fp):
+            CH.render(fp, sym, box, rows, mark); manifest[fname] = h; rendered += 1
+        return "charts/" + fname
+    box_of = {r["coin"]: r.get("box_size") for r in summ}
+    for m in matches:
+        fr = full_all.get(m["coin"], [])
+        k = next((j for j, r in enumerate(fr) if r[0] == m["date"] and r[17] and abs(r[6] - m["brick_close"]) < 1e-12), None)
+        if k is None: m["active"] = False; continue
+        col_k = fr[k][7]
+        m["active"] = all(fr[j][7] == col_k for j in range(k + 1, len(fr)))
+        m["bricks_since"] = len(fr) - 1 - k
+        if CH:
+            a, b = max(0, k - 45), min(len(fr), k + 13)
+            rows = [rowdict(r) for r in fr[a:b]]
+            mark = {"idx": k - a, "side": m["side"], "date": m["date"], "close": m["brick_close"]}
+            m["chart"] = chart(f"{m['coin'].replace(':', '_')}_{m['date']}_{m['side']}_{fr[k][2]}.png", m["coin"], box_of.get(m["coin"]), rows, mark)
+    if CH:
+        for r in summ:
+            fr = full_all.get(r["coin"], [])
+            if not fr: continue
+            a = max(0, len(fr) - 55)
+            rows = [rowdict(x) for x in fr[a:]]
+            act = [m for m in matches if m["coin"] == r["coin"] and m.get("active")]
+            mark = None
+            if act:
+                m = act[0]; k = len(fr) - 1 - m["bricks_since"]
+                if k >= a: mark = {"idx": k - a, "side": m["side"], "date": m["date"], "close": m["brick_close"]}
+            r["chart_latest"] = chart(f"latest/{r['coin'].replace(':', '_')}.png", r["coin"], r.get("box_size"), rows, mark)
+        os.makedirs(charts_dir, exist_ok=True)
+        json.dump(manifest, open(man_path, "w"), indent=0, sort_keys=True)
+    print("charts rendered", rendered)
     matches.sort(key=lambda r: (r["date"], r["coin"]), reverse=True)
     data = {
         "source": "TradingView chart feed (BingX symbols), daily Renko ATR(14), wicks on; Hull Suite HMA 55 + MACD 12/26/9 on brick closes",
@@ -196,7 +247,7 @@ def main():
                 w = csv.writer(f); w.writerow(cols); w.writerows(rows)
     print("totals", data["totals"], "errors", len(errors), "changed", core_changed)
     if os.environ.get("GITHUB_OUTPUT"):
-        open(os.environ["GITHUB_OUTPUT"], "a").write(f"changed={'true' if core_changed else 'false'}\n")
+        open(os.environ["GITHUB_OUTPUT"], "a").write(f"changed={'true' if (core_changed or rendered) else 'false'}\n")
 
 if __name__ == "__main__":
     main()
