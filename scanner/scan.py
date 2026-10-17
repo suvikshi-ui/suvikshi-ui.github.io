@@ -126,13 +126,15 @@ def analyse(s, B, today):
                 latest_brick_forming=D(t[-1]) >= today,
                 indicators_valid_from=D(t[fv]) if fv is not None else None).items()})
     bricks = [[D(t[i]), rnd(o[i]), rnd(c[i])] for i in ib]
-    full = []
+    full = []; seq = {}
     for i in ib:
         hcol = None if (H[i] is None or i < 2 or H[i - 2] is None) else ("GREEN" if H[i] > H[i - 2] else "RED")
         hs = None if (hist[i] is None or i < 1 or hist[i - 1] is None) else state(hist[i], hist[i - 1])
-        full.append([D(t[i]), rnd(o[i]), rnd(B[i][2]), rnd(B[i][3]), rnd(c[i]), "GREEN" if col(i) == "G" else "RED",
+        d = D(t[i]); seq[d] = seq.get(d, 0) + 1
+        full.append([d, datetime.fromtimestamp(int(t[i]), timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"), seq[d],
+                     rnd(o[i]), rnd(B[i][2]), rnd(B[i][3]), rnd(c[i]), "GREEN" if col(i) == "G" else "RED", rnd(box),
                      rnd(H[i]), rnd(H[i - 2]) if i >= 2 else None, hcol, rnd(macd[i]), rnd(sig[i]), rnd(hist[i]), hs,
-                     i >= 1 and col(i) != col(i - 1), D(t[i]) >= today])
+                     hcol is not None and hs is not None, i >= 1 and col(i) != col(i - 1), d >= today])
     return rec, matches, allflips, bricks, full
 
 def main():
@@ -180,7 +182,7 @@ def main():
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(data, open(OUT, "w"), separators=(",", ":"))
     # Full per-brick dataset (2026 onwards) + per-coin CSVs
-    cols = ["date", "open", "high", "low", "close", "brick_color", "mhull", "shull", "hull_color", "macd", "signal", "hist", "hist_color", "flip", "forming"]
+    cols = ["brick_date", "brick_time_utc", "brick_seq_in_day", "open", "high", "low", "close", "brick_color", "box_size", "mhull", "shull", "hull_color", "macd", "signal", "histogram", "hist_color", "indicators_ready", "flip", "forming"]
     fulldoc = {"source": data["source"], "window_from": "2026-01-01", "columns": cols, "coins": full_all}
     old = None
     try: old = json.load(open(FULL))
