@@ -63,20 +63,20 @@ function renderCoins(d){
   const ord=S.slice().sort((a,b)=>(String(a.status).startsWith('too little')-String(b.status).startsWith('too little'))||((b.buys||0)+(b.sells||0)-(a.buys||0)-(a.sells||0))||a.coin.localeCompare(b.coin));
   const rows=ord.map(s=>{const st=String(s.status),sc=st.startsWith('too little')||st.startsWith('fetch');let b;
     if(st==='ok')b='<span class="b hg">Full</span>';else if(st.startsWith('partial')){const m=st.match(/from (\d{4}-\d\d-\d\d)/);b=`<span class="b lr">Partial</span> <small>scored from ${m?fd(m[1]):'?'}</small>`}
-    else if(st.startsWith('fetch'))b='<span class="b" style="border:1px solid #556;color:#8d96a8">Fetch error</span>';else b='<span class="b" style="border:1px solid #556;color:#8d96a8">Too little history</span>';
+    else if(st.startsWith('fetch'))b='<span class="b" style="border:1px solid #CBD5E1;color:#64748B">Fetch error</span>';else b='<span class="b" style="border:1px solid #CBD5E1;color:#64748B">Too little history</span>';
     return `<tr class="${s.chart_latest?'click':''}" ${s.chart_latest?`data-coin="${esc(s.coin)}"`:''}><td data-l="Coin"><b>${esc(short(s.coin))}</b>${s.chart_latest?' <span class="lnk">chart</span>':''}</td><td data-l="Data">${b}</td><td data-l="Box">${num(s.box_size)}</td><td data-l="Bricks 2026">${s.bricks_in_window??'–'}</td><td data-l="Flips">${s.flips??'–'}</td>
-<td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#26a69a">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#ef5350">${s.sells}</b>`:0)}</td>
+<td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#059669">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#DC2626">${s.sells}</b>`:0)}</td>
 <td data-l="Latest brick">${fd(s.latest_brick_date)} ${s.latest_brick_color?(s.latest_brick_color==='RED'?"<span class='b dr'>red</span>":"<span class='b dg'>green</span>"):''} ${num(s.latest_close)}${s.latest_brick_date&&isForming(s.latest_brick_date)?' <small>(forming)</small>':''}</td></tr>`}).join('');
   const mrows=M.map(m=>{const nw=newKeys.has(key(m));return `<tr class="${nw?'isnew':''}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Coin">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td>
 <td data-l="Brick close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td></tr>`}).join('');
   const errs=Object.keys(d.fetch_errors||{});
-  $('coinsWrap').innerHTML=`<section id="coins"><h2>All watchlist coins (${S.length})</h2>
+  $('c-summary').innerHTML=`<section id="coins"><h2>Crypto summary · all watchlist coins (${S.length})</h2>
 <p><small>The same strategy runs on every coin in the TradingView "Crypto currency" watchlist (BingX symbols, daily Renko ATR(14), Hull Suite 55, MACD 12/26/9). Window: 1 Jan 2026 to the latest brick. Data: TradingView. Updated live, newest first.</small></p>
 <div class="cards"><div class="card"><div class="k">Coins scanned</div><div class="v">${S.length}</div></div>
 <div class="card"><div class="k">BUY setups</div><div class="v bu">${nb}</div></div>
 <div class="card"><div class="k">SELL setups</div><div class="v s">${ns}</div></div>
 <div class="card"><div class="k">Too little history</div><div class="v">${few.length}</div></div></div>
-<div class="note" style="background:#161c28;border-color:#2c3a55;color:#c9d4ea;margin-bottom:12px">${few.length} coins had too little history to score (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')}. ${part.length} coins have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
+<div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:12px">${few.length} coins had too little history to score (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')}. ${part.length} coins have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
 <br><small>"Forming" means the setup is on a daily candle that hasn't closed yet (BingX's daily candle closes at 05:30 IST), so the brick can still change. "Confirmed" means the candle has closed.</small></div>
 <h3>Per-coin summary</h3><div class="tw"><table class="rtable"><thead><tr><th>Coin</th><th>Data</th><th>Box</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th></tr></thead><tbody>${rows}</tbody></table></div>
 <p><small>All ${M.length} setups (${nb} BUY / ${ns} SELL) are listed at the top of the page, under Active trading setups and All other 2026 setups.</small></p></section>`;
@@ -87,7 +87,7 @@ function renderTop(d){
   DATA=d;
   const M=(d.matches||[]).slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:a.coin.localeCompare(b.coin));
   const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
-  $('activeCards').innerHTML=act.length?act.map(m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';
+  $('c-active').innerHTML=act.length?act.map(m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';
     return `<div class="ac ${s?'sellc':'buyc'}" data-key="${esc(key(m))}" tabindex="0" role="button">
 <div class="top"><span class="coin">${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${nw?'<span class="b new">NEW</span>':''}</span></div>
 <div class="px">${num(m.brick_close)}</div>
@@ -97,7 +97,7 @@ function renderTop(d){
 <div class="row"><span>Histogram</span><span>${badge(m.state_before)} → ${badge(m.state_after)}</span></div>
 <div class="row"><span>Bricks since</span><span>${m.bricks_since===0?'setup is the latest brick':'+'+m.bricks_since+' in the same direction'}</span></div>
 <div class="vw">View chart ›</div></div>`}).join(''):'<div class="pending">No active setups right now.</div>';
-  $('otherRows').innerHTML=oth.map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}" data-key="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Coin">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="8" class="pending">None.</td></tr>';
+  $('c-other').innerHTML=oth.map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}" data-key="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Coin">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="8" class="pending">None.</td></tr>';
 }
 // ---- Modal (single in-page chart view) ----
 function openModal(views,title){
@@ -167,20 +167,20 @@ const nv=v=>v===null||v===undefined?'–':Number((+v).toPrecision(6)).toLocaleSt
 const BC={'DARK GREEN':'dg','LIGHT GREEN':'lg','DARK RED':'dr','LIGHT RED':'lr','RED':'hr','GREEN':'hg'};
 const bd=s=>s?`<span class="b ${BC[s]||''}">${s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}</span>`:'–';
 let FULL=null, LIMIT=150;
-const sel=$('coinSel'); if(!sel)return;
+const sel=$('c-sel'); if(!sel)return;
 function render(){
   const sym=sel.value, rows=(FULL.coins[sym]||[]).slice().reverse(), C=FULL.columns, ix=k=>C.indexOf(k);
-  $('csvLink').href='data/coins/'+sym.replace(':','_')+'.csv';
-  $('drillInfo').textContent=rows.length+' bricks'+(rows.length>LIMIT?` (showing newest ${LIMIT})`:'');
+  $('c-csv').href='data/coins/'+sym.replace(':','_')+'.csv';
+  $('c-info').textContent=rows.length+' bricks'+(rows.length>LIMIT?` (showing newest ${LIMIT})`:'');
   const body=rows.slice(0,LIMIT).map(r=>`<tr><td data-l="Date">${fd(r[ix('brick_date')])}${r[ix('forming')]?' <small>(forming)</small>':''}${r[ix('flip')]?' <span class="b '+(r[ix('brick_color')]==='GREEN'?'buyo':'sello')+'">flip</span>':''}</td>
 <td data-l="Brick">${r[ix('brick_color')]==='GREEN'?"<span class='b dg'>green</span>":"<span class='b dr'>red</span>"}</td><td data-l="Open">${nv(r[ix('open')])}</td><td data-l="High">${nv(r[ix('high')])}</td><td data-l="Low">${nv(r[ix('low')])}</td><td data-l="Close"><b>${nv(r[ix('close')])}</b></td>
 <td data-l="Hull">${bd(r[ix('hull_color')])} ${nv(r[ix('mhull')])} <small>/ ${nv(r[ix('shull')])}</small></td><td data-l="MACD">${nv(r[ix('macd')])}</td><td data-l="Signal">${nv(r[ix('signal')])}</td><td data-l="Histogram">${bd(r[ix('hist_color')])} ${nv(r[ix('histogram')])}</td></tr>`).join('');
-  $('drillTbl').innerHTML=`<table class="rtable"><thead><tr><th>Date</th><th>Brick</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Hull (MHULL / SHULL)</th><th>MACD</th><th>Signal</th><th>Histogram</th></tr></thead><tbody>${body}</tbody></table>`+(rows.length>LIMIT?`<div class="pending"><a href="#" id="more" style="color:#5b8def">Show all ${rows.length}</a></div>`:'');
-  const m=$('more'); if(m)m.onclick=e=>{e.preventDefault();LIMIT=1e9;render()};
+  $('c-tbl').innerHTML=`<table class="rtable"><thead><tr><th>Date</th><th>Brick</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Hull (MHULL / SHULL)</th><th>MACD</th><th>Signal</th><th>Histogram</th></tr></thead><tbody>${body}</tbody></table>`+(rows.length>LIMIT?`<div class="pending"><a href="#" id="c-more" style="color:#5b8def">Show all ${rows.length}</a></div>`:'');
+  const m=$('c-more'); if(m)m.onclick=e=>{e.preventDefault();LIMIT=1e9;render()};
 }
 async function loadFull(){
   try{const r=await fetch('data/all_bricks.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'});if(!r.ok)throw 0;FULL=await r.json()}
-  catch(e){$('drillTbl').innerHTML='<div class="pending">The brick dataset isn\'t available yet.</div>';return}
+  catch(e){$('c-tbl').innerHTML='<div class="pending">The brick dataset isn\'t available yet.</div>';return}
   const cur=sel.value, syms=Object.keys(FULL.coins);
   sel.innerHTML=syms.map(s=>`<option value="${s}">${s.replace('BINGX:','')}</option>`).join('');
   sel.value=syms.includes(cur)?cur:(syms.includes('BINGX:TRXUSDT.P')?'BINGX:TRXUSDT.P':syms[0]);
@@ -188,4 +188,19 @@ async function loadFull(){
 }
 sel.onchange=()=>{LIMIT=150;render()};
 loadFull(); setInterval(loadFull,300000);
+})();
+
+// ---- Tabs + India pending list ----
+(function(){
+const $=id=>document.getElementById(id);
+function setTab(k){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===k));
+  $('mkt-crypto').hidden=k!=='crypto';$('mkt-india').hidden=k!=='india';
+  const lm=$('liveMkt');if(lm)lm.textContent=k==='india'?'Crypto':'Crypto';
+  if(history.replaceState&&!location.hash.startsWith('#open='))history.replaceState(null,'',k==='india'?'#india':'#crypto');}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+if(location.hash==='#india')setTab('india');
+const al=$('c-allLink');if(al)al.href='data/all_bricks.json';
+fetch('../scanner/nifty100.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;
+  $('i-listInfo').textContent=`Nifty 100 constituents (${d.count} stocks, official NSE Indices list, retrieved ${d.retrieved_ist}). This is a constituent list, not market data.`;
+  $('i-list').innerHTML=d.constituents.map(c=>`<span class="chip" title="${c.name} · ${c.industry}">${c.symbol}</span>`).join('');}).catch(()=>{});
 })();
