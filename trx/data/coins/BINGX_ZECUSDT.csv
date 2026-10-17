@@ -1,0 +1,8 @@
+date,open,high,low,close,brick_color,mhull,shull,hull_color,macd,signal,hist,hist_color,flip,forming
+2026-09-06,900.0,1050.0,900.0,1050.0,GREEN,,,,,,,,False,False
+2026-09-06,1050.0,1200.0,1050.0,1200.0,GREEN,,,,,,,,False,False
+2026-09-17,1200.0,1350.0,1200.0,1350.0,GREEN,,,,,,,,False,False
+2026-09-18,1350.0,1500.0,1350.0,1500.0,GREEN,,,,,,,,False,False
+2026-09-26,1500.0,1650.0,1500.0,1650.0,GREEN,,,,,,,,False,False
+2026-10-01,1500.0,1500.0,1350.0,1350.0,RED,,,,,,,,True,False
+2026-10-08,1350.0,1350.0,1200.0,1200.0,RED,,,,,,,,False,False
