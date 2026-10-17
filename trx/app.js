@@ -49,7 +49,7 @@ function renderTRX(d){
 <div class="card"><div class="k">Bricks in window</div><div class="v">${br.length}</div></div>
 <div class="card"><div class="k">Latest brick</div><div class="v" style="font-size:18px">${last?fd(last[0]):'–'}<br><small>${last?(last[2]>last[1]?'green':'red')+' · '+f4(last[2])+(lastFlip?' · '+lastFlip.side+' setup':'')+(isForming(last[0])?' · forming':''):''}</small></div></div>`;
   $('trxChart').innerHTML=chart(br,flips);
-  $('trxM').innerHTML=ms.slice().reverse().map((r,i)=>`<tr class="${newKeys.has(key(r))?'isnew':''}"><td data-l="#">${ms.length-i}</td><td data-l="Date"><b>${fd(r.date)}</b>${last&&r.date===last[0]?' <small>(latest brick)</small>':''} ${newKeys.has(key(r))?'<span class="b new">NEW</span>':''}</td><td data-l="Signal"><span class="b ${r.side.toLowerCase()}">${r.side}</span> ${stBadge(r.date)}</td><td data-l="Brick close">${f4(r.brick_close)}</td><td data-l="Hull Suite 55">${badge(r.hull_color)} ${f5(r.mhull)} <small>(2 back ${f5(r.shull)})</small></td><td data-l="Histogram before → after">${badge(r.state_before)} ${sg(r.hist_before)} → ${badge(r.state_after)} ${sg(r.hist_after)}</td></tr>`).join('')||'<tr><td colspan="6" class="pending">No setups yet.</td></tr>';
+  $('trxM').innerHTML=ms.slice().reverse().map((r,i)=>`<tr class="click ${newKeys.has(key(r))?'isnew':''}" data-key="${esc(key(r))}"><td data-l="#">${ms.length-i}</td><td data-l="Date"><b>${fd(r.date)}</b>${last&&r.date===last[0]?' <small>(latest brick)</small>':''} ${newKeys.has(key(r))?'<span class="b new">NEW</span>':''}</td><td data-l="Signal"><span class="b ${r.side.toLowerCase()}">${r.side}</span> ${stBadge(r.date)}</td><td data-l="Brick close">${f4(r.brick_close)}</td><td data-l="Hull Suite 55">${badge(r.hull_color)} ${f5(r.mhull)} <small>(2 back ${f5(r.shull)})</small></td><td data-l="Histogram before → after">${badge(r.state_before)} ${sg(r.hist_before)} → ${badge(r.state_after)} ${sg(r.hist_after)}</td></tr>`).join('')||'<tr><td colspan="6" class="pending">No setups yet.</td></tr>';
   $('trxF').innerHTML=fl.map(r=>{const why=[];if(!r.hull_ok)why.push(`Hull Suite ${r.hull_color.toLowerCase()} (needed ${r.side==='BUY'?'green':'red'})`);if(!r.macd_ok)why.push(`histogram ${r.state_before.toLowerCase()} → ${r.state_after.toLowerCase()}`);
     return `<tr><td data-l="Date">${fd(r.date)}</td><td data-l="Flip"><span class="b ${r.side==='BUY'?'buyo':'sello'}">${r.side}</span> ${r.side==='BUY'?'red→green':'green→red'}</td><td data-l="Close">${f4(r.brick_close)}</td><td data-l="Hull">${badge(r.hull_color)} ${f5(r.mhull)}</td><td data-l="Histogram">${badge(r.state_before)} → ${badge(r.state_after)}</td><td data-l="Why it failed">${why.join('; ')}</td></tr>`}).join('');
   const rg=flips.filter(f=>f.side==='BUY'), rgRed=rg.filter(f=>!f.hull_ok);
@@ -64,7 +64,7 @@ function renderCoins(d){
   const rows=ord.map(s=>{const st=String(s.status),sc=st.startsWith('too little')||st.startsWith('fetch');let b;
     if(st==='ok')b='<span class="b hg">Full</span>';else if(st.startsWith('partial')){const m=st.match(/from (\d{4}-\d\d-\d\d)/);b=`<span class="b lr">Partial</span> <small>scored from ${m?fd(m[1]):'?'}</small>`}
     else if(st.startsWith('fetch'))b='<span class="b" style="border:1px solid #556;color:#8d96a8">Fetch error</span>';else b='<span class="b" style="border:1px solid #556;color:#8d96a8">Too little history</span>';
-    return `<tr><td data-l="Coin"><b>${esc(short(s.coin))}</b></td><td data-l="Data">${b}</td><td data-l="Box">${num(s.box_size)}</td><td data-l="Bricks 2026">${s.bricks_in_window??'–'}</td><td data-l="Flips">${s.flips??'–'}</td>
+    return `<tr class="${s.chart_latest?'click':''}" ${s.chart_latest?`data-coin="${esc(s.coin)}"`:''}><td data-l="Coin"><b>${esc(short(s.coin))}</b>${s.chart_latest?' <span class="lnk">chart</span>':''}</td><td data-l="Data">${b}</td><td data-l="Box">${num(s.box_size)}</td><td data-l="Bricks 2026">${s.bricks_in_window??'–'}</td><td data-l="Flips">${s.flips??'–'}</td>
 <td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#26a69a">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#ef5350">${s.sells}</b>`:0)}</td>
 <td data-l="Latest brick">${fd(s.latest_brick_date)} ${s.latest_brick_color?(s.latest_brick_color==='RED'?"<span class='b dr'>red</span>":"<span class='b dg'>green</span>"):''} ${num(s.latest_close)}${s.latest_brick_date&&isForming(s.latest_brick_date)?' <small>(forming)</small>':''}</td></tr>`}).join('');
   const mrows=M.map(m=>{const nw=newKeys.has(key(m));return `<tr class="${nw?'isnew':''}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Coin">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td>
@@ -79,15 +79,63 @@ function renderCoins(d){
 <div class="note" style="background:#161c28;border-color:#2c3a55;color:#c9d4ea;margin-bottom:12px">${few.length} coins had too little history to score (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')}. ${part.length} coins have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
 <br><small>"Forming" means the setup is on a daily candle that hasn't closed yet (BingX's daily candle closes at 05:30 IST), so the brick can still change. "Confirmed" means the candle has closed.</small></div>
 <h3>Per-coin summary</h3><div class="tw"><table class="rtable"><thead><tr><th>Coin</th><th>Data</th><th>Box</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th></tr></thead><tbody>${rows}</tbody></table></div>
-<h3 style="margin-top:18px">All matching setups (${M.length}), newest first</h3><div class="tw"><table class="rtable"><thead><tr><th>Date</th><th>Coin</th><th>Signal</th><th>Status</th><th>Brick close</th><th>Hull Suite 55</th><th>Histogram before → after</th></tr></thead><tbody>${mrows}</tbody></table></div></section>`;
+<p><small>All ${M.length} setups (${nb} BUY / ${ns} SELL) are listed at the top of the page, under Active trading setups and All other 2026 setups.</small></p></section>`;
 }
+
+let DATA=null;
+function renderTop(d){
+  DATA=d;
+  const M=(d.matches||[]).slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:a.coin.localeCompare(b.coin));
+  const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
+  $('activeCards').innerHTML=act.length?act.map(m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';
+    return `<div class="ac ${s?'sellc':'buyc'}" data-key="${esc(key(m))}" tabindex="0" role="button">
+<div class="top"><span class="coin">${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${nw?'<span class="b new">NEW</span>':''}</span></div>
+<div class="px">${num(m.brick_close)}</div>
+<div class="row"><span>Setup brick</span><span><b>${fd(m.date)}</b></span></div>
+<div class="row"><span>Status</span><span>${stBadge(m.date)}</span></div>
+<div class="row"><span>Hull Suite 55</span><span>${badge(m.hull_color)} ${num(m.mhull)}</span></div>
+<div class="row"><span>Histogram</span><span>${badge(m.state_before)} → ${badge(m.state_after)}</span></div>
+<div class="row"><span>Bricks since</span><span>${m.bricks_since===0?'setup is the latest brick':'+'+m.bricks_since+' in the same direction'}</span></div>
+<div class="vw">View chart ›</div></div>`}).join(''):'<div class="pending">No active setups right now.</div>';
+  $('otherRows').innerHTML=oth.map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}" data-key="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Coin">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="8" class="pending">None.</td></tr>';
+}
+// ---- Modal (single in-page chart view) ----
+function openModal(views,title){
+  const tabs=$('mTabs'); $('mTitle').innerHTML=title; tabs.innerHTML='';
+  const show=i=>{const v=views[i];$('mImg').src=v.src;$('mImg').alt=v.label;$('mCap').textContent=v.cap;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i))};
+  views.forEach((v,i)=>{const b=document.createElement('button');b.textContent=v.label;b.onclick=()=>show(i);tabs.appendChild(b)});
+  tabs.style.display=views.length>1?'flex':'none'; show(0); $('modal').hidden=false; document.body.style.overflow='hidden';
+  // optional real TradingView screenshot slot: shots/<SYMBOL>_<date>_<side>.png
+  views.filter(v=>v.shot).forEach(v=>{const im=new Image();im.onload=()=>{const b=document.createElement('button');b.textContent='TradingView screenshot';b.onclick=()=>{$('mImg').src=v.shot;$('mCap').textContent='Screenshot from the TradingView app.';[...tabs.children].forEach(x=>x.classList.remove('on'));b.classList.add('on')};tabs.appendChild(b);tabs.style.display='flex'};im.src=v.shot});
+}
+function closeModal(){$('modal').hidden=true;document.body.style.overflow=''}
+const capFor=c=>`Chart rendered from TradingView data (${c}, daily Renko ATR14).`;
+function openSetup(k){
+  if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
+  const s=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}; const v=[];
+  const bust='?v='+encodeURIComponent(DATA.last_change_utc||'');
+  if(m.chart)v.push({label:'Setup chart',src:m.chart+bust,cap:capFor(m.coin),shot:'shots/'+m.coin.replace(':','_')+'_'+m.date+'_'+m.side+'.png'});
+  if(s.chart_latest)v.push({label:'Latest chart',src:s.chart_latest+bust,cap:capFor(m.coin)});
+  if(!v.length)return;
+  openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${fd(m.date)} · close ${num(m.brick_close)} · ${stBadge(m.date)}`);
+}
+function openCoin(c){
+  if(!DATA)return; const s=(DATA.summary||[]).find(x=>x.coin===c); if(!s||!s.chart_latest)return;
+  openModal([{label:'Latest chart',src:s.chart_latest+'?v='+encodeURIComponent(DATA.last_change_utc||''),cap:capFor(c)}],`${esc(short(c))} · latest bricks`);
+}
+document.addEventListener('click',e=>{
+  if(e.target.id==='modal'||e.target.id==='mClose'){closeModal();return}
+  const k=e.target.closest('[data-key]'); if(k){openSetup(k.getAttribute('data-key'));return}
+  const c=e.target.closest('[data-coin]'); if(c){openCoin(c.getAttribute('data-coin'))}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('ac'))openSetup(e.target.getAttribute('data-key'))});
 
 function setLive(){
   if(!lastScan)return;
   $('lastScan').textContent=ist(lastScan);
   const age=(Date.now()-new Date(lastScan))/60000, el=$('live');
-  if(age>30){el.classList.add('stale');$('liveNote').textContent=`The last scan was ${Math.round(age)} min ago. GitHub's scheduler can be delayed, so the next one may be late.`}
-  else{el.classList.remove('stale');$('liveNote').textContent='Scanner runs every 5 minutes on TradingView data. This page checks for new data every 60 seconds.'}
+  if(age>45){el.classList.add('stale');$('liveNote').textContent=`The last scan was ${Math.round(age)} min ago. GitHub's scheduler can be delayed, so the next one may be late.`}
+  else{el.classList.remove('stale');$('liveNote').textContent='Auto-scan every 15 minutes on TradingView data. This page checks for new data every 60 seconds.'}
 }
 
 async function load(){
@@ -104,6 +152,8 @@ async function load(){
   $('lastUpd').textContent=ist(d.last_change_utc||d.last_scan_utc);
   try{renderTRX(d)}catch(e){console.error(e)}
   try{renderCoins(d)}catch(e){console.error(e)}
+  try{renderTop(d)}catch(e){console.error(e)}
+  if(!window._hashDone&&location.hash.startsWith('#open=')){window._hashDone=1;openSetup(decodeURIComponent(location.hash.slice(6)))}
   setLive();
 }
 load(); setInterval(load,60000); setInterval(setLive,30000);
