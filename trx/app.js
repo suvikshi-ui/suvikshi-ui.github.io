@@ -108,3 +108,34 @@ async function load(){
 }
 load(); setInterval(load,60000); setInterval(setLive,30000);
 })();
+// ---- Per-coin brick drilldown (lazy-loads data/all_bricks.json) ----
+(function(){
+const $=id=>document.getElementById(id);
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fd=d=>{const [y,m,dd]=d.split('-');return (+dd)+' '+MON[+m-1]+' '+y};
+const nv=v=>v===null||v===undefined?'–':Number((+v).toPrecision(6)).toLocaleString('en-US',{maximumFractionDigits:10});
+const BC={'DARK GREEN':'dg','LIGHT GREEN':'lg','DARK RED':'dr','LIGHT RED':'lr','RED':'hr','GREEN':'hg'};
+const bd=s=>s?`<span class="b ${BC[s]||''}">${s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}</span>`:'–';
+let FULL=null, LIMIT=150;
+const sel=$('coinSel'); if(!sel)return;
+function render(){
+  const sym=sel.value, rows=(FULL.coins[sym]||[]).slice().reverse(), C=FULL.columns, ix=k=>C.indexOf(k);
+  $('csvLink').href='data/coins/'+sym.replace(':','_')+'.csv';
+  $('drillInfo').textContent=rows.length+' bricks'+(rows.length>LIMIT?` (showing newest ${LIMIT})`:'');
+  const body=rows.slice(0,LIMIT).map(r=>`<tr><td data-l="Date">${fd(r[ix('date')])}${r[ix('forming')]?' <small>(forming)</small>':''}${r[ix('flip')]?' <span class="b '+(r[ix('brick_color')]==='GREEN'?'buyo':'sello')+'">flip</span>':''}</td>
+<td data-l="Brick">${r[ix('brick_color')]==='GREEN'?"<span class='b dg'>green</span>":"<span class='b dr'>red</span>"}</td><td data-l="Open">${nv(r[ix('open')])}</td><td data-l="High">${nv(r[ix('high')])}</td><td data-l="Low">${nv(r[ix('low')])}</td><td data-l="Close"><b>${nv(r[ix('close')])}</b></td>
+<td data-l="Hull">${bd(r[ix('hull_color')])} ${nv(r[ix('mhull')])} <small>/ ${nv(r[ix('shull')])}</small></td><td data-l="MACD">${nv(r[ix('macd')])}</td><td data-l="Signal">${nv(r[ix('signal')])}</td><td data-l="Histogram">${bd(r[ix('hist_color')])} ${nv(r[ix('hist')])}</td></tr>`).join('');
+  $('drillTbl').innerHTML=`<table class="rtable"><thead><tr><th>Date</th><th>Brick</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Hull (MHULL / SHULL)</th><th>MACD</th><th>Signal</th><th>Histogram</th></tr></thead><tbody>${body}</tbody></table>`+(rows.length>LIMIT?`<div class="pending"><a href="#" id="more" style="color:#5b8def">Show all ${rows.length}</a></div>`:'');
+  const m=$('more'); if(m)m.onclick=e=>{e.preventDefault();LIMIT=1e9;render()};
+}
+async function loadFull(){
+  try{const r=await fetch('data/all_bricks.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'});if(!r.ok)throw 0;FULL=await r.json()}
+  catch(e){$('drillTbl').innerHTML='<div class="pending">The brick dataset isn\'t available yet.</div>';return}
+  const cur=sel.value, syms=Object.keys(FULL.coins);
+  sel.innerHTML=syms.map(s=>`<option value="${s}">${s.replace('BINGX:','')}</option>`).join('');
+  sel.value=syms.includes(cur)?cur:(syms.includes('BINGX:TRXUSDT.P')?'BINGX:TRXUSDT.P':syms[0]);
+  render();
+}
+sel.onchange=()=>{LIMIT=150;render()};
+loadFull(); setInterval(loadFull,300000);
+})();

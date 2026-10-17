@@ -32,7 +32,7 @@ jobs:
           if [ "${{ steps.scan.outputs.changed }}" = "true" ] || [ "$age" -ge 840 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             git config user.name "trx-scan-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add trx/data.json
+            git add trx/data.json trx/data
             if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
             if [ "${{ steps.scan.outputs.changed }}" = "true" ]; then msg="scan: new data"; else msg="scan: heartbeat"; fi
             git commit -m "$msg $(date -u +%Y-%m-%dT%H:%MZ)"

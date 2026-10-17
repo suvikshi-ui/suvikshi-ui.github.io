@@ -82,7 +82,7 @@ def analyse(s, B, today):
     bj = [i for i in range(1, len(B)) if B[i][0] < B[i - 1][0]]
     if bj: B = B[bj[-1]:]
     n = len(B); rec = {"coin": s}
-    if n == 0: rec["status"] = "fetch error / no data"; return rec, [], [], []
+    if n == 0: rec["status"] = "fetch error / no data"; return rec, [], [], [], []
     t = [b[0] for b in B]; o = [b[1] for b in B]; c = [b[4] for b in B]
     box = Counter(round(abs(c[i] - o[i]), 12) for i in range(n)).most_common(1)[0][0]
     H = hma(c); e12 = ema(c, 12); e26 = ema(c, 26)
@@ -126,7 +126,14 @@ def analyse(s, B, today):
                 latest_brick_forming=D(t[-1]) >= today,
                 indicators_valid_from=D(t[fv]) if fv is not None else None).items()})
     bricks = [[D(t[i]), rnd(o[i]), rnd(c[i])] for i in ib]
-    return rec, matches, allflips, bricks
+    full = []
+    for i in ib:
+        hcol = None if (H[i] is None or i < 2 or H[i - 2] is None) else ("GREEN" if H[i] > H[i - 2] else "RED")
+        hs = None if (hist[i] is None or i < 1 or hist[i - 1] is None) else state(hist[i], hist[i - 1])
+        full.append([D(t[i]), rnd(o[i]), rnd(B[i][2]), rnd(B[i][3]), rnd(c[i]), "GREEN" if col(i) == "G" else "RED",
+                     rnd(H[i]), rnd(H[i - 2]) if i >= 2 else None, hcol, rnd(macd[i]), rnd(sig[i]), rnd(hist[i]), hs,
+                     i >= 1 and col(i) != col(i - 1), D(t[i]) >= today])
+    return rec, matches, allflips, bricks, full
 
 def main():
     now = datetime.now(timezone.utc); today = now.strftime("%Y-%m-%d")
@@ -139,6 +146,10 @@ def main():
     summ, matches, errors = [], [], {}
     trx = {}
     prev_summ = {r["coin"]: r for r in (prev or {}).get("summary", [])}
+    full_all = {}
+    FULL = os.path.join(os.path.dirname(OUT), "data", "all_bricks.json")
+    try: prev_full = json.load(open(FULL)).get("coins", {})
+    except Exception: prev_full = {}
     for s, B, err in res:
         if err and not B:
             errors[s] = err
@@ -146,9 +157,10 @@ def main():
                 summ.append(dict(prev_summ[s], stale=True))
                 matches += [m for m in prev.get("matches", []) if m["coin"] == s]
                 if s == "BINGX:TRXUSDT.P": trx = prev.get("trx", {})
+                if s in prev_full: full_all[s] = prev_full[s]
                 continue
-        rec, m, af, bricks = analyse(s, B, today)
-        summ.append(rec); matches += m
+        rec, m, af, bricks, full = analyse(s, B, today)
+        summ.append(rec); matches += m; full_all[s] = full
         if s == "BINGX:TRXUSDT.P": trx = {"flips": af, "bricks": bricks}
     # Guard: if most fetches failed keep previous data untouched
     if len(errors) > len(SYMS) // 3 and os.path.exists(OUT):
@@ -167,6 +179,19 @@ def main():
     data["last_scan_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(data, open(OUT, "w"), separators=(",", ":"))
+    # Full per-brick dataset (2026 onwards) + per-coin CSVs
+    cols = ["date", "open", "high", "low", "close", "brick_color", "mhull", "shull", "hull_color", "macd", "signal", "hist", "hist_color", "flip", "forming"]
+    fulldoc = {"source": data["source"], "window_from": "2026-01-01", "columns": cols, "coins": full_all}
+    old = None
+    try: old = json.load(open(FULL))
+    except Exception: pass
+    if old != fulldoc:
+        os.makedirs(os.path.join(os.path.dirname(FULL), "coins"), exist_ok=True)
+        json.dump(fulldoc, open(FULL, "w"), separators=(",", ":"))
+        import csv
+        for sym, rows in full_all.items():
+            with open(os.path.join(os.path.dirname(FULL), "coins", sym.replace(":", "_") + ".csv"), "w", newline="") as f:
+                w = csv.writer(f); w.writerow(cols); w.writerows(rows)
     print("totals", data["totals"], "errors", len(errors), "changed", core_changed)
     if os.environ.get("GITHUB_OUTPUT"):
         open(os.environ["GITHUB_OUTPUT"], "a").write(f"changed={'true' if core_changed else 'false'}\n")
