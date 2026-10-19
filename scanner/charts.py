@@ -70,7 +70,8 @@ def render(path, sym, box, rows, mark=None, title_extra="", last=None, source="T
     ax2.axhline(0, color="#94A3B8", lw=0.8)
     # x labels: dates
     step = max(1, n // 12)
-    ticks = list(range(0, n, step))
+    # Nifty (last price given): ticks counted back from the last brick so the latest date is always labelled; crypto unchanged
+    ticks = sorted({n - 1 - k for k in range(0, n, step)}) if last else list(range(0, n, step))
     ax2.set_xticks(ticks); ax2.set_xticklabels([rows[i]["date"][5:] if i else rows[i]["date"] for i in ticks], rotation=0, fontsize=7.5, color=TXT)
     plt.setp(ax.get_xticklabels(), visible=False)
     # mark

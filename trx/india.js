@@ -42,7 +42,8 @@ function render(d){
   const nb=M.filter(m=>m.side==='BUY').length, ns=M.filter(m=>m.side==='SELL').length;
   // data-quality note
   const tv=d.tv||{}, mp=Object.entries(tv.mapping||{});
-  $('i-dq').innerHTML=`<b>Data source.</b> All prices and Renko bricks come only from TradingView's public chart feed (symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko series: box assignment ATR, length 14, source OHLC (high-low), with wicks, so box size and rounding are exactly TradingView's. The Strong gap uses TradingView daily candles (setup-day open vs prior daily close). The stock list is TradingView's own constituent list for index NSE:CNX100 (Nifty 100). Setups and the stock list are ordered by setup date (newest first), then TradingView gap %. ${tv.symbols_resolved?`${tv.symbols_resolved} stocks resolved on TradingView`:''}${tv.session?`, session ${esc(String(tv.session).split('#')[0].replace('-','–'))} ${esc(tv.timezone||'')}`:''}.${mp.length?` Ticker mapping: ${mp.map(([k,v])=>`${esc(short(k))} → ${esc(v)}`).join('; ')}.`:''}`;
+  const lastTV=(d.summary||[]).map(x=>x.last_price_date||'').sort().pop()||'', cb=(d.summary||[]).find(x=>x.coin==='NSE:CANBK')||{};
+  $('i-dq').innerHTML=`<div style="margin-bottom:8px;padding:6px 8px;border:1px solid #99F6E4;border-radius:6px;background:#fff"><b>Data check (20 Oct 2026, 01:15 IST).</b> CANBK's ${cb.bricks_in_window??''} bricks for 2026 match TradingView's Renko series exactly (open, high, low, close, colour; box ₹${num(cb.box_size)}; last brick ${fd(cb.latest_brick_date)} close ${num(cb.latest_close)}). Latest TradingView daily candle: ${fd(lastTV)} (CANBK close ${num(cb.last_price)}). Fixed: the chart date axis now always labels the latest brick (it used to stop several bricks early, so charts looked like they ended in Aug/Sep), the PNG charts refresh on every scan (no stale cached images), and there is one TradingView-style price line at the real last price.</div><b>Data source.</b> All prices and Renko bricks come only from TradingView's public chart feed (symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko series: box assignment ATR, length 14, source OHLC (high-low), with wicks, so box size and rounding are exactly TradingView's. The Strong gap uses TradingView daily candles (setup-day open vs prior daily close). The stock list is TradingView's own constituent list for index NSE:CNX100 (Nifty 100). Setups and the stock list are ordered by setup date (newest first), then TradingView gap %. ${tv.symbols_resolved?`${tv.symbols_resolved} stocks resolved on TradingView`:''}${tv.session?`, session ${esc(String(tv.session).split('#')[0].replace('-','–'))} ${esc(tv.timezone||'')}`:''}.${mp.length?` Ticker mapping: ${mp.map(([k,v])=>`${esc(short(k))} → ${esc(v)}`).join('; ')}.`:''}`;
   const card=m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';return `<div class="ac ${s?'sellc':'buyc'}${m.strong===true?' isstrong':''}" data-ikey="${esc(key(m))}" tabindex="0" role="button">
 <div class="top"><span class="coin">${m.strong===true?'<span class="star" title="Strong setup">★</span> ':''}${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${nw?'<span class="b new">NEW</span>':''}</span></div>
 <div class="px">₹${num(m.brick_close)}</div>
@@ -111,7 +112,8 @@ function markerSVG(m){
     g+=`<line x1="${x}" x2="${x}" y1="${Y(r[4])}" y2="${Y(r[5])}" stroke="${c}" stroke-width="1"/><rect x="${x-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y2-y1)}" fill="${up?'#10B981':'#EF4444'}" stroke="${c}"/>`});
   let hp=''; W.forEach((r,j)=>{if(r[9]!=null)hp+=(hp?'L':'M')+X(a+j).toFixed(1)+','+Y(r[9]).toFixed(1)}); if(hp)g+=`<path d="${hp}" fill="none" stroke="#0D9488" stroke-width="1.6" opacity=".55"/>`;
   // dates along the bottom (every ~8 bricks)
-  W.forEach((r,j)=>{if(j%8===0)g+=`<text x="${X(a+j)}" y="${VH-12}" font-size="10" fill="#64748B" text-anchor="middle">${fd(r[0]).replace(/ \d{4}$/,'')}</text>`});
+  // date axis: every 8th brick counted back from the LAST brick, so the latest brick's date is always labelled
+  const nW=W.length; W.forEach((r,j)=>{if((nW-1-j)%8===0)g+=`<text class="xd" x="${X(a+j)}" y="${VH-12}" font-size="10" fill="#64748B" text-anchor="middle">${fd(r[0]).replace(/ \d{4}$/,'')}</text>`});
   const used=[];
   setups.sort((p,q)=>p.k-q.k).forEach(({m:x,k})=>{const r=R[k],buy=x.side==='BUY',col=buy?'#059669':'#DC2626',xc=X(k),hv=r[6],y=Y(hv);
     const lab=(buy?'Buy at this point: ':'Sell at this point: ')+num(hv), tw=lab.length*6.2+10;
@@ -132,7 +134,7 @@ const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 bo
 async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
   await ensureFull();
-  const s=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}, bust='?v='+encodeURIComponent(DATA.last_change_utc||''), v=[];
+  const s=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}, bust='?v='+encodeURIComponent(DATA.last_scan_utc||DATA.last_change_utc||''), v=[];
   const sv=markerSVG(m); if(sv)v.push({label:'Setup markers',svg:sv,cap:mcap});
   if(m.chart)v.push({label:'Setup chart',src:BASE+m.chart+bust,cap});
   if(s.chart_latest)v.push({label:'Latest chart',src:BASE+s.chart_latest+bust,cap});
@@ -140,7 +142,7 @@ async function openSetup(k){
 }
 function openStock(c){
   if(!DATA)return; const s=(DATA.summary||[]).find(x=>x.coin===c); if(!s||!s.chart_latest)return;
-  openModal([{label:'Latest chart',src:BASE+s.chart_latest+'?v='+encodeURIComponent(DATA.last_change_utc||''),cap}],`${esc(short(c))} · latest bricks`);
+  openModal([{label:'Latest chart',src:BASE+s.chart_latest+'?v='+encodeURIComponent(DATA.last_scan_utc||DATA.last_change_utc||''),cap}],`${esc(short(c))} · latest bricks`);
 }
 document.addEventListener('click',e=>{const k=e.target.closest('[data-ikey]');if(k){openSetup(k.getAttribute('data-ikey'));return}
   const c=e.target.closest('[data-istock]');if(c)openStock(c.getAttribute('data-istock'))});
