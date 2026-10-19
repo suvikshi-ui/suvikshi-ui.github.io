@@ -13,8 +13,8 @@ def _rs(n=12): return "".join(random.choice(string.ascii_lowercase) for _ in ran
 def _frame(m, p):
     s = json.dumps({"m": m, "p": p}, separators=(",", ":")); return f"~m~{len(s)}~m~{s}"
 def tv_symbol(sym):
-    """NSE symbol -> TradingView ticker (TradingView writes "&" and "-" as "_", e.g. M&M -> NSE:M_M, BAJAJ-AUTO -> NSE:BAJAJ_AUTO)."""
-    return "NSE:" + sym.replace("&", "_").replace("-", "_")
+    """Symbol as listed by TradingView (from its CNX100 constituents, e.g. M&M, BAJAJ_AUTO) -> TradingView ticker."""
+    return sym if sym.startswith("NSE:") else "NSE:" + sym
 
 def _series(ticker, renko, n=5000, ver="40"):
     ws = websocket.create_connection("wss://data.tradingview.com/socket.io/websocket?from=chart%2F&type=chart",
@@ -62,3 +62,24 @@ def fetch(sym):
         sess[D(b[0])] = [b[1], daily[i - 1][4] if i else None]
     return bricks, None, {"sessions": sess, "symbol": info, "daily_last": D(daily[-1][0]) if daily else None,
                           "daily_error": err2}
+
+
+# ---------- Universe: TradingView's own Nifty 100 constituents (index NSE:CNX100) ----------
+SCANNER_URL = "https://scanner.tradingview.com/india/scan"
+def tv_constituents(index="NSE:CNX100"):
+    """Constituents of a TradingView index via TradingView's public screener (symbolset SYML:<index>).
+    Returns (list of {symbol, tv_ticker, name, industry, market_cap}, error)."""
+    import urllib.request
+    body = {"columns": ["name", "description", "sector", "market_cap_basic", "exchange"],
+            "symbols": {"symbolset": ["SYML:" + index.replace(":", ";")]}, "range": [0, 500],
+            "sort": {"sortBy": "market_cap_basic", "sortOrder": "desc"}}
+    try:
+        rq = urllib.request.Request(SCANNER_URL, data=json.dumps(body).encode(), method="POST",
+                                    headers={"Content-Type": "application/json", "Origin": "https://www.tradingview.com",
+                                             "User-Agent": "Mozilla/5.0"})
+        d = json.load(urllib.request.urlopen(rq, timeout=30))
+        out = [{"symbol": x["d"][0], "tv_ticker": x["s"], "name": x["d"][1], "industry": x["d"][2] or "",
+                "market_cap": x["d"][3]} for x in d.get("data", []) if x["s"].startswith("NSE:")]
+        return out, (None if out else "empty constituent list")
+    except Exception as ex:
+        return [], str(ex)[:200]

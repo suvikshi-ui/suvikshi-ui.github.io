@@ -3,7 +3,7 @@ Data: TradingView public chart feed (anonymous), BingX symbols, daily Renko ATR(
 Writes trx/data.json. Usage: python scanner/scan.py [out_path]"""
 import json, math, random, string, re, sys, time, os
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from concurrent.futures import ThreadPoolExecutor
 import websocket
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -14,8 +14,26 @@ MARKET = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--marke
 OUT = args[0] if args else os.path.join(HERE, "..", "trx", "data.json")
 if MARKET == "india":
     # Indian equities: TradingView only (public chart feed, NSE:<SYMBOL>): TradingView's own Renko series
-    # (ATR 14, source OHLC, wicks) + TradingView daily candles for the gap. Constituent list: nifty100.json (static list).
-    SYMS = ["NSE:" + c["symbol"] for c in json.load(open(os.path.join(HERE, "nifty100.json")))["constituents"]]
+    # (ATR 14, source OHLC, wicks) + TradingView daily candles for the gap. Universe: TradingView CNX100 constituents (nifty100.json, refreshed from TradingView).
+    _UNI = os.path.join(HERE, "nifty100.json")
+    try:  # refresh the universe from TradingView's own CNX100 constituents at most once every 20 h (one cheap screener call)
+        _u = json.load(open(_UNI)); _age = time.time() - os.path.getmtime(_UNI) if not _u.get("retrieved_utc") else \
+            (datetime.now(timezone.utc) - datetime.fromisoformat(_u["retrieved_utc"])).total_seconds()
+    except Exception: _u, _age = None, 1e9
+    if _age > 20 * 3600:
+        import tv_source as _tvs
+        _L, _e = _tvs.tv_constituents("NSE:CNX100")
+        if len(_L) >= 90:
+            _old = {c["symbol"] for c in (_u or {}).get("constituents", [])}; _new = {c["symbol"] for c in _L}
+            print("TradingView CNX100 constituents:", len(_L), "added", sorted(_new - _old), "removed", sorted(_old - _new))
+            _u = {"index": "NIFTY 100", "tv_index": "NSE:CNX100",
+                  "source": "TradingView: constituents of index NSE:CNX100 from TradingView's public screener (scanner.tradingview.com, symbolset SYML:NSE;CNX100), ordered by TradingView market cap",
+                  "note": "Constituent list from TradingView; all prices and bricks also come only from TradingView.",
+                  "retrieved_ist": (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d %H:%M IST"),
+                  "retrieved_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "count": len(_L), "constituents": _L}
+            json.dump(_u, open(_UNI, "w"), indent=1, ensure_ascii=False)
+        else: print("constituent refresh skipped:", _e, len(_L))
+    SYMS = [c.get("tv_ticker") or ("NSE:" + c["symbol"]) for c in _u["constituents"]]
     SOURCE = "TradingView only: public chart feed for NSE:<SYMBOL>, TradingView's own daily Renko (box assignment ATR, length 14, source OHLC i.e. high-low, wicks on; box size and rounding exactly as TradingView sets them); Hull Suite HMA 55 + MACD 12/26/9 on brick closes; gap from TradingView daily candles"
 else:
     SYMS = json.load(open(os.path.join(HERE, "symbols.json")))
@@ -287,7 +305,6 @@ def main():
                                      "gap_single": "AND only one Renko brick formed that day"}.get(STRONG_MODE.lower(),
                                      f"OR {STRONG_MIN_BRICKS}+ Renko bricks formed that day")}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
-        "integrity": None,
         **({"tv": {"symbols_resolved": len(TVINFO), "session": next((v.get("session") for v in TVINFO.values() if v.get("session")), None),
                    "timezone": next((v.get("timezone") for v in TVINFO.values() if v.get("timezone")), None),
                    "mapping": {k: v.get("pro_name") for k, v in TVINFO.items() if v.get("pro_name") and v.get("pro_name") != k}}} if MARKET == "india" else {}),
