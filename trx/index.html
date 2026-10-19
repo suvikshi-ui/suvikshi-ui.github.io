@@ -145,7 +145,7 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div id="i-live" hidden>
 <p><small>Window: 1 Jan 2026 onwards. Last scan: <b id="i-lastScan">–</b>. Source: <span id="i-src">–</span></small></p>
 <div id="i-dq" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px">Loading the data-quality summary…</div>
-<div id="i-ftNote" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px" hidden><b>Follow-through tag (Nifty only).</b> A setup is tagged <span class="b strong">Strong</span> when, on the setup day, the <span id="i-ftRule">open gapped at least 0.5% in the setup's direction versus the prior TradingView daily close, on a day when only one Renko brick formed. and the Hull Suite 55 on the TradingView daily candle chart agrees (green for a BUY, red for a SELL). Days with 2 or more bricks are not tagged Strong. Setups where the daily-candle Hull is against the side stay listed with an amber ⚠ Hull against badge</span>. Otherwise it shows <span class="b noft">No follow-through</span>. It's only a label: the BrickFlow rules are unchanged and every setup still shows.
+<div id="i-ftNote" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px" hidden><b>Follow-through tag (Nifty only).</b> A setup is tagged <span class="b strong">Strong</span> when, on the setup day, the <span id="i-ftRule">open gapped at least 0.5% in the setup's direction versus the prior TradingView daily close, on a day when only one Renko brick formed. Days with 2 or more bricks are not tagged Strong. The daily-candle Hull is not part of Strong: it is shown separately as a label and the amber ⚠ Hull against badge</span>. Otherwise it shows <span class="b noft">No follow-through</span>. It's only a label: the BrickFlow rules are unchanged and every setup still shows.
 <label style="display:inline-flex;gap:6px;align-items:center;margin-left:8px;white-space:nowrap;cursor:pointer"><input type="checkbox" id="i-strongOnly"> Show strong only</label>
 <label style="display:inline-flex;gap:6px;align-items:center;margin-left:8px;white-space:nowrap;cursor:pointer"><input type="checkbox" id="i-hideAgainst"> Hide <span class="b hagainst">⚠ Hull against</span> setups (<span id="i-haCount">–</span>)</label></div>
 <section id="i-activeSec"><h2><span class="b form" style="font-size:12px;vertical-align:middle;border-style:solid;border-color:#D97706;color:#B45309;background:#FFFBEB">ACTIVE</span> Active trading setups</h2>
@@ -170,5 +170,5 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div id="modal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button class="mx" id="mClose" aria-label="Close">×</button>
 <div class="mtitle" id="mTitle"></div><div class="mtabs" id="mTabs"></div><div class="mimg"><img id="mImg" alt="Chart"></div><div class="mcap" id="mCap"></div></div></div>
 <script src="app.js?v=9"></script>
-<script src="india.js?v=20"></script>
+<script src="india.js?v=21"></script>
 </body></html>

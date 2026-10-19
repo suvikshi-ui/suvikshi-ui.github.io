@@ -189,7 +189,7 @@ def analyse(s, B, today):
                 hit_s = b2[3] <= stop if sg > 0 else b2[2] >= stop; hit_t = b2[2] >= target if sg > 0 else b2[3] <= target
                 if hit_s: outcome, out_date, pl = "stop hit", b2[0], -EXIT_STOP_PCT; break
                 if hit_t: outcome, out_date, pl = "target hit", b2[0], EXIT_TARGET_PCT; break
-            r.update(gap_pct=round(gp, 3) if gp is not None else None, bricks_that_day=nbd, strong=bool(st0 and agrees),
+            r.update(gap_pct=round(gp, 3) if gp is not None else None, bricks_that_day=nbd, strong=bool(st0),
                      strong_base=st0, candle_hull=ch, hull_against=(ch is not None and not agrees),
                      entry=round(entry, 4), stop=round(stop, 2), target=round(target, 2), outcome=outcome, outcome_date=out_date, pl_pct=pl)
         allflips.append(r)
@@ -325,7 +325,7 @@ def main():
         **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
                             "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior TradingView daily close " +
                                     {"and": f"AND {STRONG_MIN_BRICKS}+ Renko bricks formed that day",
-                                     "gap_single": "AND only one Renko brick formed that day AND the Hull Suite 55 on the TradingView daily candle chart agrees with the setup (green for a BUY, red for a SELL)"}.get(STRONG_MODE.lower(),
+                                     "gap_single": "AND only one Renko brick formed that day (the daily-candle Hull is not part of Strong; it is shown separately)"}.get(STRONG_MODE.lower(),
                                      f"OR {STRONG_MIN_BRICKS}+ Renko bricks formed that day")}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
         **({"tv": {"symbols_resolved": len(TVINFO), "session": next((v.get("session") for v in TVINFO.values() if v.get("session")), None),

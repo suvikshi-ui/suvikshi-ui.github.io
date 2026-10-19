@@ -26,7 +26,8 @@ let newKeys=new Set(), lastScan=null, DATA=null;
 const sgn=v=>v===null||v===undefined?'–':((+v)>0?'+':'')+(+v).toFixed(2)+'%';
 const hasFT=m=>typeof m.strong==='boolean';
 const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Meets the follow-through rule on the setup day (see the note above)">★ Strong</span>':'<span class="b noft" title="Does not meet the follow-through rule on the setup day (see the note above)">No follow-through</span>');
-const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
+const gapDir=m=>{if(m.gap_pct==null)return '–';const raw=m.side==='SELL'?-m.gap_pct:m.gap_pct,w=m.gap_pct>0;return `${raw>=0?'↑':'↓'}${Math.abs(raw).toFixed(2)}% (${w?'with':'against'} ${m.side})`};
+const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} <small>${gapDir(m)}</small> · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
 let strongOnly=false, hideAgainst=false;
 const dhLbl=m=>{const c=String(m.candle_hull||'').toUpperCase();return c?`<span class="b dh ${c==='GREEN'?'dhg':'dhr'}" title="Hull Suite 55 (HMA 55, close) on the TradingView daily candlestick chart on the setup day: green when HMA55 is above its value two bars earlier">Daily candle Hull: ${c}</span>`:'<span class="b dh">Daily candle Hull: –</span>'};
 const haBadge=m=>m.hull_against?`<span class="b hagainst" title="The Hull Suite 55 on the TradingView daily candle chart is ${m.candle_hull} — against this ${m.side}">⚠ Hull against (daily, ${m.candle_hull})</span>`:'';
@@ -43,7 +44,7 @@ function render(d){
   const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
   const vis=L=>L.filter(m=>(!strongOnly||m.strong)&&(!hideAgainst||!m.hull_against));
   const sr=d.strong_rule||{}, nst=L=>L.filter(m=>m.strong).length;
-  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'), md=String(sr.mode||'or').toLowerCase(), gp=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior TradingView daily close`; if(t)t.textContent=md==='gap_single'?`${gp}, on a day when only one Renko brick formed, and the Hull Suite 55 on the TradingView daily candle chart agrees (green for a BUY, red for a SELL). Days with 2 or more bricks are not tagged Strong. Setups where the daily-candle Hull is against the side stay listed with an amber ⚠ Hull against badge`:`${gp} ${md==='and'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
+  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'), md=String(sr.mode||'or').toLowerCase(), gp=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior TradingView daily close`; if(t)t.textContent=md==='gap_single'?`${gp}, on a day when only one Renko brick formed. Days with 2 or more bricks are not tagged Strong. The daily-candle Hull is not part of Strong: it is shown separately as a label and the amber ⚠ Hull against badge`:`${gp} ${md==='and'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
   const nb=M.filter(m=>m.side==='BUY').length, ns=M.filter(m=>m.side==='SELL').length;
   // data-quality note
   const tv=d.tv||{}, mp=Object.entries(tv.mapping||{});
@@ -76,7 +77,7 @@ function render(d){
 <td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#059669">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#DC2626">${s.sells}</b>`:0)}</td>
 <td data-l="Latest brick">${fd(s.latest_brick_date)} ${s.latest_brick_color?(s.latest_brick_color==='RED'?"<span class='b dr'>red</span>":"<span class='b dg'>green</span>"):''} ${num(s.latest_close)}${s.latest_brick_date&&isForming(s.latest_brick_date)?' <small>(forming)</small>':''}</td>
 <td data-l="Last price (TradingView)">${s.last_price!=null?`${num(s.last_price)} <small>${fd(s.last_price_date)}</small>${s.box_size&&s.latest_close!=null?`<br><small>${((s.last_price-s.latest_close)/s.box_size>=0?'+':'')+((s.last_price-s.latest_close)/s.box_size).toFixed(2)} box vs brick close</small>`:''}`:'–'}</td>
-<td data-l="Latest setup">${ls?`${fd(ls.date)} <span class='b ${ls.side==='BUY'?'dg':'dr'}'>${ls.side}</span> ${num(ls.brick_close)} <small>gap ${ls.gap_pct==null?'–':(ls.gap_pct>0?'+':'')+ls.gap_pct+'%'}</small>${ls.strong===true?' ★':''}`:'<small>none in 2026</small>'}</td></tr>`}).join('');
+<td data-l="Latest setup">${ls?`${fd(ls.date)} <span class='b ${ls.side==='BUY'?'dg':'dr'}'>${ls.side}</span> ${num(ls.brick_close)} <small>gap ${ls.gap_pct==null?'–':(ls.gap_pct>0?'+':'')+ls.gap_pct+'% '+gapDir(ls)}</small>${ls.strong===true?' ★':''}`:'<small>none in 2026</small>'}</td></tr>`}).join('');
   const st=(L)=>{const c=L.filter(m=>m.outcome==='target hit'||m.outcome==='stop hit'),w=c.filter(m=>m.outcome==='target hit').length,t=c.reduce((a,m)=>a+(m.pl_pct||0),0);return {n:L.length,c:c.length,w,o:L.length-c.length,wr:c.length?100*w/c.length:null,avg:c.length?t/c.length:null,tot:t}};
   const sc=(L)=>{const x=st(L);return `<td>${x.n}</td><td>${x.w}/${x.c}${x.o?` <small>+${x.o} open</small>`:''}</td><td>${x.wr==null?'–':x.wr.toFixed(1)+'%'}</td><td>${x.avg==null?'–':sgn(+x.avg.toFixed(2))}</td><td><b>${sgn(+x.tot.toFixed(2))}</b></td>`};
   const grp=[['All',M],['Strong',M.filter(m=>m.strong)],['Not Strong',M.filter(m=>!m.strong)],['⚠ Hull against',M.filter(m=>m.hull_against)]];
