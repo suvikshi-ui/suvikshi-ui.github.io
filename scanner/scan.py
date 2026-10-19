@@ -54,7 +54,17 @@ def fetch(symbol, ver="40"):
     except Exception: pass
     return bars, err
 
-BHAV = None; BHAVSTATS = {}
+BHAV = None; BHAVSTATS = {}; SESSIONS = {}
+# Follow-through "Strong setup" tag (Nifty only; a label, it never removes or changes setups).
+# Strong = setup-day open gapped >= STRONG_GAP_PCT % in the setup's direction vs the prior close,
+# OR >= STRONG_MIN_BRICKS bricks formed that day. Set STRONG_MODE = "AND" to require both.
+STRONG_MODE = "OR"
+STRONG_GAP_PCT = 0.5
+STRONG_MIN_BRICKS = 2
+def strong_tag(gap_pct, nbricks):
+    g = gap_pct is not None and gap_pct >= STRONG_GAP_PCT - 1e-9
+    k = nbricks is not None and nbricks >= STRONG_MIN_BRICKS
+    return (g and k) if STRONG_MODE == "AND" else (g or k)
 try:
     _ig = json.load(open(os.path.join(HERE, "nifty_integrity.json")))
     EXCLUDED = {r["symbol"]: r["reasons"] for r in _ig.get("rows", []) if r.get("gate") == "FAIL"}
@@ -70,7 +80,7 @@ def fetch_retry(s):
             try:
                 if s.split(":", 1)[1] in EXCLUDED: return s, [], "excluded by data-integrity gate: " + EXCLUDED[s.split(":", 1)[1]]
                 b, e, meta = nse_source.fetch_bricks(s.split(":", 1)[1], BHAV)
-                BHAVSTATS[s] = meta.get("bhav", {})
+                BHAVSTATS[s] = meta.get("bhav", {}); SESSIONS[s] = meta.get("sessions", {})
                 if b or e: return s, b, e
             except Exception as ex: last = str(ex)[:200]
             time.sleep(2 * (a + 1) + random.random() * 2)
@@ -141,6 +151,12 @@ def analyse(s, B, today):
         r = {k: rnd(v) for k, v in dict(coin=s, date=d, side=side, brick_open=o[i], brick_close=c[i], box_size=box, hull_color=hc,
               mhull=H[i], shull=H[i - 2], hist_before=hist[i - 1], state_before=b, hist_after=hist[i], state_after=a,
               hull_ok=hok, macd_ok=mok, match=hok and mok, status="FORMING" if d >= today else "CONFIRMED").items()}
+        if MARKET == "india" and r["match"]:
+            ses = SESSIONS.get(s, {}).get(d)
+            sg = 1 if side == "BUY" else -1
+            gp = ((ses[0] - ses[1]) / ses[1] * 100 * sg) if ses and ses[1] else None
+            nbd = sum(1 for tt in t if D(tt) == d)
+            r.update(gap_pct=round(gp, 3) if gp is not None else None, bricks_that_day=nbd, strong=strong_tag(gp, nbd))
         allflips.append(r)
         if r["match"]:
             matches.append(r); buys += side == "BUY"; sells += side == "SELL"
@@ -266,6 +282,9 @@ def main():
         "rules": {"SELL": "green->red flip AND Hull RED AND hist DARK GREEN->LIGHT GREEN or LIGHT RED->DARK RED",
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
+        **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
+                            "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior NSE close "
+                                    f"{STRONG_MODE} {STRONG_MIN_BRICKS}+ Renko bricks formed that day"}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
         "integrity": ({"generated_ist": INTEGRITY.get("generated_ist"), "summary": INTEGRITY.get("summary"), "excluded": EXCLUDED,
                        "bhav_correction": {"stocks": len(BHAVSTATS), "corrected_days": sum(v.get("corrected", 0) for v in BHAVSTATS.values()),

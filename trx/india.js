@@ -19,6 +19,12 @@ const ist=iso=>new Date(iso).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day
 const key=m=>m.coin+'|'+m.date+'|'+m.side+'|'+m.brick_close;
 let seen=null; try{seen=JSON.parse(localStorage.getItem('bfSeenIN')||'null')}catch(e){}
 let newKeys=new Set(), lastScan=null, DATA=null;
+// Follow-through tag (label only; every setup stays visible)
+const sgn=v=>v===null||v===undefined?'–':((+v)>0?'+':'')+(+v).toFixed(2)+'%';
+const hasFT=m=>typeof m.strong==='boolean';
+const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Follow-through on the setup day: gap and/or 2+ bricks">Strong</span>':'<span class="b noft" title="No follow-through on the setup day: small/no gap and a single brick">No follow-through</span>');
+const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
+let strongOnly=false;
 const cap='Chart drawn by BrickFlow from NSE data (charting.nseindia.com daily OHLC reconciled to the NSE bhavcopy; daily Renko ATR14).';
 
 function render(d){
@@ -27,6 +33,9 @@ function render(d){
   $('i-src').textContent=d.source||'NSE'; $('i-lastScan').textContent=ist(d.last_scan_utc);
   const S=d.summary||[], M=(d.matches||[]).filter(m=>m.date>='2026-01-01').slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:a.coin.localeCompare(b.coin));
   const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
+  const vis=L=>strongOnly?L.filter(m=>m.strong):L;
+  const sr=d.strong_rule||{}, nst=L=>L.filter(m=>m.strong).length;
+  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'); if(t)t.textContent=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior NSE close ${String(sr.mode||'OR').toUpperCase()==='AND'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
   const nb=M.filter(m=>m.side==='BUY').length, ns=M.filter(m=>m.side==='SELL').length;
   // data-quality note
   const ig=d.integrity||{}, su=ig.summary||{}, ex=Object.keys(ig.excluded||{}), wl=su.warn_list||{};
@@ -35,16 +44,17 @@ function render(d){
 ${Object.keys(wl).length?`<br><small><b>Flagged (still scanned):</b> ${Object.entries(wl).map(([k,v])=>`${esc(k)} (${esc(v)})`).join('; ')}. The large single-day moves were checked against the bhavcopy and are real. Demergers (e.g. SIEMENS Apr 2025, TMPV Oct 2025, VEDL Apr 2026) are not back-adjusted by NSE, so they show as real price gaps in the bricks.</small>`:''}
 ${ex.length?`<br><small><b>Excluded:</b> ${ex.map(esc).join(', ')}.</small>`:''}`;
   const card=m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';return `<div class="ac ${s?'sellc':'buyc'}" data-ikey="${esc(key(m))}" tabindex="0" role="button">
-<div class="top"><span class="coin">${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${nw?'<span class="b new">NEW</span>':''}</span></div>
+<div class="top"><span class="coin">${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${nw?'<span class="b new">NEW</span>':''}</span></div>
 <div class="px">₹${num(m.brick_close)}</div>
 <div class="row"><span>Setup brick</span><span><b>${fd(m.date)}</b></span></div>
 <div class="row"><span>Status</span><span>${stBadge(m.date)}</span></div>
 <div class="row"><span>Hull Suite 55</span><span>${badge(m.hull_color)} ${num(m.mhull)}</span></div>
 <div class="row"><span>Histogram</span><span>${badge(m.state_before)} → ${badge(m.state_after)}</span></div>
+<div class="row"><span>Follow-through</span><span>${ftInfo(m)}</span></div>
 <div class="row"><span>Bricks since</span><span>${m.bricks_since===0?'setup is the latest brick':'+'+m.bricks_since+' in the same direction'}</span></div>
 <div class="vw">View chart ›</div></div>`};
-  $('i-active').innerHTML=act.length?act.map(card).join(''):'<div class="pending">No active setups right now.</div>';
-  $('i-other').innerHTML=oth.map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}" data-ikey="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Stock">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="8" class="pending">None.</td></tr>';
+  $('i-active').innerHTML=vis(act).length?vis(act).map(card).join(''):'<div class="pending">No active setups right now.</div>';
+  $('i-other').innerHTML=vis(oth).map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}" data-ikey="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Stock">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)}</td><td data-l="Follow-through"><small>${ftInfo(m)}</small></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="9" class="pending">None.</td></tr>';
   const few=S.filter(s=>String(s.status).startsWith('too little')), part=S.filter(s=>String(s.status).startsWith('partial')), errs=Object.keys(d.fetch_errors||{});
   const ord=S.slice().sort((a,b)=>(String(a.status).startsWith('too little')-String(b.status).startsWith('too little'))||((b.buys||0)+(b.sells||0)-(a.buys||0)-(a.sells||0))||a.coin.localeCompare(b.coin));
     const rows=ord.map(s=>{const st=String(s.status),sc=!(st==='ok'||st.startsWith('partial'));let b;
@@ -61,6 +71,8 @@ ${ex.length?`<br><small><b>Excluded:</b> ${ex.map(esc).join(', ')}.</small>`:''}
 <div class="card"><div class="k">BUY setups</div><div class="v bu">${nb}</div></div>
 <div class="card"><div class="k">SELL setups</div><div class="v s">${ns}</div></div>
 <div class="card"><div class="k">Active now</div><div class="v">${act.length}</div></div>
+${M.some(hasFT)?`<div class="card"><div class="k">Strong setups</div><div class="v">${nst(M)} <small>of ${M.length}</small></div><small>${M.length-nst(M)} no follow-through</small></div>
+<div class="card"><div class="k">Active · strong</div><div class="v">${nst(act)} <small>of ${act.length}</small></div><small>${act.length-nst(act)} no follow-through</small></div>`:''}
 <div class="card"><div class="k">Not scorable</div><div class="v">${few.length}</div></div></div>
 <div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:12px">${few.length} stocks are <b>not scorable</b> because their history is too short (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')||'none'}. ${part.length} stocks have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')||'none'}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
 <br><small>"Forming" means the setup is on today's daily bar and the NSE session (closes 15:30 IST) hasn't ended yet, so the brick can still change. "Confirmed" means the session has closed.</small></div>
@@ -77,7 +89,7 @@ function openSetup(k){
   const s=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}, bust='?v='+encodeURIComponent(DATA.last_change_utc||''), v=[];
   if(m.chart)v.push({label:'Setup chart',src:BASE+m.chart+bust,cap});
   if(s.chart_latest)v.push({label:'Latest chart',src:BASE+s.chart_latest+bust,cap});
-  if(v.length)openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${fd(m.date)} · close ₹${num(m.brick_close)} · ${stBadge(m.date)}`);
+  if(v.length)openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${fd(m.date)} · close ₹${num(m.brick_close)} · ${stBadge(m.date)}${hasFT(m)?` · ${ftBadge(m)} <small>${ftInfo(m)}</small>`:''}`);
 }
 function openStock(c){
   if(!DATA)return; const s=(DATA.summary||[]).find(x=>x.coin===c); if(!s||!s.chart_latest)return;
@@ -101,6 +113,7 @@ async function load(force){
   if(!window._ihash&&location.hash.startsWith('#iopen=')){window._ihash=1;openSetup(decodeURIComponent(location.hash.slice(7)))}
 }
 window.bfIndia=()=>load(true);
+{const so=$('i-strongOnly'); if(so)so.onchange=()=>{strongOnly=so.checked; if(DATA)try{render(DATA)}catch(e){console.error(e)}}}
 load(); setInterval(()=>load(),60000);
 
 // per-stock brick drilldown

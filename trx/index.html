@@ -69,6 +69,7 @@ th{background:#F0FDFA}td{border-bottom-color:#E0F7F2}tr.isnew td{background:#FEF
 .sell{background:#DC2626;color:#fff}.buy{background:#059669;color:#fff}.sello{border-color:#DC2626;color:#DC2626}.buyo{border-color:#059669;color:#059669}
 .dg{background:#059669;color:#fff}.lg{background:#A7F3D0;color:#064E3B}.dr{background:#DC2626;color:#fff}.lr{background:#FECACA;color:#7F1D1D}
 .hr{background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5}.hg{background:#D1FAE5;color:#047857;border:1px solid #6EE7B7}
+.strong{background:#0D9488;color:#fff}.noft{border:1px solid #CBD5E1;color:#64748B;background:#F8FAFC;font-weight:500}
 .new{background:#FACC15;color:#422006;box-shadow:0 0 0 2px #FDE68A}.form{border:1px dashed #D97706;color:#B45309;background:#FFFBEB}.conf{border:1px solid #CBD5E1;color:#475569;background:#F8FAFC}
 .ac{background:#fff}.ac.sellc{border-color:#F87171;box-shadow:0 6px 22px #dc262622}.ac.buyc{border-color:#34D399;box-shadow:0 6px 22px #05966922}.ac .row{color:#334155}.ac .row span:first-child{color:#64748B}.ac .vw,.lnk,a{color:#0D9488}
 .grid{stroke:#D5F5EE}.ax{fill:#64748B}.mfail{stroke:#64748B}
@@ -141,12 +142,14 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div id="i-live" hidden>
 <p><small>Window: 1 Jan 2026 onwards. Last scan: <b id="i-lastScan">–</b>. Source: <span id="i-src">–</span></small></p>
 <div id="i-dq" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px">Loading the data-quality summary…</div>
+<div id="i-ftNote" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px" hidden><b>Follow-through tag (Nifty only).</b> A setup is tagged <span class="b strong">Strong</span> when, on the setup day, the <span id="i-ftRule">open gapped at least 0.5% in the setup's direction versus the prior NSE close or 2+ Renko bricks formed that day</span>. Otherwise it shows <span class="b noft">No follow-through</span>. It's only a label: the BrickFlow rules are unchanged and every setup still shows. In 2021–2025, setups without follow-through broke on the next brick 30% of the time, against 15% for strong ones.
+<label style="display:inline-flex;gap:6px;align-items:center;margin-left:8px;white-space:nowrap;cursor:pointer"><input type="checkbox" id="i-strongOnly"> Show strong only</label></div>
 <section id="i-activeSec"><h2><span class="b form" style="font-size:12px;vertical-align:middle;border-style:solid;border-color:#D97706;color:#B45309;background:#FFFBEB">ACTIVE</span> Active trading setups</h2>
 <p><small>Setups where no opposite-colour brick has formed since the setup brick, so the signal is still standing. Newest first. Tap a card to see its chart.</small></p>
 <div id="i-active" class="acards"><div class="pending">Loading live data…</div></div></section>
 <section id="i-otherSec"><h2 style="color:#9aa3b5">All other 2026 setups</h2>
 <p><small>Earlier setups that a later opposite brick has already overtaken. Newest first. Tap a row to see its chart.</small></p>
-<div class="tw sec"><table class="rtable"><thead><tr><th>Date</th><th>Stock</th><th>Signal</th><th>Status</th><th>Close</th><th>Hull Suite 55</th><th>Histogram before → after</th><th></th></tr></thead><tbody id="i-other"><tr><td colspan="8" class="pending">Loading…</td></tr></tbody></table></div></section>
+<div class="tw sec"><table class="rtable"><thead><tr><th>Date</th><th>Stock</th><th>Signal</th><th>Follow-through</th><th>Status</th><th>Close</th><th>Hull Suite 55</th><th>Histogram before → after</th><th></th></tr></thead><tbody id="i-other"><tr><td colspan="9" class="pending">Loading…</td></tr></tbody></table></div></section>
 
 <div id="i-summary"></div>
 <section id="i-drill"><h2>Per-stock brick data (2026)</h2>
@@ -163,5 +166,5 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div id="modal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button class="mx" id="mClose" aria-label="Close">×</button>
 <div class="mtitle" id="mTitle"></div><div class="mtabs" id="mTabs"></div><div class="mimg"><img id="mImg" alt="Chart"></div><div class="mcap" id="mCap"></div></div></div>
 <script src="app.js?v=8"></script>
-<script src="india.js?v=2"></script>
+<script src="india.js?v=3"></script>
 </body></html>

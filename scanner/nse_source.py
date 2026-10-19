@@ -168,5 +168,8 @@ def fetch_bricks(symbol, cache=None):
     box = atr_box(bars)
     gaps = [datetime.fromtimestamp(bars[i]["t"], timezone.utc).strftime("%Y-%m-%d") for i in range(1, len(bars))
             if bars[i]["o"] < 0.6 * bars[i - 1]["c"] or bars[i]["o"] > 1.6 * bars[i - 1]["c"]]
-    return renko(bars, box), None, {"box": box, "daily_from": datetime.fromtimestamp(bars[0]["t"], timezone.utc).strftime("%Y-%m-%d"),
+    # per-session open and previous close (used for the follow-through "Strong setup" tag; same NSE bars as the Renko)
+    sess = {datetime.fromtimestamp(bars[i]["t"], timezone.utc).strftime("%Y-%m-%d"): [bars[i]["o"], bars[i - 1]["c"] if i else None]
+            for i in range(len(bars))}
+    return renko(bars, box), None, {"box": box, "sessions": sess, "daily_from": datetime.fromtimestamp(bars[0]["t"], timezone.utc).strftime("%Y-%m-%d"),
                                    "daily_to": datetime.fromtimestamp(bars[-1]["t"], timezone.utc).strftime("%Y-%m-%d"), "days": len(bars), "gaps": gaps, "bhav": stats}
