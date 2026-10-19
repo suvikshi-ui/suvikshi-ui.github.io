@@ -80,13 +80,52 @@ ${M.some(hasFT)?`<div class="card"><div class="k">Strong setups</div><div class=
 }
 function openModal(views,title){
   const tabs=$('mTabs'); $('mTitle').innerHTML=title; tabs.innerHTML='';
-  const show=i=>{const v=views[i];$('mImg').src=v.src;$('mImg').alt=v.label;$('mCap').textContent=v.cap;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i))};
+  const show=i=>{const v=views[i],box=mchartBox();if(v.svg){box.innerHTML=v.svg;box.hidden=false;$('mImg').style.display='none'}else{box.hidden=true;box.innerHTML='';$('mImg').style.display='';$('mImg').src=v.src;$('mImg').alt=v.label}$('mCap').textContent=v.cap;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i))};
   views.forEach((v,i)=>{const b=document.createElement('button');b.textContent=v.label;b.onclick=()=>show(i);tabs.appendChild(b)});
   tabs.style.display=views.length>1?'flex':'none'; show(0); $('modal').hidden=false; document.body.style.overflow='hidden';
 }
-function openSetup(k){
+// ---- Setup-marker chart (display only): Renko bricks drawn from data/all_bricks.json; each setup marked at the
+// end-of-day close = close of the LAST brick of the setup's colour on the setup date.
+function mchartBox(){let b=$('i-mchart');if(!b){b=document.createElement('div');b.id='i-mchart';b.hidden=true;$('mImg').insertAdjacentElement('afterend',b)}return b}
+// any click outside the India pop-up flow restores the plain image view (the crypto pop-up shares the modal)
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#mTabs'))return;const b=$('i-mchart');if(b){b.hidden=true;b.innerHTML=''}const im=$('mImg');if(im)im.style.display=''},true);
+async function ensureFull(){if(FULL)return FULL;try{const r=await fetch(BASE+'data/all_bricks.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'});if(r.ok)FULL=await r.json()}catch(e){}return FULL}
+function eodIndex(rows,m){const want=m.side==='BUY'?'GREEN':'RED';let k=-1;rows.forEach((r,j)=>{if(r[0]===m.date&&r[7]===want)k=j});return k}
+function markerSVG(m){
+  if(!FULL||!FULL.coins||!FULL.coins[m.coin])return null;
+  const R=FULL.coins[m.coin]; const k0=R.findIndex(r=>r[0]===m.date&&r[17]&&Math.abs(r[6]-m.brick_close)<1e-9); if(k0<0)return null;
+  const a=Math.max(0,k0-45), b=Math.min(R.length,k0+14), W=R.slice(a,b);
+  const setups=(DATA.matches||[]).filter(x=>x.coin===m.coin).map(x=>({m:x,k:eodIndex(R,x)})).filter(x=>x.k>=a&&x.k<b);
+  let lo=Infinity,hi=-Infinity; W.forEach(r=>{lo=Math.min(lo,r[5],r[3],r[6]);hi=Math.max(hi,r[4],r[3],r[6]); if(r[9]!=null){lo=Math.min(lo,r[9]);hi=Math.max(hi,r[9])}});
+  const pad=(hi-lo)*0.08||1; lo-=pad; hi+=pad;
+  const VW=1000,VH=520,L=12,RT=78,T=16,B=34,cw=(VW-L-RT)/W.length,bw=Math.max(3,cw*0.72);
+  const X=i=>L+(i-a)*cw+cw/2, Y=v=>T+(hi-v)/(hi-lo)*(VH-T-B);
+  let g='';
+  for(let t=0;t<=5;t++){const v=lo+(hi-lo)*t/5,y=Y(v);g+=`<line x1="${L}" x2="${VW-RT}" y1="${y}" y2="${y}" stroke="#E0F2F1"/><text x="${VW-RT+6}" y="${y+4}" font-size="11" fill="#64748B">${num(v)}</text>`}
+  W.forEach((r,j)=>{const i=a+j,x=X(i),up=r[7]==='GREEN',c=up?'#059669':'#DC2626',y1=Y(Math.max(r[3],r[6])),y2=Y(Math.min(r[3],r[6]));
+    g+=`<line x1="${x}" x2="${x}" y1="${Y(r[4])}" y2="${Y(r[5])}" stroke="${c}" stroke-width="1"/><rect x="${x-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y2-y1)}" fill="${up?'#10B981':'#EF4444'}" stroke="${c}"/>`});
+  let hp=''; W.forEach((r,j)=>{if(r[9]!=null)hp+=(hp?'L':'M')+X(a+j).toFixed(1)+','+Y(r[9]).toFixed(1)}); if(hp)g+=`<path d="${hp}" fill="none" stroke="#0D9488" stroke-width="1.6" opacity=".55"/>`;
+  // dates along the bottom (every ~8 bricks)
+  W.forEach((r,j)=>{if(j%8===0)g+=`<text x="${X(a+j)}" y="${VH-12}" font-size="10" fill="#64748B" text-anchor="middle">${fd(r[0]).replace(/ \d{4}$/,'')}</text>`});
+  const used=[];
+  setups.sort((p,q)=>p.k-q.k).forEach(({m:x,k})=>{const r=R[k],buy=x.side==='BUY',col=buy?'#059669':'#DC2626',xc=X(k),y=Y(r[6]);
+    const lab=buy?'Buy at this point':'Sell at this point', tw=lab.length*6.4+10;
+    let tx=xc+bw/2+16, anchorRight=tx+tw>VW-RT; if(anchorRight)tx=xc-bw/2-16-tw;
+    let ly=y+(buy?16:-10); while(used.some(u=>Math.abs(u.y-ly)<15&&Math.abs(u.x-tx)<tw))ly+=buy?15:-15; used.push({x:tx,y:ly});
+    const tx0=anchorRight?xc-bw/2-9:xc+bw/2+9;
+    const tri=buy?`M${tx0-6},${y+11} L${tx0+6},${y+11} L${tx0},${y} Z`:`M${tx0-6},${y-11} L${tx0+6},${y-11} L${tx0},${y} Z`;
+    const cur=key(x)===key(m);
+    g+=`<g class="smk"><line x1="${xc-bw/2-4}" x2="${xc+bw/2+4}" y1="${y}" y2="${y}" stroke="${col}" stroke-width="2.5"/><path d="${tri}" fill="${col}" stroke="#fff" stroke-width="1"/>
+<line x1="${anchorRight?tx+tw:tx}" x2="${anchorRight?xc-bw/2-4:xc+bw/2+4}" y1="${ly-4}" y2="${y}" stroke="${col}" stroke-width="1" stroke-dasharray="3 2"/>
+<rect x="${tx}" y="${ly-15}" width="${tw}" height="17" rx="4" fill="#fff" stroke="${col}" stroke-width="${cur?1.8:1}" opacity=".95"/><text class="smk-t" data-close="${r[6]}" data-date="${r[0]}" x="${tx+5}" y="${ly-3}" font-size="11" font-weight="${cur?700:600}" fill="${col}">${lab}</text></g>`});
+  return `<svg viewBox="0 0 ${VW} ${VH}" width="100%" style="display:block;background:#fff;border:1px solid #CCFBF1;border-radius:8px" role="img" aria-label="Renko chart with setup markers">${g}</svg>`;
+}
+const mcap='Drawn by BrickFlow from NSE Renko bricks (daily ATR14 box). Each setup is marked at its end-of-day close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
+async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
+  await ensureFull();
   const s=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}, bust='?v='+encodeURIComponent(DATA.last_change_utc||''), v=[];
+  const sv=markerSVG(m); if(sv)v.push({label:'Setup markers',svg:sv,cap:mcap});
   if(m.chart)v.push({label:'Setup chart',src:BASE+m.chart+bust,cap});
   if(s.chart_latest)v.push({label:'Latest chart',src:BASE+s.chart_latest+bust,cap});
   if(v.length)openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${fd(m.date)} · close ₹${num(m.brick_close)} · ${stBadge(m.date)}${hasFT(m)?` · ${ftBadge(m)} <small>${ftInfo(m)}</small>`:''}`);
