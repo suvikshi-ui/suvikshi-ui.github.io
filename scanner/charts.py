@@ -49,14 +49,15 @@ def render(path, sym, box, rows, mark=None, title_extra="", last=None, source="T
     if last: lo, hi = min(lo, last[0]), max(hi, last[0])
     pad = (hi - lo) * 0.12 or box
     ax.set_ylim(lo - pad, hi + pad); ax.set_xlim(-1, n + 0.5)
-    # last close line
-    lbc = rows[-1]["close"]; lcol = (UP if rows[-1]["close"] > rows[-1]["open"] else DN)
-    ax.axhline(lbc, color=lcol, lw=0.6, ls=":")
-    if last: ax.text(0.01, lbc, f" last brick close {lbc:,.2f}", transform=ax.get_yaxis_transform(), color=lcol, fontsize=7.5, va="bottom", ha="left")
-    if last:  # real price: latest TradingView daily close (not a brick level)
-        ax.axhline(last[0], color="#475569", lw=0.9, ls="--", zorder=3)
-        ax.text(0.99, last[0], f"Last {last[0]:,.2f} (TradingView close, {last[1]}) ", transform=ax.get_yaxis_transform(), color="#334155",
-                fontsize=7.5, fontweight="bold", va="bottom", ha="right", bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="#94A3B8", lw=0.6))
+    # price line
+    lcol = (UP if rows[-1]["close"] > rows[-1]["open"] else DN)
+    if last:  # one price line like TradingView's price-scale line: at the real last price (latest TradingView daily close)
+        ax.axhline(last[0], color=lcol, lw=0.9, ls=(0, (2, 2)), zorder=3)
+        ax.annotate(f"{last[0]:,.2f}", xy=(1.0, last[0]), xycoords=ax.get_yaxis_transform(), xytext=(2, 0), textcoords="offset points",
+                    ha="left", va="center", color="white", fontsize=8, fontweight="bold", annotation_clip=False, zorder=6,
+                    bbox=dict(boxstyle="square,pad=0.25", fc=lcol, ec=lcol))
+    else:
+        ax.axhline(rows[-1]["close"], color=lcol, lw=0.6, ls=":")
     # MACD
     hist = [r["hist"] for r in rows]
     for i, r in enumerate(rows):
