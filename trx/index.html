@@ -77,11 +77,12 @@ th{background:#F0FDFA}td{border-bottom-color:#E0F7F2}tr.isnew td{background:#FEF
 select{background:#fff!important;color:#1E293B!important;border-color:#99F6E4!important}
 .modal{background:#0f172a99}.mbox{background:#fff;border-color:#99F6E4}.mx{color:#334155}.mtitle{color:#1E293B}.mtabs button{background:#F0FDFA;color:#0F766E;border-color:#99F6E4}.mtabs button.on{background:#0D9488;color:#fff;border-color:#0D9488}.mcap{color:#64748B}
 footer{color:var(--mu);border-top-color:#99F6E4}
+.rf{display:inline-flex;align-items:center;gap:8px;margin-left:6px}#bfRefresh{background:#0D9488;color:#fff;border:0;border-radius:999px;padding:5px 14px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px #0d948844}#bfRefresh:hover{background:#0F766E}#bfRefresh:disabled{opacity:.75;cursor:wait}.spin{display:none;width:11px;height:11px;border:2px solid #ffffff88;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}#bfRefresh.busy .spin{display:inline-block}@keyframes sp{to{transform:rotate(360deg)}}.rf a{color:#0D9488;font-weight:600;font-size:13px}#bfRefreshSt{color:#0F766E}
 </style></head><body><div class="w">
 <header><span class="tag">Signal scan only · no trades</span>
 <h1>BrickFlow — Live Setup Scanner</h1>
 <p>Daily Renko ATR(14) · Hull Suite by InSilico (HMA 55) · MACD 12/26/9 · Setups from 1 Jan 2026 onwards</p>
-<div id="live" class="live"><span class="dot"></span> <b>LIVE</b> · <span id="liveMkt">Crypto</span> last scan: <b id="lastScan">–</b> · <span id="liveNote">Auto-scan every 15 minutes. This page checks for new data every 60 seconds.</span></div></header>
+<div id="live" class="live"><span class="dot"></span> <b>LIVE</b> · <span id="liveMkt">Crypto</span> last scan: <b id="lastScan">–</b> · <span id="liveNote">Auto-scan every 15 minutes. This page checks for new data every 60 seconds.</span> <span class="rf"><button id="bfRefresh" type="button" title="Reload the latest published scan data now"><span class="spin"></span>Refresh</button> <a href="https://github.com/suvikshi-ui/suvikshi-ui.github.io/actions/workflows/live-scan.yml" target="_blank" rel="noopener" title="Opens GitHub Actions. Press 'Run workflow' while logged in. A fresh scan takes about 1–2 minutes; then press Refresh.">Run new scan ↗</a> <small id="bfRefreshSt"></small></span></div></header>
 
 <section id="rulesSec"><h2>Strategy rules</h2><div class="rules">
 <div class="rule rs"><h3><span class="b sell">SELL</span> setup</h3><ol>
@@ -138,7 +139,8 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div id="i-pending" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A"><b>Scan pending.</b> The BrickFlow scan for Nifty 100 stocks isn't live yet. Indian stock data will come only from NSE, and it is being verified before publishing, so no Indian stock data is shown yet. Once it's switched on, this section works like the crypto one: active setups, all 2026 setups, a per-stock summary, chart pop-ups and brick data downloads.
 <div style="margin-top:10px"><small id="i-listInfo">Loading the Nifty 100 constituent list…</small></div><div class="chips" id="i-list"></div></div>
 <div id="i-live" hidden>
-<p><small>Window: 1 Jan 2026 onwards. Source: <span id="i-src">–</span>. Last scan: <b id="i-lastScan">–</b></small></p>
+<p><small>Window: 1 Jan 2026 onwards. Last scan: <b id="i-lastScan">–</b>. Source: <span id="i-src">–</span></small></p>
+<div id="i-dq" class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px">Loading the data-quality summary…</div>
 <section id="i-activeSec"><h2><span class="b form" style="font-size:12px;vertical-align:middle;border-style:solid;border-color:#D97706;color:#B45309;background:#FFFBEB">ACTIVE</span> Active trading setups</h2>
 <p><small>Setups where no opposite-colour brick has formed since the setup brick, so the signal is still standing. Newest first. Tap a card to see its chart.</small></p>
 <div id="i-active" class="acards"><div class="pending">Loading live data…</div></div></section>
@@ -156,9 +158,10 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 </div>
 
 <div class="note"><b>Not financial advice.</b> This page is a live signal scan of chart data, for study only. It shows no stop losses or targets. It's not a recommendation to buy or sell, and no trades or alerts were placed.</div>
-<footer>BrickFlow. Crypto data: TradingView (BingX symbols, daily Renko). Constituent list: NSE Indices. Charts are drawn from the scanned data.</footer>
+<footer>BrickFlow. Crypto data: TradingView (BingX symbols, daily Renko). Indian stocks: NSE only (charting.nseindia.com daily OHLC, reconciled to the NSE bhavcopy; Renko built by BrickFlow). Constituent list: NSE Indices. Charts are drawn from the scanned data.</footer>
 </div>
 <div id="modal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button class="mx" id="mClose" aria-label="Close">×</button>
 <div class="mtitle" id="mTitle"></div><div class="mtabs" id="mTabs"></div><div class="mimg"><img id="mImg" alt="Chart"></div><div class="mcap" id="mCap"></div></div></div>
-<script src="app.js?v=6"></script>
+<script src="app.js?v=8"></script>
+<script src="india.js?v=2"></script>
 </body></html>

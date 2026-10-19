@@ -1,4 +1,4 @@
-// Live renderer for the strategy scan. Data: data.json written by the scanner (GitHub Actions, every 5 min).
+// BrickFlow crypto renderer. Data: data.json written by the scanner (GitHub Actions, every 15 min).
 (function(){
 const SOURCES=['data.json','https://raw.githubusercontent.com/suvikshi-ui/suvikshi-ui.github.io/main/trx/data.json'];
 const $=id=>document.getElementById(id);
@@ -135,15 +135,15 @@ function setLive(){
   $('lastScan').textContent=ist(lastScan);
   const age=(Date.now()-new Date(lastScan))/60000, el=$('live');
   if(age>45){el.classList.add('stale');$('liveNote').textContent=`The last scan was ${Math.round(age)} min ago. GitHub's scheduler can be delayed, so the next one may be late.`}
-  else{el.classList.remove('stale');$('liveNote').textContent='Auto-scan every 15 minutes on TradingView data. This page checks for new data every 60 seconds.'}
+  else{el.classList.remove('stale');$('liveNote').textContent='Auto-scan every 15 minutes (crypto from TradingView data, Nifty 100 from NSE data). This page checks for new data every 60 seconds.'}
 }
 
-async function load(){
+async function load(force){
   const ts=Date.now();
   const got=await Promise.all(SOURCES.map(u=>fetch(u+(u.includes('?')?'&':'?')+'t='+ts,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)));
   const d=got.filter(Boolean).sort((a,b)=>(b.last_scan_utc||'').localeCompare(a.last_scan_utc||''))[0];
   if(!d)return;
-  if(lastScan&&d.last_scan_utc<=lastScan){setLive();return}
+  if(!force&&lastScan&&d.last_scan_utc<=lastScan){setLive();return}
   const keys=(d.matches||[]).map(key);
   if(seen){keys.forEach(k=>{if(!seen.includes(k))newKeys.add(k)})}
   seen=Array.from(new Set([...(seen||[]),...keys]));
@@ -156,7 +156,8 @@ async function load(){
   if(!window._hashDone&&location.hash.startsWith('#open=')){window._hashDone=1;openSetup(decodeURIComponent(location.hash.slice(6)))}
   setLive();
 }
-load(); setInterval(load,60000); setInterval(setLive,30000);
+window.bfCrypto=()=>load(true);
+load(); setInterval(()=>load(),60000); setInterval(setLive,30000);
 })();
 // ---- Per-coin brick drilldown (lazy-loads data/all_bricks.json) ----
 (function(){
@@ -195,7 +196,7 @@ loadFull(); setInterval(loadFull,300000);
 const $=id=>document.getElementById(id);
 function setTab(k){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===k));
   $('mkt-crypto').hidden=k!=='crypto';$('mkt-india').hidden=k!=='india';
-  const lm=$('liveMkt');if(lm)lm.textContent=k==='india'?'Crypto':'Crypto';
+  const lm=$('liveMkt');if(lm)lm.textContent='Crypto';
   if(history.replaceState&&!location.hash.startsWith('#open='))history.replaceState(null,'',k==='india'?'#india':'#crypto');}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
 if(location.hash==='#india')setTab('india');
@@ -203,4 +204,16 @@ const al=$('c-allLink');if(al)al.href='data/all_bricks.json';
 fetch('../scanner/nifty100.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;
   $('i-listInfo').textContent=`Nifty 100 constituents (${d.count} stocks, official NSE Indices list, retrieved ${d.retrieved_ist}). This is a constituent list, not market data.`;
   $('i-list').innerHTML=d.constituents.map(c=>`<span class="chip" title="${c.name} · ${c.industry}">${c.symbol}</span>`).join('');}).catch(()=>{});
+})();
+
+// ---- Refresh control (no tokens: re-fetches public data; 'Run new scan' opens GitHub Actions) ----
+(function(){
+const b=document.getElementById('bfRefresh'), st=document.getElementById('bfRefreshSt'); if(!b)return;
+b.addEventListener('click',async()=>{
+  b.disabled=true; b.classList.add('busy'); st.textContent='';
+  const india=!document.getElementById('mkt-india').hidden;
+  try{ await Promise.all([window.bfCrypto&&window.bfCrypto(), window.bfIndia&&window.bfIndia()].filter(Boolean)); }catch(e){console.error(e)}
+  b.disabled=false; b.classList.remove('busy');
+  st.textContent='Updated '+new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true})+' IST'+(india?' (Nifty 100)':' (Crypto)');
+});
 })();
