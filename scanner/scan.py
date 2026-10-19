@@ -73,13 +73,14 @@ def fetch(symbol, ver="40"):
     except Exception: pass
     return bars, err
 
-SESSIONS = {}; TVINFO = {}; LAST = {}; SESSION_CLOSE = (15, 30)
+SESSIONS = {}; TVINFO = {}; LAST = {}; DAILY = {}; DHULL = {}; SESSION_CLOSE = (15, 30)
 # Follow-through "Strong setup" tag (Nifty only; a label, it never removes or changes setups).
 # Gap = setup-day open vs the prior daily close (TradingView 1D candles), signed in the setup direction; threshold STRONG_GAP_PCT %.
 # Modes: "or" = gap OR 2+ bricks; "and" = gap AND 2+ bricks; "gap_single" = gap AND only one brick that day.
 STRONG_MODE = "gap_single"
 STRONG_GAP_PCT = 0.5
 STRONG_MIN_BRICKS = 2
+EXIT_STOP_PCT = 1.5; EXIT_TARGET_PCT = 3.0  # 1:2 exit, signal study only
 def strong_tag(gap_pct, nbricks):
     g = gap_pct is not None and gap_pct >= STRONG_GAP_PCT - 1e-9
     k = nbricks is not None and nbricks >= STRONG_MIN_BRICKS
@@ -96,7 +97,7 @@ def fetch_retry(s):
             try:
                 b, e, meta = tv_source.fetch(s.split(":", 1)[1])
                 if b:
-                    SESSIONS[s] = meta.get("sessions", {}); TVINFO[s] = meta.get("symbol", {}); LAST[s] = meta.get("last")
+                    SESSIONS[s] = meta.get("sessions", {}); TVINFO[s] = meta.get("symbol", {}); LAST[s] = meta.get("last"); DAILY[s] = meta.get("daily") or []
                     return s, b, None
                 last = e
             except Exception as ex: last = str(ex)[:200]
@@ -173,7 +174,24 @@ def analyse(s, B, today):
             sg = 1 if side == "BUY" else -1
             gp = ((ses[0] - ses[1]) / ses[1] * 100 * sg) if ses and ses[1] else None
             nbd = sum(1 for tt in t if D(tt) == d)
-            r.update(gap_pct=round(gp, 3) if gp is not None else None, bricks_that_day=nbd, strong=strong_tag(gp, nbd))
+            # daily-candle Hull Suite (InSilico): HMA 55 on the TradingView daily close, green if HMA > HMA two bars earlier
+            DB = DAILY.get(s, [])
+            if s not in DHULL: DHULL[s] = ({b[0]: i for i, b in enumerate(DB)}, hma([b[4] for b in DB], 55))
+            di, HD = DHULL[s]; q = di.get(d); ch = None
+            if q is not None and q >= 2 and HD[q] is not None and HD[q - 2] is not None: ch = "green" if HD[q] > HD[q - 2] else "red"
+            agrees = ch is not None and (ch == "green") == (side == "BUY")
+            st0 = strong_tag(gp, nbd)
+            # 1:2 exit from the marker price (close of the last brick of the setup's colour on the setup day)
+            kk = max(j for j in range(n) if D(t[j]) == d and col(j) == col(i))
+            entry = c[kk]; stop = entry * (1 - EXIT_STOP_PCT / 100 * sg); target = entry * (1 + EXIT_TARGET_PCT / 100 * sg)
+            outcome, out_date, pl = "open", None, None
+            for b2 in (DB[q + 1:] if q is not None else []):
+                hit_s = b2[3] <= stop if sg > 0 else b2[2] >= stop; hit_t = b2[2] >= target if sg > 0 else b2[3] <= target
+                if hit_s: outcome, out_date, pl = "stop hit", b2[0], -EXIT_STOP_PCT; break
+                if hit_t: outcome, out_date, pl = "target hit", b2[0], EXIT_TARGET_PCT; break
+            r.update(gap_pct=round(gp, 3) if gp is not None else None, bricks_that_day=nbd, strong=bool(st0 and agrees),
+                     strong_base=st0, candle_hull=ch, hull_against=(ch is not None and not agrees),
+                     entry=round(entry, 4), stop=round(stop, 2), target=round(target, 2), outcome=outcome, outcome_date=out_date, pl_pct=pl)
         allflips.append(r)
         if r["match"]:
             matches.append(r); buys += side == "BUY"; sells += side == "SELL"
@@ -303,10 +321,11 @@ def main():
         "rules": {"SELL": "green->red flip AND Hull RED AND hist DARK GREEN->LIGHT GREEN or LIGHT RED->DARK RED",
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
+        **({"exit_rule": {"stop_pct": EXIT_STOP_PCT, "target_pct": EXIT_TARGET_PCT, "text": f"Signal study: entry = marker price (close of the last brick of the setup's colour on the setup day); stop {EXIT_STOP_PCT}% and target {EXIT_TARGET_PCT}% (1:2); outcome from TradingView daily bars after the setup day; stop counts first if both are hit the same day"}} if MARKET == "india" else {}),
         **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
                             "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior TradingView daily close " +
                                     {"and": f"AND {STRONG_MIN_BRICKS}+ Renko bricks formed that day",
-                                     "gap_single": "AND only one Renko brick formed that day"}.get(STRONG_MODE.lower(),
+                                     "gap_single": "AND only one Renko brick formed that day AND the Hull Suite 55 on the TradingView daily candle chart agrees with the setup (green for a BUY, red for a SELL)"}.get(STRONG_MODE.lower(),
                                      f"OR {STRONG_MIN_BRICKS}+ Renko bricks formed that day")}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
         **({"tv": {"symbols_resolved": len(TVINFO), "session": next((v.get("session") for v in TVINFO.values() if v.get("session")), None),
