@@ -261,7 +261,7 @@ def main():
         CH = None; print("charts disabled:", ex)
     def chart(fname, sym, box, rows, mark, last=None):
         nonlocal rendered
-        h = CH.slice_hash(sym, rows, mark) + ("|last=%s" % (last,) if last else "")
+        h = CH.slice_hash(sym, rows, mark) + ("|pl2=%s" % (last,) if last else "")
         fp = os.path.join(charts_dir, fname)
         if manifest.get(fname) != h or not os.path.exists(fp):
             CH.render(fp, sym, box, rows, mark, last=last, source=("TradingView data (NSE symbol, Renko ATR14 OHLC)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
