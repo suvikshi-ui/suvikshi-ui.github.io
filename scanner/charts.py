@@ -46,14 +46,14 @@ def render(path, sym, box, rows, mark=None, title_extra="", last=None, source="T
     hi = max(max(r["open"], r["close"], r.get("high") or -1e18) for r in rows)
     hv = [v for v in mh + sh if v is not None]
     if hv: lo, hi = min(lo, min(hv)), max(hi, max(hv))
-    if last: lo, hi = min(lo, last[0]), max(hi, last[0])
     pad = (hi - lo) * 0.12 or box
     ax.set_ylim(lo - pad, hi + pad); ax.set_xlim(-1, n + 0.5)
     # price line
     lcol = (UP if rows[-1]["close"] > rows[-1]["open"] else DN)
-    if last:  # one price line like TradingView's price-scale line: at the real last price (latest TradingView daily close)
-        ax.axhline(last[0], color=lcol, lw=0.9, ls=(0, (2, 2)), zorder=3)
-        ax.annotate(f"{last[0]:,.2f}", xy=(1.0, last[0]), xycoords=ax.get_yaxis_transform(), xytext=(2, 0), textcoords="offset points",
+    if last:  # one price line exactly like TradingView's Renko price scale: at the last brick's close, grey tag on the axis
+        lcol = "#787B86"; pl = rows[-1]["close"]
+        ax.axhline(pl, color=lcol, lw=0.9, ls=(0, (2, 2)), zorder=3)
+        ax.annotate(f"{pl:,.2f}", xy=(1.0, pl), xycoords=ax.get_yaxis_transform(), xytext=(2, 0), textcoords="offset points",
                     ha="left", va="center", color="white", fontsize=8, fontweight="bold", annotation_clip=False, zorder=6,
                     bbox=dict(boxstyle="square,pad=0.25", fc=lcol, ec=lcol))
     else:
