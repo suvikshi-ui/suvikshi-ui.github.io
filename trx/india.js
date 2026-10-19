@@ -66,6 +66,7 @@ function render(d){
     return `<tr class="${s.chart_latest?'click':''}" ${s.chart_latest?`data-istock="${esc(s.coin)}"`:''}><td data-l="Stock"><b>${esc(short(s.coin))}</b>${s.chart_latest?' <span class="lnk">chart</span>':''}</td><td data-l="Data">${b}${g}</td><td data-l="Box (₹)">${num(s.box_size)}</td><td data-l="Bricks 2026">${s.bricks_in_window??'–'}</td><td data-l="Flips">${s.flips??'–'}</td>
 <td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#059669">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#DC2626">${s.sells}</b>`:0)}</td>
 <td data-l="Latest brick">${fd(s.latest_brick_date)} ${s.latest_brick_color?(s.latest_brick_color==='RED'?"<span class='b dr'>red</span>":"<span class='b dg'>green</span>"):''} ${num(s.latest_close)}${s.latest_brick_date&&isForming(s.latest_brick_date)?' <small>(forming)</small>':''}</td>
+<td data-l="Last price (TradingView)">${s.last_price!=null?`${num(s.last_price)} <small>${fd(s.last_price_date)}</small>${s.box_size&&s.latest_close!=null?`<br><small>${((s.last_price-s.latest_close)/s.box_size>=0?'+':'')+((s.last_price-s.latest_close)/s.box_size).toFixed(2)} box vs brick close</small>`:''}`:'–'}</td>
 <td data-l="Latest setup">${ls?`${fd(ls.date)} <span class='b ${ls.side==='BUY'?'dg':'dr'}'>${ls.side}</span> ${num(ls.brick_close)} <small>gap ${ls.gap_pct==null?'–':(ls.gap_pct>0?'+':'')+ls.gap_pct+'%'}</small>${ls.strong===true?' ★':''}`:'<small>none in 2026</small>'}</td></tr>`}).join('');
   $('i-summary').innerHTML=`<section><h2>Nifty 100 summary (${S.length} stocks)</h2>
 <p><small>The same BrickFlow rules on every Nifty 100 stock (TradingView symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko: ATR(14) box, source OHLC (high-low), with wicks; box size and rounding as TradingView sets them. Hull Suite 55 and MACD 12/26/9 run on brick closes. Window: 1 Jan 2026 to the latest brick.</small></p>
@@ -78,7 +79,7 @@ ${M.some(hasFT)?`<div class="card"><div class="k">Strong setups</div><div class=
 <div class="card"><div class="k">Not scorable</div><div class="v">${few.length}</div></div></div>
 <div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:12px">${few.length} stocks are <b>not scorable</b> because their history is too short (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')||'none'}. ${part.length} stocks have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')||'none'}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
 <br><small>"Forming" means the setup is on today's daily bar and the trading session (closes 15:30 IST) hasn't ended yet, so the brick can still change. "Confirmed" means the session has closed.</small></div>
-<h3>All stocks: latest TradingView Renko state</h3><p><small>Every stock in the list, ordered by latest setup date (newest first), then by TradingView gap % in the setup's direction (setup-day TradingView open vs prior TradingView daily close). Stocks with no 2026 setup come last.</small></p><div class="tw"><table class="rtable"><thead><tr><th>Stock</th><th>Data</th><th>Box (₹)</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th><th>Latest setup</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+<h3>All stocks: latest TradingView Renko state</h3><p><small>Every stock in the list, ordered by latest setup date (newest first), then by TradingView gap % in the setup's direction (setup-day TradingView open vs prior TradingView daily close). Stocks with no 2026 setup come last.</small></p><div class="tw"><table class="rtable"><thead><tr><th>Stock</th><th>Data</th><th>Box (₹)</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th><th>Last price (TradingView)</th><th>Latest setup</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function openModal(views,title){
   const tabs=$('mTabs'); $('mTitle').innerHTML=title; tabs.innerHTML='';
@@ -99,6 +100,8 @@ function markerSVG(m){
   const a=Math.max(0,k0-45), b=Math.min(R.length,k0+14), W=R.slice(a,b);
   const setups=(DATA.matches||[]).filter(x=>x.coin===m.coin).map(x=>({m:x,k:eodIndex(R,x)})).filter(x=>x.k>=a&&x.k<b);
   let lo=Infinity,hi=-Infinity; W.forEach(r=>{lo=Math.min(lo,r[5],r[3],r[6]);hi=Math.max(hi,r[4],r[3],r[6]); if(r[9]!=null){lo=Math.min(lo,r[9]);hi=Math.max(hi,r[9])}});
+  const SM=(DATA.summary||[]).find(x=>x.coin===m.coin)||{}, LP=(b===R.length&&SM.last_price!=null)?SM.last_price:null;  // real price: latest TradingView daily close
+  if(LP!=null){lo=Math.min(lo,LP);hi=Math.max(hi,LP)}
   const pad=(hi-lo)*0.08||1; lo-=pad; hi+=pad;
   const VW=1000,VH=520,L=12,RT=78,T=16,B=34,cw=(VW-L-RT)/W.length,bw=Math.max(3,cw*0.72);
   const X=i=>L+(i-a)*cw+cw/2, Y=v=>T+(hi-v)/(hi-lo)*(VH-T-B);
@@ -121,9 +124,11 @@ function markerSVG(m){
 <line x1="${anchorRight?tx+tw:tx}" x2="${anchorRight?xc-bw/2-4:xc+bw/2+4}" y1="${ly-4}" y2="${y}" stroke="${col}" stroke-width="1" stroke-dasharray="3 2"/>
 <text class="smk-s" x="${anchorRight?tx0-9:tx0+9}" y="${y+4}" text-anchor="${anchorRight?'end':'start'}" font-size="11" font-weight="700" fill="${col}" stroke="#fff" stroke-width="3" paint-order="stroke">${buy?'Buy':'Sell'} ${(+hv).toFixed(2)}</text>
 <rect x="${tx}" y="${ly-15}" width="${tw}" height="17" rx="4" fill="#fff" stroke="${col}" stroke-width="${cur?1.8:1}" opacity=".95"/><text class="smk-t" data-close="${hv}" data-date="${r[0]}" x="${tx+5}" y="${ly-3}" font-size="11" font-weight="${cur?700:600}" fill="${col}">${lab}</text></g>`});
+  if(LP!=null){const y=Y(LP),t=`Last ${num(LP)} (TradingView close, ${fd(SM.last_price_date)})`,tw=t.length*6.3+10;
+    g+=`<g class="lastp" data-price="${LP}" data-date="${esc(SM.last_price_date||'')}"><line x1="${L}" x2="${VW-RT}" y1="${y}" y2="${y}" stroke="#475569" stroke-width="1.2" stroke-dasharray="6 4"/><rect x="${VW-RT-tw-4}" y="${y-19}" width="${tw}" height="16" rx="3" fill="#fff" stroke="#94A3B8"/><text class="lastp-t" x="${VW-RT-tw+1}" y="${y-7}" font-size="11" font-weight="700" fill="#334155">${t}</text></g>`}
   return `<svg viewBox="0 0 ${VW} ${VH}" width="100%" style="display:block;background:#fff;border:1px solid #CCFBF1;border-radius:8px" role="img" aria-label="Renko chart with setup markers">${g}</svg>`;
 }
-const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 box, source OHLC). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
+const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 box, source OHLC). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. The grey dashed line is the real last price (latest TradingView daily close), which can sit away from the last brick until price moves a full box. Signal study only, no stop loss or target.';
 async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
   await ensureFull();
