@@ -321,7 +321,7 @@ def main():
         "rules": {"SELL": "green->red flip AND Hull RED AND hist DARK GREEN->LIGHT GREEN or LIGHT RED->DARK RED",
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
-        **({"exit_rule": {"stop_pct": EXIT_STOP_PCT, "target_pct": EXIT_TARGET_PCT, "text": f"Signal study: entry = marker price (close of the last brick of the setup's colour on the setup day); stop {EXIT_STOP_PCT}% and target {EXIT_TARGET_PCT}% (1:2); outcome from TradingView daily bars after the setup day; stop counts first if both are hit the same day"}} if MARKET == "india" else {}),
+        **({"exit_rule": {"stop_pct": EXIT_STOP_PCT, "target_pct": EXIT_TARGET_PCT, "text": f"Signal study: entry = marker price (close of the last brick of the setup's colour on the setup day); stop {EXIT_STOP_PCT}% and target {EXIT_TARGET_PCT}% (1:1); outcome from TradingView daily bars after the setup day; stop counts first if both are hit the same day"}} if MARKET == "india" else {}),
         **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
                             "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior TradingView daily close " +
                                     {"and": f"AND {STRONG_MIN_BRICKS}+ Renko bricks formed that day",
