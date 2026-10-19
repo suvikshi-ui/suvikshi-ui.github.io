@@ -56,15 +56,18 @@ def fetch(symbol, ver="40"):
 
 BHAV = None; BHAVSTATS = {}; SESSIONS = {}
 # Follow-through "Strong setup" tag (Nifty only; a label, it never removes or changes setups).
-# Strong = setup-day open gapped >= STRONG_GAP_PCT % in the setup's direction vs the prior close,
-# OR >= STRONG_MIN_BRICKS bricks formed that day. Set STRONG_MODE = "AND" to require both.
-STRONG_MODE = "OR"
+# Gap = setup-day open vs the prior NSE close, signed in the setup direction; threshold STRONG_GAP_PCT %.
+# Modes: "or" = gap OR 2+ bricks; "and" = gap AND 2+ bricks; "gap_single" = gap AND only one brick that day.
+STRONG_MODE = "gap_single"
 STRONG_GAP_PCT = 0.5
 STRONG_MIN_BRICKS = 2
 def strong_tag(gap_pct, nbricks):
     g = gap_pct is not None and gap_pct >= STRONG_GAP_PCT - 1e-9
     k = nbricks is not None and nbricks >= STRONG_MIN_BRICKS
-    return (g and k) if STRONG_MODE == "AND" else (g or k)
+    m = STRONG_MODE.lower()
+    if m == "and": return g and k
+    if m == "gap_single": return g and nbricks == 1
+    return g or k
 try:
     _ig = json.load(open(os.path.join(HERE, "nifty_integrity.json")))
     EXCLUDED = {r["symbol"]: r["reasons"] for r in _ig.get("rows", []) if r.get("gate") == "FAIL"}
@@ -283,8 +286,10 @@ def main():
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
         **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
-                            "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior NSE close "
-                                    f"{STRONG_MODE} {STRONG_MIN_BRICKS}+ Renko bricks formed that day"}} if MARKET == "india" else {}),
+                            "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior NSE close " +
+                                    {"and": f"AND {STRONG_MIN_BRICKS}+ Renko bricks formed that day",
+                                     "gap_single": "AND only one Renko brick formed that day"}.get(STRONG_MODE.lower(),
+                                     f"OR {STRONG_MIN_BRICKS}+ Renko bricks formed that day")}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
         "integrity": ({"generated_ist": INTEGRITY.get("generated_ist"), "summary": INTEGRITY.get("summary"), "excluded": EXCLUDED,
                        "bhav_correction": {"stocks": len(BHAVSTATS), "corrected_days": sum(v.get("corrected", 0) for v in BHAVSTATS.values()),

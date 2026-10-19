@@ -22,7 +22,7 @@ let newKeys=new Set(), lastScan=null, DATA=null;
 // Follow-through tag (label only; every setup stays visible)
 const sgn=v=>v===null||v===undefined?'–':((+v)>0?'+':'')+(+v).toFixed(2)+'%';
 const hasFT=m=>typeof m.strong==='boolean';
-const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Follow-through on the setup day: gap and/or 2+ bricks">Strong</span>':'<span class="b noft" title="No follow-through on the setup day: small/no gap and a single brick">No follow-through</span>');
+const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Meets the follow-through rule on the setup day (see the note above)">Strong</span>':'<span class="b noft" title="Does not meet the follow-through rule on the setup day (see the note above)">No follow-through</span>');
 const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
 let strongOnly=false;
 const cap='Chart drawn by BrickFlow from NSE data (charting.nseindia.com daily OHLC reconciled to the NSE bhavcopy; daily Renko ATR14).';
@@ -35,7 +35,7 @@ function render(d){
   const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
   const vis=L=>strongOnly?L.filter(m=>m.strong):L;
   const sr=d.strong_rule||{}, nst=L=>L.filter(m=>m.strong).length;
-  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'); if(t)t.textContent=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior NSE close ${String(sr.mode||'OR').toUpperCase()==='AND'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
+  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'), md=String(sr.mode||'or').toLowerCase(), gp=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior NSE close`; if(t)t.textContent=md==='gap_single'?`${gp}, on a day when only one Renko brick formed. Days with 2 or more bricks are not tagged Strong, because in the 2021–2025 re-check those setups failed more often`:`${gp} ${md==='and'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
   const nb=M.filter(m=>m.side==='BUY').length, ns=M.filter(m=>m.side==='SELL').length;
   // data-quality note
   const ig=d.integrity||{}, su=ig.summary||{}, ex=Object.keys(ig.excluded||{}), wl=su.warn_list||{};
