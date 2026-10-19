@@ -1,4 +1,4 @@
-// BrickFlow · Indian Stock Market (Nifty 100) renderer. Data: india/data.json written by the scanner (NSE data only).
+// BrickFlow · Indian Stock Market (Nifty 100) renderer. Data: india/data.json written by the scanner (TradingView data only: NSE:<SYMBOL> daily Renko and daily candles).
 (function(){
 const BASE='india/';
 const SOURCES=[BASE+'data.json','https://raw.githubusercontent.com/suvikshi-ui/suvikshi-ui.github.io/main/trx/india/data.json'];
@@ -12,9 +12,9 @@ const BC={'DARK GREEN':'dg','LIGHT GREEN':'lg','DARK RED':'dr','LIGHT RED':'lr',
 const tc=s=>String(s).toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
 const badge=s=>s?`<span class="b ${BC[s]||''}">${tc(s)}</span>`:'–';
 const istNow=()=>{const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return {d:`${g('year')}-${g('month')}-${g('day')}`,hm:(+g('hour'))*60+(+g('minute'))}};
-// NSE cash market closes 15:30 IST; a brick dated today is still forming before that
+// The NSE cash session (per TradingView symbol info: 09:15–15:30 IST) closes 15:30 IST; a brick dated today is still forming before that
 const isForming=d=>{const n=istNow();return d>n.d||(d===n.d&&n.hm<930)};
-const stBadge=d=>isForming(d)?'<span class="b form" title="Today\'s NSE session has not closed yet; the brick can still change">Forming (session open)</span>':'<span class="b conf">Confirmed</span>';
+const stBadge=d=>isForming(d)?'<span class="b form" title="Today\'s trading session has not closed yet; the brick can still change">Forming (session open)</span>':'<span class="b conf">Confirmed</span>';
 const ist=iso=>new Date(iso).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:true})+' IST';
 const key=m=>m.coin+'|'+m.date+'|'+m.side+'|'+m.brick_close;
 let seen=null; try{seen=JSON.parse(localStorage.getItem('bfSeenIN')||'null')}catch(e){}
@@ -25,24 +25,21 @@ const hasFT=m=>typeof m.strong==='boolean';
 const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Meets the follow-through rule on the setup day (see the note above)">★ Strong</span>':'<span class="b noft" title="Does not meet the follow-through rule on the setup day (see the note above)">No follow-through</span>');
 const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
 let strongOnly=false;
-const cap='Chart drawn by BrickFlow from NSE data (charting.nseindia.com daily OHLC reconciled to the NSE bhavcopy; daily Renko ATR14).';
+const cap='Chart drawn by BrickFlow from TradingView data (TradingView\'s own daily Renko for NSE:<SYMBOL>: ATR 14 box, source OHLC, with wicks).';
 
 function render(d){
   DATA=d;
   $('i-pending').hidden=true; $('i-live').hidden=false;
-  $('i-src').textContent=d.source||'NSE'; $('i-lastScan').textContent=ist(d.last_scan_utc);
+  $('i-src').textContent=d.source||'TradingView'; $('i-lastScan').textContent=ist(d.last_scan_utc);
   const S=d.summary||[], M=(d.matches||[]).filter(m=>m.date>='2026-01-01').slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:a.coin.localeCompare(b.coin));
   const act=M.filter(m=>m.active), oth=M.filter(m=>!m.active);
   const vis=L=>strongOnly?L.filter(m=>m.strong):L;
   const sr=d.strong_rule||{}, nst=L=>L.filter(m=>m.strong).length;
-  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'), md=String(sr.mode||'or').toLowerCase(), gp=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior NSE close`; if(t)t.textContent=md==='gap_single'?`${gp}, on a day when only one Renko brick formed. Days with 2 or more bricks are not tagged Strong, because in the 2021–2025 re-check those setups failed more often`:`${gp} ${md==='and'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
+  const ftn=$('i-ftNote'); if(ftn){ftn.hidden=!M.some(hasFT); const t=$('i-ftRule'), md=String(sr.mode||'or').toLowerCase(), gp=`open gapped at least ${sr.gap_pct??0.5}% in the setup's direction versus the prior TradingView daily close`; if(t)t.textContent=md==='gap_single'?`${gp}, on a day when only one Renko brick formed. Days with 2 or more bricks are not tagged Strong, because in the 2021–2025 re-check those setups failed more often`:`${gp} ${md==='and'?'and':'or'} ${sr.min_bricks??2}+ Renko bricks formed that day`}
   const nb=M.filter(m=>m.side==='BUY').length, ns=M.filter(m=>m.side==='SELL').length;
   // data-quality note
-  const ig=d.integrity||{}, su=ig.summary||{}, ex=Object.keys(ig.excluded||{}), wl=su.warn_list||{};
-  const pc=(a,b)=>b?(100*a/b).toFixed(2)+'%':'–';
-  $('i-dq').innerHTML=`<b>Data quality.</b> Prices come only from NSE: daily OHLC from charting.nseindia.com (history from 2021, back-adjusted for splits, bonuses and rights). Every session is reconciled to the official NSE bhavcopy. Before publishing, an integrity gate checked all ${su.stocks||100} stocks${ig.generated_ist?' ('+esc(ig.generated_ist)+')':''}: <b>${su.pass??'–'} pass, ${su.warn??'–'} flagged, ${su.fail??'–'} excluded</b>. ${su.bhav_sessions_checked?`${Number(su.bhav_sessions_checked).toLocaleString('en-IN')} stock-sessions were compared with the bhavcopy, and ${su.corrected_to_bhavcopy} incomplete chart rows (mostly 5–13 Feb 2026) were replaced with the official values. ${su.unresolved} rows are unresolved.`:''} ${su.tv_days_2026?`As an independent cross-check, TradingView agrees on ${pc(su.tv_ohlc_match,su.tv_days_2026)} of 2026 stock-days.`:''} Zero-volume, OHLC-inconsistent or non-positive rows: 0.
-${Object.keys(wl).length?`<br><small><b>Flagged (still scanned):</b> ${Object.entries(wl).map(([k,v])=>`${esc(k)} (${esc(v)})`).join('; ')}. The large single-day moves were checked against the bhavcopy and are real. Demergers (e.g. SIEMENS Apr 2025, TMPV Oct 2025, VEDL Apr 2026) are not back-adjusted by NSE, so they show as real price gaps in the bricks.</small>`:''}
-${ex.length?`<br><small><b>Excluded:</b> ${ex.map(esc).join(', ')}.</small>`:''}`;
+  const tv=d.tv||{}, mp=Object.entries(tv.mapping||{});
+  $('i-dq').innerHTML=`<b>Data source.</b> All prices and Renko bricks come only from TradingView's public chart feed (symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko series: box assignment ATR, length 14, source OHLC (high-low), with wicks, so box size and rounding are exactly TradingView's. The Strong gap uses TradingView daily candles (setup-day open vs prior daily close). ${tv.symbols_resolved?`${tv.symbols_resolved} stocks resolved on TradingView`:''}${tv.session?`, session ${esc(String(tv.session).split('#')[0].replace('-','–'))} ${esc(tv.timezone||'')}`:''}.${mp.length?` Ticker mapping: ${mp.map(([k,v])=>`${esc(short(k))} → ${esc(v)}`).join('; ')}.`:''}`;
   const card=m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';return `<div class="ac ${s?'sellc':'buyc'}${m.strong===true?' isstrong':''}" data-ikey="${esc(key(m))}" tabindex="0" role="button">
 <div class="top"><span class="coin">${m.strong===true?'<span class="star" title="Strong setup">★</span> ':''}${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${nw?'<span class="b new">NEW</span>':''}</span></div>
 <div class="px">₹${num(m.brick_close)}</div>
@@ -61,12 +58,12 @@ ${ex.length?`<br><small><b>Excluded:</b> ${ex.map(esc).join(', ')}.</small>`:''}
     if(st==='ok')b='<span class="b hg">Full</span>';else if(st.startsWith('partial')){const m=st.match(/from (\d{4}-\d\d-\d\d)/);b=`<span class="b lr">Partial</span> <small>scored from ${m?fd(m[1]):'?'}</small>`}
     else if(st.startsWith('excluded'))b='<span class="b" style="border:1px solid #FCA5A5;color:#B91C1C">Excluded</span>';
     else if(st.startsWith('fetch'))b='<span class="b" style="border:1px solid #CBD5E1;color:#64748B">Fetch error</span>';else b='<span class="b" style="border:1px solid #CBD5E1;color:#64748B">Too little history</span>';
-    const g=(short(s.coin) in wl)?' <span class="b" style="border:1px solid #FDE68A;color:#B45309" title="'+esc(wl[short(s.coin)]||'')+'">flagged</span>':'';
+    const g='';  // NSE integrity flags removed (TradingView data only)
     return `<tr class="${s.chart_latest?'click':''}" ${s.chart_latest?`data-istock="${esc(s.coin)}"`:''}><td data-l="Stock"><b>${esc(short(s.coin))}</b>${s.chart_latest?' <span class="lnk">chart</span>':''}</td><td data-l="Data">${b}${g}</td><td data-l="Box (₹)">${num(s.box_size)}</td><td data-l="Bricks 2026">${s.bricks_in_window??'–'}</td><td data-l="Flips">${s.flips??'–'}</td>
 <td data-l="BUY">${sc?'–':(s.buys?`<b style="color:#059669">${s.buys}</b>`:0)}</td><td data-l="SELL">${sc?'–':(s.sells?`<b style="color:#DC2626">${s.sells}</b>`:0)}</td>
 <td data-l="Latest brick">${fd(s.latest_brick_date)} ${s.latest_brick_color?(s.latest_brick_color==='RED'?"<span class='b dr'>red</span>":"<span class='b dg'>green</span>"):''} ${num(s.latest_close)}${s.latest_brick_date&&isForming(s.latest_brick_date)?' <small>(forming)</small>':''}</td></tr>`}).join('');
   $('i-summary').innerHTML=`<section><h2>Nifty 100 summary (${S.length} stocks)</h2>
-<p><small>The same BrickFlow rules on every Nifty 100 stock (NSE EQ series). BrickFlow builds the Renko itself from NSE daily data: traditional, close-based, box = latest daily ATR(14) rounded to ₹0.05, with wicks. Hull Suite 55 and MACD 12/26/9 run on brick closes. Window: 1 Jan 2026 to the latest brick.</small></p>
+<p><small>The same BrickFlow rules on every Nifty 100 stock (TradingView symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko: ATR(14) box, source OHLC (high-low), with wicks; box size and rounding as TradingView sets them. Hull Suite 55 and MACD 12/26/9 run on brick closes. Window: 1 Jan 2026 to the latest brick.</small></p>
 <div class="cards"><div class="card"><div class="k">Stocks scanned</div><div class="v">${S.length}</div></div>
 <div class="card"><div class="k">BUY setups</div><div class="v bu">${nb}</div></div>
 <div class="card"><div class="k">SELL setups</div><div class="v s">${ns}</div></div>
@@ -75,7 +72,7 @@ ${M.some(hasFT)?`<div class="card"><div class="k">Strong setups</div><div class=
 <div class="card"><div class="k">Active · strong</div><div class="v">${nst(act)} <small>of ${act.length}</small></div><small>${act.length-nst(act)} no follow-through</small></div>`:''}
 <div class="card"><div class="k">Not scorable</div><div class="v">${few.length}</div></div></div>
 <div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:12px">${few.length} stocks are <b>not scorable</b> because their history is too short (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')||'none'}. ${part.length} stocks have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')||'none'}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
-<br><small>"Forming" means the setup is on today's daily bar and the NSE session (closes 15:30 IST) hasn't ended yet, so the brick can still change. "Confirmed" means the session has closed.</small></div>
+<br><small>"Forming" means the setup is on today's daily bar and the trading session (closes 15:30 IST) hasn't ended yet, so the brick can still change. "Confirmed" means the session has closed.</small></div>
 <h3>Per-stock summary</h3><div class="tw"><table class="rtable"><thead><tr><th>Stock</th><th>Data</th><th>Box (₹)</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function openModal(views,title){
@@ -121,7 +118,7 @@ function markerSVG(m){
 <rect x="${tx}" y="${ly-15}" width="${tw}" height="17" rx="4" fill="#fff" stroke="${col}" stroke-width="${cur?1.8:1}" opacity=".95"/><text class="smk-t" data-close="${hv}" data-date="${r[0]}" x="${tx+5}" y="${ly-3}" font-size="11" font-weight="${cur?700:600}" fill="${col}">${lab}</text></g>`});
   return `<svg viewBox="0 0 ${VW} ${VH}" width="100%" style="display:block;background:#fff;border:1px solid #CCFBF1;border-radius:8px" role="img" aria-label="Renko chart with setup markers">${g}</svg>`;
 }
-const mcap='Drawn by BrickFlow from NSE Renko bricks (daily ATR14 box). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
+const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 box, source OHLC). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
 async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
   await ensureFull();
