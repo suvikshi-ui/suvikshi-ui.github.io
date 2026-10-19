@@ -13,7 +13,7 @@ HC = {"DARK GREEN": "#0D9488", "LIGHT GREEN": "#99F6E4", "DARK RED": "#E11D48", 
 def _fmt(v):
     return f"{v:.6g}"
 
-def render(path, sym, box, rows, mark=None, title_extra="", source="TradingView data (anonymous chart feed)"):
+def render(path, sym, box, rows, mark=None, title_extra="", last=None, source="TradingView data (anonymous chart feed)"):
     """rows: list of dicts with date, open, high, low, close, mhull, shull, macd, signal, hist, hist_color.
     mark: dict(idx, side, date, close) index into rows."""
     n = len(rows)
@@ -46,11 +46,17 @@ def render(path, sym, box, rows, mark=None, title_extra="", source="TradingView 
     hi = max(max(r["open"], r["close"], r.get("high") or -1e18) for r in rows)
     hv = [v for v in mh + sh if v is not None]
     if hv: lo, hi = min(lo, min(hv)), max(hi, max(hv))
+    if last: lo, hi = min(lo, last[0]), max(hi, last[0])
     pad = (hi - lo) * 0.12 or box
     ax.set_ylim(lo - pad, hi + pad); ax.set_xlim(-1, n + 0.5)
     # last close line
-    last = rows[-1]["close"]
-    ax.axhline(last, color=(UP if rows[-1]["close"] > rows[-1]["open"] else DN), lw=0.6, ls=":")
+    lbc = rows[-1]["close"]; lcol = (UP if rows[-1]["close"] > rows[-1]["open"] else DN)
+    ax.axhline(lbc, color=lcol, lw=0.6, ls=":")
+    if last: ax.text(0.01, lbc, f" last brick close {lbc:,.2f}", transform=ax.get_yaxis_transform(), color=lcol, fontsize=7.5, va="bottom", ha="left")
+    if last:  # real price: latest TradingView daily close (not a brick level)
+        ax.axhline(last[0], color="#475569", lw=0.9, ls="--", zorder=3)
+        ax.text(0.99, last[0], f"Last {last[0]:,.2f} (TradingView close, {last[1]}) ", transform=ax.get_yaxis_transform(), color="#334155",
+                fontsize=7.5, fontweight="bold", va="bottom", ha="right", bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="#94A3B8", lw=0.6))
     # MACD
     hist = [r["hist"] for r in rows]
     for i, r in enumerate(rows):

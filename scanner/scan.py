@@ -73,7 +73,7 @@ def fetch(symbol, ver="40"):
     except Exception: pass
     return bars, err
 
-SESSIONS = {}; TVINFO = {}; SESSION_CLOSE = (15, 30)
+SESSIONS = {}; TVINFO = {}; LAST = {}; SESSION_CLOSE = (15, 30)
 # Follow-through "Strong setup" tag (Nifty only; a label, it never removes or changes setups).
 # Gap = setup-day open vs the prior daily close (TradingView 1D candles), signed in the setup direction; threshold STRONG_GAP_PCT %.
 # Modes: "or" = gap OR 2+ bricks; "and" = gap AND 2+ bricks; "gap_single" = gap AND only one brick that day.
@@ -96,7 +96,7 @@ def fetch_retry(s):
             try:
                 b, e, meta = tv_source.fetch(s.split(":", 1)[1])
                 if b:
-                    SESSIONS[s] = meta.get("sessions", {}); TVINFO[s] = meta.get("symbol", {})
+                    SESSIONS[s] = meta.get("sessions", {}); TVINFO[s] = meta.get("symbol", {}); LAST[s] = meta.get("last")
                     return s, b, None
                 last = e
             except Exception as ex: last = str(ex)[:200]
@@ -187,6 +187,8 @@ def analyse(s, B, today):
                 latest_brick_color="GREEN" if col(n - 1) == "G" else "RED", latest_close=c[-1],
                 latest_brick_forming=D(t[-1]) >= today,
                 indicators_valid_from=D(t[fv]) if fv is not None else None).items()})
+    if LAST.get(s):  # latest TradingView daily close (real price, not the brick close)
+        rec["last_price_date"], rec["last_price"] = LAST[s][0], rnd(LAST[s][1])
     bricks = [[D(t[i]), rnd(o[i]), rnd(c[i])] for i in ib]
     full = []; seq = {}
     for i in ib:
@@ -257,14 +259,15 @@ def main():
         import charts as CH
     except Exception as ex:
         CH = None; print("charts disabled:", ex)
-    def chart(fname, sym, box, rows, mark):
+    def chart(fname, sym, box, rows, mark, last=None):
         nonlocal rendered
-        h = CH.slice_hash(sym, rows, mark)
+        h = CH.slice_hash(sym, rows, mark) + ("|last=%s" % (last,) if last else "")
         fp = os.path.join(charts_dir, fname)
         if manifest.get(fname) != h or not os.path.exists(fp):
-            CH.render(fp, sym, box, rows, mark, source=("TradingView data (NSE symbol, Renko ATR14 OHLC)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
+            CH.render(fp, sym, box, rows, mark, last=last, source=("TradingView data (NSE symbol, Renko ATR14 OHLC)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
         return "charts/" + fname
     box_of = {r["coin"]: r.get("box_size") for r in summ}
+    last_of = {r["coin"]: (r["last_price"], r["last_price_date"]) for r in summ if r.get("last_price") is not None}
     for m in matches:
         fr = full_all.get(m["coin"], [])
         k = next((j for j, r in enumerate(fr) if r[0] == m["date"] and r[17] and abs(r[6] - m["brick_close"]) < 1e-12), None)
@@ -276,7 +279,8 @@ def main():
             a, b = max(0, k - 45), min(len(fr), k + 13)
             rows = [rowdict(r) for r in fr[a:b]]
             mark = {"idx": k - a, "side": m["side"], "date": m["date"], "close": m["brick_close"]}
-            m["chart"] = chart(f"{m['coin'].replace(':', '_')}_{m['date']}_{m['side']}_{fr[k][2]}.png", m["coin"], box_of.get(m["coin"]), rows, mark)
+            m["chart"] = chart(f"{m['coin'].replace(':', '_')}_{m['date']}_{m['side']}_{fr[k][2]}.png", m["coin"], box_of.get(m["coin"]), rows, mark,
+                               last_of.get(m["coin"]) if b == len(fr) else None)
     if CH:
         for r in summ:
             fr = full_all.get(r["coin"], [])
@@ -288,7 +292,7 @@ def main():
             if act:
                 m = act[0]; k = len(fr) - 1 - m["bricks_since"]
                 if k >= a: mark = {"idx": k - a, "side": m["side"], "date": m["date"], "close": m["brick_close"]}
-            r["chart_latest"] = chart(f"latest/{r['coin'].replace(':', '_')}.png", r["coin"], r.get("box_size"), rows, mark)
+            r["chart_latest"] = chart(f"latest/{r['coin'].replace(':', '_')}.png", r["coin"], r.get("box_size"), rows, mark, last_of.get(r["coin"]))
         os.makedirs(charts_dir, exist_ok=True)
         json.dump(manifest, open(man_path, "w"), indent=0, sort_keys=True)
     print("charts rendered", rendered)

@@ -61,7 +61,8 @@ def fetch(sym):
     for i, b in enumerate(daily):
         sess[D(b[0])] = [b[1], daily[i - 1][4] if i else None]
     return bricks, None, {"sessions": sess, "symbol": info, "daily_last": D(daily[-1][0]) if daily else None,
-                          "daily_error": err2}
+                          "daily_error": err2,
+                          "last": [D(daily[-1][0]), daily[-1][4]] if daily else None}
 
 
 # ---------- Universe: TradingView's own Nifty 100 constituents (index NSE:CNX100) ----------
