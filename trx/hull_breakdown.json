@@ -7,9 +7,9 @@
     "n": 435,
     "fail_pct": 21.6,
     "closed": 435,
-    "win_pct": 45.7,
-    "avg_pl": 0.56,
-    "total_pl": 243.0
+    "win_pct": 62.1,
+    "avg_pl": 0.72,
+    "total_pl": 315.0
    },
    {
     "side": "BUY",
@@ -17,9 +17,9 @@
     "n": 232,
     "fail_pct": 30.6,
     "closed": 232,
-    "win_pct": 26.7,
-    "avg_pl": -0.3,
-    "total_pl": -69.0
+    "win_pct": 45.7,
+    "avg_pl": -0.26,
+    "total_pl": -60.0
    },
    {
     "side": "SELL",
@@ -27,9 +27,9 @@
     "n": 187,
     "fail_pct": 30.5,
     "closed": 187,
-    "win_pct": 31.6,
-    "avg_pl": -0.08,
-    "total_pl": -15.0
+    "win_pct": 49.7,
+    "avg_pl": -0.02,
+    "total_pl": -3.0
    },
    {
     "side": "SELL",
@@ -37,13 +37,13 @@
     "n": 254,
     "fail_pct": 36.2,
     "closed": 254,
-    "win_pct": 35.8,
-    "avg_pl": 0.11,
-    "total_pl": 28.5
+    "win_pct": 48.8,
+    "avg_pl": -0.07,
+    "total_pl": -18.0
    }
   ],
   "n": 1108,
-  "note": "Backtest: entry at the TradingView daily close of the setup day; exit 1.5% stop / 3% target on later daily candles (same-day hit of both = stop). Next-brick failure = fair definition (first brick after the setup day's run is opposite colour)."
+  "note": "Backtest: entry at the TradingView daily close of the setup day; exit 3% stop / 3% target (1:1) on later daily candles (same-day hit of both = stop). Next-brick failure = fair definition (first brick after the setup day's run is opposite colour)."
  },
  "2026_backtest": {
   "rows": [
@@ -53,9 +53,9 @@
     "n": 73,
     "fail_pct": 43.8,
     "closed": 73,
-    "win_pct": 47.9,
-    "avg_pl": 0.66,
-    "total_pl": 48.0
+    "win_pct": 52.1,
+    "avg_pl": 0.12,
+    "total_pl": 9.0
    },
    {
     "side": "BUY",
@@ -63,9 +63,9 @@
     "n": 78,
     "fail_pct": 24.4,
     "closed": 78,
-    "win_pct": 53.8,
-    "avg_pl": 0.92,
-    "total_pl": 72.0
+    "win_pct": 66.7,
+    "avg_pl": 1.0,
+    "total_pl": 78.0
    },
    {
     "side": "SELL",
@@ -73,9 +73,9 @@
     "n": 67,
     "fail_pct": 25.4,
     "closed": 67,
-    "win_pct": 53.7,
-    "avg_pl": 0.92,
-    "total_pl": 61.5
+    "win_pct": 65.7,
+    "avg_pl": 0.94,
+    "total_pl": 63.0
    },
    {
     "side": "SELL",
@@ -83,9 +83,9 @@
     "n": 62,
     "fail_pct": 41.9,
     "closed": 61,
-    "win_pct": 32.8,
-    "avg_pl": -0.02,
-    "total_pl": -1.5
+    "win_pct": 44.3,
+    "avg_pl": -0.34,
+    "total_pl": -21.0
    }
   ],
   "n": 280,

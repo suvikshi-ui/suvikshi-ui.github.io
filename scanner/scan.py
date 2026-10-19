@@ -80,7 +80,7 @@ SESSIONS = {}; TVINFO = {}; LAST = {}; DAILY = {}; DHULL = {}; SESSION_CLOSE = (
 STRONG_MODE = "gap_single"
 STRONG_GAP_PCT = 0.5
 STRONG_MIN_BRICKS = 2
-EXIT_STOP_PCT = 1.5; EXIT_TARGET_PCT = 3.0  # 1:2 exit, signal study only
+EXIT_STOP_PCT = 3.0; EXIT_TARGET_PCT = 3.0  # 1:1 exit, signal study only
 def strong_tag(gap_pct, nbricks):
     g = gap_pct is not None and gap_pct >= STRONG_GAP_PCT - 1e-9
     k = nbricks is not None and nbricks >= STRONG_MIN_BRICKS
@@ -181,7 +181,7 @@ def analyse(s, B, today):
             if q is not None and q >= 2 and HD[q] is not None and HD[q - 2] is not None: ch = "green" if HD[q] > HD[q - 2] else "red"
             agrees = ch is not None and (ch == "green") == (side == "BUY")
             st0 = strong_tag(gp, nbd)
-            # 1:2 exit from the marker price (close of the last brick of the setup's colour on the setup day)
+            # 1:1 exit from the marker price (close of the last brick of the setup's colour on the setup day)
             kk = max(j for j in range(n) if D(t[j]) == d and col(j) == col(i))
             entry = c[kk]; stop = entry * (1 - EXIT_STOP_PCT / 100 * sg); target = entry * (1 + EXIT_TARGET_PCT / 100 * sg)
             outcome, out_date, pl = "open", None, None
