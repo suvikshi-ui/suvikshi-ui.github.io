@@ -85,7 +85,7 @@ function openModal(views,title){
   tabs.style.display=views.length>1?'flex':'none'; show(0); $('modal').hidden=false; document.body.style.overflow='hidden';
 }
 // ---- Setup-marker chart (display only): Renko bricks drawn from data/all_bricks.json; each setup marked at the
-// HIGH (incl. wick, field "high") of the LAST brick of the setup's colour on the setup date.
+// CLOSE (field "close") of the LAST brick of the setup's colour on the setup date.
 function mchartBox(){let b=$('i-mchart');if(!b){b=document.createElement('div');b.id='i-mchart';b.hidden=true;$('mImg').insertAdjacentElement('afterend',b)}return b}
 // any click outside the India pop-up flow restores the plain image view (the crypto pop-up shares the modal)
 document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#mTabs'))return;const b=$('i-mchart');if(b){b.hidden=true;b.innerHTML=''}const im=$('mImg');if(im)im.style.display=''},true);
@@ -108,7 +108,7 @@ function markerSVG(m){
   // dates along the bottom (every ~8 bricks)
   W.forEach((r,j)=>{if(j%8===0)g+=`<text x="${X(a+j)}" y="${VH-12}" font-size="10" fill="#64748B" text-anchor="middle">${fd(r[0]).replace(/ \d{4}$/,'')}</text>`});
   const used=[];
-  setups.sort((p,q)=>p.k-q.k).forEach(({m:x,k})=>{const r=R[k],buy=x.side==='BUY',col=buy?'#059669':'#DC2626',xc=X(k),hv=(r[4]!=null?r[4]:(r[7]==='GREEN'?r[6]:r[3])),y=Y(hv);
+  setups.sort((p,q)=>p.k-q.k).forEach(({m:x,k})=>{const r=R[k],buy=x.side==='BUY',col=buy?'#059669':'#DC2626',xc=X(k),hv=r[6],y=Y(hv);
     const lab=(buy?'Buy at this point: ':'Sell at this point: ')+num(hv), tw=lab.length*6.2+10;
     let tx=xc+bw/2+16, anchorRight=tx+tw>VW-RT; if(anchorRight)tx=xc-bw/2-16-tw;
     let ly=y+(buy?30:-22); while(used.some(u=>Math.abs(u.y-ly)<15&&Math.abs(u.x-tx)<tw))ly+=buy?15:-15; used.push({x:tx,y:ly});
@@ -118,10 +118,10 @@ function markerSVG(m){
     g+=`<g class="smk"><line x1="${xc-bw/2-4}" x2="${xc+bw/2+4}" y1="${y}" y2="${y}" stroke="${col}" stroke-width="2.5"/><path d="${tri}" fill="${col}" stroke="#fff" stroke-width="1"/>
 <line x1="${anchorRight?tx+tw:tx}" x2="${anchorRight?xc-bw/2-4:xc+bw/2+4}" y1="${ly-4}" y2="${y}" stroke="${col}" stroke-width="1" stroke-dasharray="3 2"/>
 <text class="smk-s" x="${anchorRight?tx0-9:tx0+9}" y="${y+4}" text-anchor="${anchorRight?'end':'start'}" font-size="11" font-weight="700" fill="${col}" stroke="#fff" stroke-width="3" paint-order="stroke">${buy?'Buy':'Sell'} ${(+hv).toFixed(2)}</text>
-<rect x="${tx}" y="${ly-15}" width="${tw}" height="17" rx="4" fill="#fff" stroke="${col}" stroke-width="${cur?1.8:1}" opacity=".95"/><text class="smk-t" data-high="${hv}" data-date="${r[0]}" x="${tx+5}" y="${ly-3}" font-size="11" font-weight="${cur?700:600}" fill="${col}">${lab}</text></g>`});
+<rect x="${tx}" y="${ly-15}" width="${tw}" height="17" rx="4" fill="#fff" stroke="${col}" stroke-width="${cur?1.8:1}" opacity=".95"/><text class="smk-t" data-close="${hv}" data-date="${r[0]}" x="${tx+5}" y="${ly-3}" font-size="11" font-weight="${cur?700:600}" fill="${col}">${lab}</text></g>`});
   return `<svg viewBox="0 0 ${VW} ${VH}" width="100%" style="display:block;background:#fff;border:1px solid #CCFBF1;border-radius:8px" role="img" aria-label="Renko chart with setup markers">${g}</svg>`;
 }
-const mcap='Drawn by BrickFlow from NSE Renko bricks (daily ATR14 box). Each setup is marked at the brick\'s high (including the wick) of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
+const mcap='Drawn by BrickFlow from NSE Renko bricks (daily ATR14 box). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. Signal study only, no stop loss or target.';
 async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
   await ensureFull();
