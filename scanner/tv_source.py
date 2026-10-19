@@ -1,6 +1,6 @@
 """TradingView-only data source for Indian equities (Nifty 100 tab).
 Everything comes from TradingView's public (anonymous) chart feed for NSE:<SYMBOL>:
-  * Renko bricks: TradingView's own Renko series - ATR box, length 14, source OHLC (high-low), wicks on (matches Suvikshi's TradingView layout).
+  * Renko bricks: TradingView's own Renko series - ATR box, length 14, source Close, wicks on (matches Suvikshi's TradingView layout).
     Box size, rounding, brick open/high/low/close and wicks are exactly what TradingView returns.
   * Daily candles (for the follow-through gap): TradingView 1D series, split-adjusted, regular session.
   * Symbol mapping and session: TradingView's resolved symbol info.
@@ -23,7 +23,7 @@ def _series(ticker, renko, n=5000, ver="40"):
     sym = {"symbol": ticker, "adjustment": "splits", "session": "regular"}
     if renko:
         sym = {"symbol": sym, "type": f"BarSetRenko@tv-prostudies-{ver}!",
-               "inputs": {"source": "close", "sources": "OHLC", "boxSize": 1, "style": "ATR", "atrLength": ATR_LEN, "wicks": True}}
+               "inputs": {"source": "close", "sources": "Close", "boxSize": 1, "style": "ATR", "atrLength": ATR_LEN, "wicks": True}}
     for m, p in [("set_auth_token", ["unauthorized_user_token"]), ("chart_create_session", [cs, ""]),
                  ("resolve_symbol", [cs, "sds_sym_1", "=" + json.dumps(sym)]),
                  ("create_series", [cs, "sds_1", "s1", "sds_sym_1", "1D", n, ""])]:

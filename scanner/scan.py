@@ -14,7 +14,7 @@ MARKET = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--marke
 OUT = args[0] if args else os.path.join(HERE, "..", "trx", "data.json")
 if MARKET == "india":
     # Indian equities: TradingView only (public chart feed, NSE:<SYMBOL>): TradingView's own Renko series
-    # (ATR 14, source OHLC, wicks) + TradingView daily candles for the gap. Universe: TradingView CNX100 constituents (nifty100.json, refreshed from TradingView).
+    # (ATR 14, source Close, wicks) + TradingView daily candles for the gap. Universe: TradingView CNX100 constituents (nifty100.json, refreshed from TradingView).
     _UNI = os.path.join(HERE, "nifty100.json")
     try:  # refresh the universe from TradingView's own CNX100 constituents at most once every 20 h (one cheap screener call)
         _u = json.load(open(_UNI)); _age = time.time() - os.path.getmtime(_UNI) if not _u.get("retrieved_utc") else \
@@ -34,7 +34,7 @@ if MARKET == "india":
             json.dump(_u, open(_UNI, "w"), indent=1, ensure_ascii=False)
         else: print("constituent refresh skipped:", _e, len(_L))
     SYMS = [c.get("tv_ticker") or ("NSE:" + c["symbol"]) for c in _u["constituents"]]
-    SOURCE = "TradingView only: public chart feed for NSE:<SYMBOL>, TradingView's own daily Renko (box assignment ATR, length 14, source OHLC (high-low), wicks on; box size and rounding exactly as TradingView sets them); Hull Suite HMA 55 + MACD 12/26/9 on brick closes; gap from TradingView daily candles"
+    SOURCE = "TradingView only: public chart feed for NSE:<SYMBOL>, TradingView's own daily Renko (box assignment ATR, length 14, source Close, wicks on; box size and rounding exactly as TradingView sets them); Hull Suite HMA 55 + MACD 12/26/9 on brick closes; gap from TradingView daily candles"
 else:
     SYMS = json.load(open(os.path.join(HERE, "symbols.json")))
     SOURCE = "TradingView chart feed (BingX symbols), daily Renko ATR(14), wicks on; Hull Suite HMA 55 + MACD 12/26/9 on brick closes"
@@ -261,10 +261,10 @@ def main():
         CH = None; print("charts disabled:", ex)
     def chart(fname, sym, box, rows, mark, last=None):
         nonlocal rendered
-        h = CH.slice_hash(sym, rows, mark) + ("|ohlc=%s" % (last,) if last else "")
+        h = CH.slice_hash(sym, rows, mark) + ("|close=%s" % (last,) if last else "")
         fp = os.path.join(charts_dir, fname)
         if manifest.get(fname) != h or not os.path.exists(fp):
-            CH.render(fp, sym, box, rows, mark, last=last, source=("TradingView data (NSE symbol, Renko ATR14, source OHLC)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
+            CH.render(fp, sym, box, rows, mark, last=last, source=("TradingView data (NSE symbol, Renko ATR14, source Close)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
         return "charts/" + fname
     box_of = {r["coin"]: r.get("box_size") for r in summ}
     last_of = {r["coin"]: (r["last_price"], r["last_price_date"]) for r in summ if r.get("last_price") is not None}
