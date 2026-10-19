@@ -135,7 +135,7 @@ function setLive(){
   $('lastScan').textContent=ist(lastScan);
   const age=(Date.now()-new Date(lastScan))/60000, el=$('live');
   if(age>45){el.classList.add('stale');$('liveNote').textContent=`The last scan was ${Math.round(age)} min ago. GitHub's scheduler can be delayed, so the next one may be late.`}
-  else{el.classList.remove('stale');$('liveNote').textContent='Auto-scan every 15 minutes (crypto from TradingView data, Nifty 100 from NSE data). This page checks for new data every 60 seconds.'}
+  else{el.classList.remove('stale');$('liveNote').textContent='Auto-scan every 15 minutes (crypto from TradingView data, Nifty 100 from TradingView data). This page checks for new data every 60 seconds.'}
 }
 
 async function load(force){
@@ -202,7 +202,7 @@ document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setT
 if(location.hash==='#india')setTab('india');
 const al=$('c-allLink');if(al)al.href='data/all_bricks.json';
 fetch('../scanner/nifty100.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;
-  $('i-listInfo').textContent=`Nifty 100 constituents (${d.count} stocks, official NSE Indices list, retrieved ${d.retrieved_ist}). This is a constituent list, not market data.`;
+  $('i-listInfo').textContent=`Nifty 100 constituents (${d.count} stocks, TradingView index NSE:CNX100 constituents, retrieved ${d.retrieved_ist}).`;
   $('i-list').innerHTML=d.constituents.map(c=>`<span class="chip" title="${c.name} · ${c.industry}">${c.symbol}</span>`).join('');}).catch(()=>{});
 })();
 
