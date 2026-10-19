@@ -13,9 +13,10 @@ args = [a for a in sys.argv[1:] if not a.startswith("--")]
 MARKET = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--market=")), "crypto")
 OUT = args[0] if args else os.path.join(HERE, "..", "trx", "data.json")
 if MARKET == "india":
-    # Indian equities: NSE only (charting.nseindia.com daily OHLC -> own TradingView-style Renko). Constituents: NSE Indices list.
+    # Indian equities: TradingView only (public chart feed, NSE:<SYMBOL>): TradingView's own Renko series
+    # (ATR 14, source OHLC, wicks) + TradingView daily candles for the gap. Constituent list: nifty100.json (static list).
     SYMS = ["NSE:" + c["symbol"] for c in json.load(open(os.path.join(HERE, "nifty100.json")))["constituents"]]
-    SOURCE = "NSE only: charting.nseindia.com daily OHLC (from 2021), Renko built by BrickFlow (traditional, close-based, ATR(14) box from the latest daily ATR rounded to 0.05, wicks); Hull Suite HMA 55 + MACD 12/26/9 on brick closes"
+    SOURCE = "TradingView only: public chart feed for NSE:<SYMBOL>, TradingView's own daily Renko (box assignment ATR, length 14, source OHLC i.e. high-low, wicks on; box size and rounding exactly as TradingView sets them); Hull Suite HMA 55 + MACD 12/26/9 on brick closes; gap from TradingView daily candles"
 else:
     SYMS = json.load(open(os.path.join(HERE, "symbols.json")))
     SOURCE = "TradingView chart feed (BingX symbols), daily Renko ATR(14), wicks on; Hull Suite HMA 55 + MACD 12/26/9 on brick closes"
@@ -54,9 +55,9 @@ def fetch(symbol, ver="40"):
     except Exception: pass
     return bars, err
 
-BHAV = None; BHAVSTATS = {}; SESSIONS = {}
+SESSIONS = {}; TVINFO = {}; SESSION_CLOSE = (15, 30)
 # Follow-through "Strong setup" tag (Nifty only; a label, it never removes or changes setups).
-# Gap = setup-day open vs the prior NSE close, signed in the setup direction; threshold STRONG_GAP_PCT %.
+# Gap = setup-day open vs the prior daily close (TradingView 1D candles), signed in the setup direction; threshold STRONG_GAP_PCT %.
 # Modes: "or" = gap OR 2+ bricks; "and" = gap AND 2+ bricks; "gap_single" = gap AND only one brick that day.
 STRONG_MODE = "gap_single"
 STRONG_GAP_PCT = 0.5
@@ -68,25 +69,20 @@ def strong_tag(gap_pct, nbricks):
     if m == "and": return g and k
     if m == "gap_single": return g and nbricks == 1
     return g or k
-try:
-    _ig = json.load(open(os.path.join(HERE, "nifty_integrity.json")))
-    EXCLUDED = {r["symbol"]: r["reasons"] for r in _ig.get("rows", []) if r.get("gate") == "FAIL"}
-    INTEGRITY = _ig
-except Exception:
-    EXCLUDED = {}; INTEGRITY = None
 
 def fetch_retry(s):
     if MARKET == "india":
-        import nse_source
+        import tv_source
         last = None
-        for a in range(3):
+        for a in range(4):
             try:
-                if s.split(":", 1)[1] in EXCLUDED: return s, [], "excluded by data-integrity gate: " + EXCLUDED[s.split(":", 1)[1]]
-                b, e, meta = nse_source.fetch_bricks(s.split(":", 1)[1], BHAV)
-                BHAVSTATS[s] = meta.get("bhav", {}); SESSIONS[s] = meta.get("sessions", {})
-                if b or e: return s, b, e
+                b, e, meta = tv_source.fetch(s.split(":", 1)[1])
+                if b:
+                    SESSIONS[s] = meta.get("sessions", {}); TVINFO[s] = meta.get("symbol", {})
+                    return s, b, None
+                last = e
             except Exception as ex: last = str(ex)[:200]
-            time.sleep(2 * (a + 1) + random.random() * 2)
+            time.sleep((8 if "429" in str(last) else 2) * (a + 1) + random.random() * 3)
         return s, [], last or "no data"
     last = None
     for a in range(5):
@@ -186,24 +182,24 @@ def analyse(s, B, today):
     return rec, matches, allflips, bricks, full
 
 def main():
+    global SESSION_CLOSE
+    if MARKET == "india":
+        try:
+            import tv_source
+            _, _, inf = tv_source._series(tv_source.tv_symbol("RELIANCE"), False, n=2)
+            m = re.match(r"(\d{2})(\d{2})-(\d{2})(\d{2})", str(inf.get("session") or ""))
+            if m: SESSION_CLOSE = (int(m.group(3)), int(m.group(4)))
+            print("TradingView session", inf.get("session"), inf.get("timezone"), "-> close", SESSION_CLOSE)
+        except Exception as ex_: print("session lookup failed, using 15:30:", ex_)
     now = datetime.now(timezone.utc); today = now.strftime("%Y-%m-%d")
-    if MARKET == "india":  # NSE daily candle closes 15:30 IST; after that nothing is "forming"
+    if MARKET == "india":  # session close from TradingView's symbol info (e.g. "0915-1530", Asia/Kolkata); after it nothing is "forming"
         from datetime import timedelta
         ist = now + timedelta(hours=5, minutes=30)
-        today = (ist if (ist.hour, ist.minute) < (15, 30) else ist + timedelta(days=1)).strftime("%Y-%m-%d")
+        today = (ist if (ist.hour, ist.minute) < SESSION_CLOSE else ist + timedelta(days=1)).strftime("%Y-%m-%d")
     prev = None
     if os.path.exists(OUT):
         try: prev = json.load(open(OUT))
         except Exception: prev = None
-    global BHAV
-    if MARKET == "india":
-        import nse_source
-        BHAV = nse_source.load_cache()
-        try:
-            ses = [datetime.fromtimestamp(b["t"], timezone.utc).strftime("%Y-%m-%d") for b in nse_source.daily("RELIANCE")]
-            ses = [d for d in ses if d < today] if (datetime.now(timezone.utc) + __import__("datetime").timedelta(hours=5, minutes=30)).hour < 19 else ses
-            print("bhavcopies added", nse_source.update_cache(BHAV, ses, {x.split(":", 1)[1] for x in SYMS}))
-        except Exception as ex_: print("bhav cache update failed:", ex_)
     with ThreadPoolExecutor(4 if MARKET == "india" else 2) as ex:
         res = list(ex.map(fetch_retry, SYMS))
     summ, matches, errors = [], [], {}
@@ -248,7 +244,7 @@ def main():
         h = CH.slice_hash(sym, rows, mark)
         fp = os.path.join(charts_dir, fname)
         if manifest.get(fname) != h or not os.path.exists(fp):
-            CH.render(fp, sym, box, rows, mark, source=("NSE data (charting.nseindia.com, reconciled to NSE bhavcopy)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
+            CH.render(fp, sym, box, rows, mark, source=("TradingView data (NSE symbol, Renko ATR14 OHLC)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
         return "charts/" + fname
     box_of = {r["coin"]: r.get("box_size") for r in summ}
     for m in matches:
@@ -286,15 +282,16 @@ def main():
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
         **({"strong_rule": {"mode": STRONG_MODE, "gap_pct": STRONG_GAP_PCT, "min_bricks": STRONG_MIN_BRICKS,
-                            "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior NSE close " +
+                            "text": f"Strong = setup-day open gapped >= {STRONG_GAP_PCT}% in the setup's direction vs the prior TradingView daily close " +
                                     {"and": f"AND {STRONG_MIN_BRICKS}+ Renko bricks formed that day",
                                      "gap_single": "AND only one Renko brick formed that day"}.get(STRONG_MODE.lower(),
                                      f"OR {STRONG_MIN_BRICKS}+ Renko bricks formed that day")}} if MARKET == "india" else {}),
         "summary": summ, "matches": matches, "trx": trx,
-        "integrity": ({"generated_ist": INTEGRITY.get("generated_ist"), "summary": INTEGRITY.get("summary"), "excluded": EXCLUDED,
-                       "bhav_correction": {"stocks": len(BHAVSTATS), "corrected_days": sum(v.get("corrected", 0) for v in BHAVSTATS.values()),
-                                           "unresolved_days": sum(v.get("unresolved", 0) for v in BHAVSTATS.values()),
-                                           "bhav_cache_days": len((BHAV or {}).get("data", {}))}} if MARKET == "india" and INTEGRITY else None), "fetch_errors": {k: v[:120] for k, v in errors.items()},
+        "integrity": None,
+        **({"tv": {"symbols_resolved": len(TVINFO), "session": next((v.get("session") for v in TVINFO.values() if v.get("session")), None),
+                   "timezone": next((v.get("timezone") for v in TVINFO.values() if v.get("timezone")), None),
+                   "mapping": {k: v.get("pro_name") for k, v in TVINFO.items() if v.get("pro_name") and v.get("pro_name") != k}}} if MARKET == "india" else {}),
+        "fetch_errors": {k: v[:120] for k, v in errors.items()},
     }
     core_changed = prev is None or {k: v for k, v in prev.items() if k not in ("last_scan_utc", "last_change_utc")} != data
     data["last_change_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ") if core_changed else prev.get("last_change_utc")
