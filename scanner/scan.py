@@ -9,8 +9,16 @@ import websocket
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "trx", "data.json")
-SYMS = json.load(open(os.path.join(HERE, "symbols.json")))
+args = [a for a in sys.argv[1:] if not a.startswith("--")]
+MARKET = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--market=")), "crypto")
+OUT = args[0] if args else os.path.join(HERE, "..", "trx", "data.json")
+if MARKET == "india":
+    # Indian equities: NSE only (charting.nseindia.com daily OHLC -> own TradingView-style Renko). Constituents: NSE Indices list.
+    SYMS = ["NSE:" + c["symbol"] for c in json.load(open(os.path.join(HERE, "nifty100.json")))["constituents"]]
+    SOURCE = "NSE only: charting.nseindia.com daily OHLC (from 2021), Renko built by BrickFlow (traditional, close-based, ATR(14) box from the latest daily ATR rounded to 0.05, wicks); Hull Suite HMA 55 + MACD 12/26/9 on brick closes"
+else:
+    SYMS = json.load(open(os.path.join(HERE, "symbols.json")))
+    SOURCE = "TradingView chart feed (BingX symbols), daily Renko ATR(14), wicks on; Hull Suite HMA 55 + MACD 12/26/9 on brick closes"
 START = datetime(2026, 1, 1, tzinfo=timezone.utc).timestamp()
 D = lambda t: datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%d")
 
@@ -46,7 +54,27 @@ def fetch(symbol, ver="40"):
     except Exception: pass
     return bars, err
 
+BHAV = None; BHAVSTATS = {}
+try:
+    _ig = json.load(open(os.path.join(HERE, "nifty_integrity.json")))
+    EXCLUDED = {r["symbol"]: r["reasons"] for r in _ig.get("rows", []) if r.get("gate") == "FAIL"}
+    INTEGRITY = _ig
+except Exception:
+    EXCLUDED = {}; INTEGRITY = None
+
 def fetch_retry(s):
+    if MARKET == "india":
+        import nse_source
+        last = None
+        for a in range(3):
+            try:
+                if s.split(":", 1)[1] in EXCLUDED: return s, [], "excluded by data-integrity gate: " + EXCLUDED[s.split(":", 1)[1]]
+                b, e, meta = nse_source.fetch_bricks(s.split(":", 1)[1], BHAV)
+                BHAVSTATS[s] = meta.get("bhav", {})
+                if b or e: return s, b, e
+            except Exception as ex: last = str(ex)[:200]
+            time.sleep(2 * (a + 1) + random.random() * 2)
+        return s, [], last or "no data"
     last = None
     for a in range(5):
         try:
@@ -140,11 +168,24 @@ def analyse(s, B, today):
 
 def main():
     now = datetime.now(timezone.utc); today = now.strftime("%Y-%m-%d")
+    if MARKET == "india":  # NSE daily candle closes 15:30 IST; after that nothing is "forming"
+        from datetime import timedelta
+        ist = now + timedelta(hours=5, minutes=30)
+        today = (ist if (ist.hour, ist.minute) < (15, 30) else ist + timedelta(days=1)).strftime("%Y-%m-%d")
     prev = None
     if os.path.exists(OUT):
         try: prev = json.load(open(OUT))
         except Exception: prev = None
-    with ThreadPoolExecutor(2) as ex:
+    global BHAV
+    if MARKET == "india":
+        import nse_source
+        BHAV = nse_source.load_cache()
+        try:
+            ses = [datetime.fromtimestamp(b["t"], timezone.utc).strftime("%Y-%m-%d") for b in nse_source.daily("RELIANCE")]
+            ses = [d for d in ses if d < today] if (datetime.now(timezone.utc) + __import__("datetime").timedelta(hours=5, minutes=30)).hour < 19 else ses
+            print("bhavcopies added", nse_source.update_cache(BHAV, ses, {x.split(":", 1)[1] for x in SYMS}))
+        except Exception as ex_: print("bhav cache update failed:", ex_)
+    with ThreadPoolExecutor(4 if MARKET == "india" else 2) as ex:
         res = list(ex.map(fetch_retry, SYMS))
     summ, matches, errors = [], [], {}
     trx = {}
@@ -188,7 +229,7 @@ def main():
         h = CH.slice_hash(sym, rows, mark)
         fp = os.path.join(charts_dir, fname)
         if manifest.get(fname) != h or not os.path.exists(fp):
-            CH.render(fp, sym, box, rows, mark); manifest[fname] = h; rendered += 1
+            CH.render(fp, sym, box, rows, mark, source=("NSE data (charting.nseindia.com, reconciled to NSE bhavcopy)" if MARKET == "india" else "TradingView data (anonymous chart feed)")); manifest[fname] = h; rendered += 1
         return "charts/" + fname
     box_of = {r["coin"]: r.get("box_size") for r in summ}
     for m in matches:
@@ -220,12 +261,16 @@ def main():
     print("charts rendered", rendered)
     matches.sort(key=lambda r: (r["date"], r["coin"]), reverse=True)
     data = {
-        "source": "TradingView chart feed (BingX symbols), daily Renko ATR(14), wicks on; Hull Suite HMA 55 + MACD 12/26/9 on brick closes",
+        "market": MARKET, "source": SOURCE,
         "window_from": "2026-01-01",
         "rules": {"SELL": "green->red flip AND Hull RED AND hist DARK GREEN->LIGHT GREEN or LIGHT RED->DARK RED",
                   "BUY": "red->green flip AND Hull GREEN AND hist DARK RED->LIGHT RED or LIGHT GREEN->DARK GREEN"},
         "totals": {"coins": len(summ), "buys": sum(r.get("buys", 0) for r in summ), "sells": sum(r.get("sells", 0) for r in summ)},
-        "summary": summ, "matches": matches, "trx": trx, "fetch_errors": {k: v[:120] for k, v in errors.items()},
+        "summary": summ, "matches": matches, "trx": trx,
+        "integrity": ({"generated_ist": INTEGRITY.get("generated_ist"), "summary": INTEGRITY.get("summary"), "excluded": EXCLUDED,
+                       "bhav_correction": {"stocks": len(BHAVSTATS), "corrected_days": sum(v.get("corrected", 0) for v in BHAVSTATS.values()),
+                                           "unresolved_days": sum(v.get("unresolved", 0) for v in BHAVSTATS.values()),
+                                           "bhav_cache_days": len((BHAV or {}).get("data", {}))}} if MARKET == "india" and INTEGRITY else None), "fetch_errors": {k: v[:120] for k, v in errors.items()},
     }
     core_changed = prev is None or {k: v for k, v in prev.items() if k not in ("last_scan_utc", "last_change_utc")} != data
     data["last_change_utc"] = now.strftime("%Y-%m-%dT%H:%M:%SZ") if core_changed else prev.get("last_change_utc")
@@ -234,7 +279,7 @@ def main():
     json.dump(data, open(OUT, "w"), separators=(",", ":"))
     # Full per-brick dataset (2026 onwards) + per-coin CSVs
     cols = ["brick_date", "brick_time_utc", "brick_seq_in_day", "open", "high", "low", "close", "brick_color", "box_size", "mhull", "shull", "hull_color", "macd", "signal", "histogram", "hist_color", "indicators_ready", "flip", "forming"]
-    fulldoc = {"source": data["source"], "window_from": "2026-01-01", "columns": cols, "coins": full_all}
+    fulldoc = {"market": MARKET, "source": data["source"], "window_from": "2026-01-01", "columns": cols, "coins": full_all}
     old = None
     try: old = json.load(open(FULL))
     except Exception: pass
