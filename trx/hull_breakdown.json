@@ -1,0 +1,95 @@
+{
+ "2021_2025": {
+  "rows": [
+   {
+    "side": "BUY",
+    "hull": "GREEN",
+    "n": 435,
+    "fail_pct": 21.6,
+    "closed": 435,
+    "win_pct": 45.7,
+    "avg_pl": 0.56,
+    "total_pl": 243.0
+   },
+   {
+    "side": "BUY",
+    "hull": "RED",
+    "n": 232,
+    "fail_pct": 30.6,
+    "closed": 232,
+    "win_pct": 26.7,
+    "avg_pl": -0.3,
+    "total_pl": -69.0
+   },
+   {
+    "side": "SELL",
+    "hull": "GREEN",
+    "n": 187,
+    "fail_pct": 30.5,
+    "closed": 187,
+    "win_pct": 31.6,
+    "avg_pl": -0.08,
+    "total_pl": -15.0
+   },
+   {
+    "side": "SELL",
+    "hull": "RED",
+    "n": 254,
+    "fail_pct": 36.2,
+    "closed": 254,
+    "win_pct": 35.8,
+    "avg_pl": 0.11,
+    "total_pl": 28.5
+   }
+  ],
+  "n": 1108,
+  "note": "Backtest: entry at the TradingView daily close of the setup day; exit 1.5% stop / 3% target on later daily candles (same-day hit of both = stop). Next-brick failure = fair definition (first brick after the setup day's run is opposite colour)."
+ },
+ "2026_backtest": {
+  "rows": [
+   {
+    "side": "BUY",
+    "hull": "GREEN",
+    "n": 73,
+    "fail_pct": 43.8,
+    "closed": 73,
+    "win_pct": 47.9,
+    "avg_pl": 0.66,
+    "total_pl": 48.0
+   },
+   {
+    "side": "BUY",
+    "hull": "RED",
+    "n": 78,
+    "fail_pct": 24.4,
+    "closed": 78,
+    "win_pct": 53.8,
+    "avg_pl": 0.92,
+    "total_pl": 72.0
+   },
+   {
+    "side": "SELL",
+    "hull": "GREEN",
+    "n": 67,
+    "fail_pct": 25.4,
+    "closed": 67,
+    "win_pct": 53.7,
+    "avg_pl": 0.92,
+    "total_pl": 61.5
+   },
+   {
+    "side": "SELL",
+    "hull": "RED",
+    "n": 62,
+    "fail_pct": 41.9,
+    "closed": 61,
+    "win_pct": 32.8,
+    "avg_pl": -0.02,
+    "total_pl": -1.5
+   }
+  ],
+  "n": 280,
+  "note": "Same backtest engine for 2026 (entry at the setup brick close)."
+ },
+ "generated": "2026-10-20 IST from ft/exits.py exit_rows.json"
+}

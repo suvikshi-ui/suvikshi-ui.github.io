@@ -28,6 +28,7 @@ const hasFT=m=>typeof m.strong==='boolean';
 const ftBadge=m=>!hasFT(m)?'':(m.strong?'<span class="b strong" title="Meets the follow-through rule on the setup day (see the note above)">★ Strong</span>':'<span class="b noft" title="Does not meet the follow-through rule on the setup day (see the note above)">No follow-through</span>');
 const ftInfo=m=>!hasFT(m)?'–':`gap ${sgn(m.gap_pct)} · ${m.bricks_that_day} brick${m.bricks_that_day===1?'':'s'} that day`;
 let strongOnly=false, hideAgainst=false;
+const dhLbl=m=>{const c=String(m.candle_hull||'').toUpperCase();return c?`<span class="b dh ${c==='GREEN'?'dhg':'dhr'}" title="Hull Suite 55 (HMA 55, close) on the TradingView daily candlestick chart on the setup day: green when HMA55 is above its value two bars earlier">Daily candle Hull: ${c}</span>`:'<span class="b dh">Daily candle Hull: –</span>'};
 const haBadge=m=>m.hull_against?`<span class="b hagainst" title="The Hull Suite 55 on the TradingView daily candle chart is ${m.candle_hull} — against this ${m.side}">⚠ Hull against (daily, ${m.candle_hull})</span>`:'';
 const outBadge=m=>m.outcome==null?'':m.outcome==='target hit'?`<span class="b oc-t" title="${fd(m.outcome_date)}">Target hit ${sgn(m.pl_pct)}</span>`:m.outcome==='stop hit'?`<span class="b oc-s" title="${fd(m.outcome_date)}">Stop hit ${sgn(m.pl_pct)}</span>`:'<span class="b oc-o">Open</span>';
 const exitTxt=m=>m.stop==null?'–':`Stop ${num(m.stop)} · Target ${num(m.target)}`;
@@ -50,18 +51,19 @@ function render(d){
   $('i-dq').innerHTML=`<div style="margin-bottom:8px;padding:6px 8px;border:1px solid #99F6E4;border-radius:6px;background:#fff"><b>Data check (20 Oct 2026, 01:35 IST). Source: Close.</b> Renko is TradingView's ATR 14, source Close, wicks on, as set in the TradingView chart layout; CANBK's bricks match TradingView's Close-source Renko series brick by brick. CANBK's ${cb.bricks_in_window??''} bricks for 2026 match TradingView's Renko series exactly (open, high, low, close, colour; box ₹${num(cb.box_size)}; last brick ${fd(cb.latest_brick_date)} close ${num(cb.latest_close)}). Latest TradingView daily candle: ${fd(lastTV)} (CANBK close ${num(cb.last_price)}). Fixed: the chart date axis now always labels the latest brick (it used to stop several bricks early, so charts looked like they ended in Aug/Sep), the PNG charts refresh on every scan (no stale cached images), and there is one TradingView-style price line at the last brick close (as TradingView's Renko chart shows it). Hull Suite 55 (HMA, close) and MACD 12/26/9 (EMA/EMA) are computed on TradingView's brick closes with TradingView's formulas; they match TradingView's own values on CANBK exactly.</div><b>Data source.</b> All prices and Renko bricks come only from TradingView's public chart feed (symbol NSE:&lt;SYMBOL&gt;). The bricks are TradingView's own daily Renko series: box assignment ATR, length 14, source Close, with wicks, so box size and rounding are exactly TradingView's. The Strong gap uses TradingView daily candles (setup-day open vs prior daily close). The stock list is TradingView's own constituent list for index NSE:CNX100 (Nifty 100). Setups and the stock list are ordered by setup date (newest first), then TradingView gap %. ${tv.symbols_resolved?`${tv.symbols_resolved} stocks resolved on TradingView`:''}${tv.session?`, session ${esc(String(tv.session).split('#')[0].replace('-','–'))} ${esc(tv.timezone||'')}`:''}.${mp.length?` Ticker mapping: ${mp.map(([k,v])=>`${esc(short(k))} → ${esc(v)}`).join('; ')}.`:''}`;
   const card=m=>{const nw=newKeys.has(key(m)),s=m.side==='SELL';return `<div class="ac ${s?'sellc':'buyc'}${cls(m)}" data-ikey="${esc(key(m))}" tabindex="0" role="button">
 <div class="top"><span class="coin">${m.strong===true?'<span class="star" title="Strong setup">★</span> ':''}${esc(short(m.coin))}</span><span><span class="b sig ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${haBadge(m)} ${nw?'<span class="b new">NEW</span>':''}</span></div>
-<div class="px">₹${num(m.brick_close)}</div>
+<div class="px">₹${num(m.brick_close)} ${dhLbl(m)}</div>
 <div class="row"><span>Setup brick</span><span><b>${fd(m.date)}</b></span></div>
 <div class="row"><span>Status</span><span>${stBadge(m.date)}</span></div>
 <div class="row"><span>Exits (1:2)</span><span>${exitTxt(m)}</span></div>
 <div class="row"><span>Outcome</span><span>${outBadge(m)}</span></div>
-<div class="row"><span>Hull Suite 55</span><span>${badge(m.hull_color)} ${num(m.mhull)}</span></div>
+<div class="row"><span>Daily candle Hull</span><span>${dhLbl(m)}</span></div>
+<div class="row"><span>Renko Hull 55</span><span>${badge(m.hull_color)} ${num(m.mhull)}</span></div>
 <div class="row"><span>Histogram</span><span>${badge(m.state_before)} → ${badge(m.state_after)}</span></div>
 <div class="row"><span>Follow-through</span><span>${ftInfo(m)}</span></div>
 <div class="row"><span>Bricks since</span><span>${m.bricks_since===0?'setup is the latest brick':'+'+m.bricks_since+' in the same direction'}</span></div>
 <div class="vw">View chart ›</div></div>`};
   $('i-active').innerHTML=vis(act).length?vis(act).map(card).join(''):'<div class="pending">No active setups right now.</div>';
-  $('i-other').innerHTML=vis(oth).map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}${cls(m)}" data-ikey="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Stock">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${haBadge(m)}</td><td data-l="Follow-through"><small>${ftInfo(m)}</small></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}<br><small>${exitTxt(m)}</small></td><td data-l="Outcome">${outBadge(m)}</td><td data-l="Hull Suite 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="10" class="pending">None.</td></tr>';
+  $('i-other').innerHTML=vis(oth).map(m=>{const nw=newKeys.has(key(m));return `<tr class="click ${nw?'isnew':''}${cls(m)}" data-ikey="${esc(key(m))}"><td data-l="Date"><b>${fd(m.date)}</b> ${nw?'<span class="b new">NEW</span>':''}</td><td data-l="Stock">${esc(short(m.coin))}</td><td data-l="Signal"><span class="b ${m.side.toLowerCase()}">${m.side}</span> ${ftBadge(m)} ${haBadge(m)}</td><td data-l="Daily candle Hull">${dhLbl(m)}</td><td data-l="Follow-through"><small>${ftInfo(m)}</small></td><td data-l="Status">${stBadge(m.date)}</td><td data-l="Close">${num(m.brick_close)}<br><small>${exitTxt(m)}</small></td><td data-l="Outcome">${outBadge(m)}</td><td data-l="Renko Hull 55">${badge(m.hull_color)} ${num(m.mhull)}</td><td data-l="Histogram before → after">${badge(m.state_before)} → ${badge(m.state_after)}</td><td data-l=""><span class="lnk">chart ›</span></td></tr>`}).join('')||'<tr><td colspan="11" class="pending">None.</td></tr>';
   const few=S.filter(s=>String(s.status).startsWith('too little')), part=S.filter(s=>String(s.status).startsWith('partial')), errs=Object.keys(d.fetch_errors||{});
   // full stock list: every stock, ordered by its latest setup date (newest first), then that setup's TradingView gap % in the setup's direction; stocks without a 2026 setup last
   const LS={}; M.forEach(m=>{if(!LS[m.coin])LS[m.coin]=m});
@@ -93,7 +95,7 @@ ${M.some(hasFT)?`<div class="card"><div class="k">Strong setups</div><div class=
 <div class="card"><div class="k">Not scorable</div><div class="v">${few.length}</div></div></div>
 <div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:12px">${few.length} stocks are <b>not scorable</b> because their history is too short (Hull/MACD need about 60 bricks to warm up): ${few.map(s=>short(s.coin)).join(', ')||'none'}. ${part.length} stocks have <b>partial history</b>, so they were scored only from the date shown: ${part.map(s=>short(s.coin)).join(', ')||'none'}.${errs.length?` Last scan could not fetch: ${errs.map(short).join(', ')}.`:''}
 <br><small>"Forming" means the setup is on today's daily bar and the trading session (closes 15:30 IST) hasn't ended yet, so the brick can still change. "Confirmed" means the session has closed.</small></div>
-${stats}<h3>All stocks: latest TradingView Renko state</h3><p><small>Every stock in the list, ordered by latest setup date (newest first), then by TradingView gap % in the setup's direction (setup-day TradingView open vs prior TradingView daily close). Stocks with no 2026 setup come last.</small></p><div class="tw"><table class="rtable"><thead><tr><th>Stock</th><th>Data</th><th>Box (₹)</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th><th>Last price (TradingView)</th><th>Latest setup</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+${stats}<div id="i-hullBD"></div><h3>All stocks: latest TradingView Renko state</h3><p><small>Every stock in the list, ordered by latest setup date (newest first), then by TradingView gap % in the setup's direction (setup-day TradingView open vs prior TradingView daily close). Stocks with no 2026 setup come last.</small></p><div class="tw"><table class="rtable"><thead><tr><th>Stock</th><th>Data</th><th>Box (₹)</th><th>Bricks 2026</th><th>Flips</th><th>BUY</th><th>SELL</th><th>Latest brick</th><th>Last price (TradingView)</th><th>Latest setup</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 function openModal(views,title){
   const tabs=$('mTabs'); $('mTitle').innerHTML=title; tabs.innerHTML='';
@@ -145,7 +147,7 @@ function markerSVG(m){
     g+=`<g class="lastp" data-price="${LP}" data-date="${esc(SM.last_price_date||'')}"><title>Price line ${num(LP)}: last Renko brick close, as on TradingView (TradingView daily close ${num(SM.last_price)} on ${fd(SM.last_price_date)})</title><line x1="${L}" x2="${VW-RT}" y1="${y}" y2="${y}" stroke="${lc}" stroke-width="1" stroke-dasharray="2 2"/><rect x="${VW-RT+1}" y="${y-9}" width="${RT-3}" height="18" fill="${lc}"/><text class="lastp-t" x="${VW-RT+6}" y="${y+4}" font-size="11" font-weight="700" fill="#fff">${num(LP)}</text></g>`}
   return `<svg viewBox="0 0 ${VW} ${VH}" width="100%" style="display:block;background:#fff;border:1px solid #CCFBF1;border-radius:8px" role="img" aria-label="Renko chart with setup markers">${g}</svg>`;
 }
-const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 box, source Close). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Hull Suite 55. The grey dotted price line with the tag on the right axis is at the last brick\'s close, exactly as TradingView\'s Renko price scale shows it; the real daily close is in the stock list (Last price column). Thin red and green lines are this setup\'s 1.5% stop and 3% target (1:2). Signal study only.';
+const mcap='Drawn by BrickFlow from TradingView\'s daily Renko bricks (ATR 14 box, source Close). Each setup is marked at the brick\'s close: the close of the last brick of the setup\'s colour on the setup day. The teal line is Renko Hull 55 (Hull Suite on brick closes, not the daily candle Hull). The grey dotted price line with the tag on the right axis is at the last brick\'s close, exactly as TradingView\'s Renko price scale shows it; the real daily close is in the stock list (Last price column). Thin red and green lines are this setup\'s 1.5% stop and 3% target (1:2). Signal study only.';
 async function openSetup(k){
   if(!DATA)return; const m=(DATA.matches||[]).find(x=>key(x)===k); if(!m)return;
   await ensureFull();
@@ -153,7 +155,7 @@ async function openSetup(k){
   const sv=markerSVG(m); if(sv)v.push({label:'Setup markers',svg:sv,cap:mcap});
   if(m.chart)v.push({label:'Setup chart',src:BASE+m.chart+bust,cap});
   if(s.chart_latest)v.push({label:'Latest chart',src:BASE+s.chart_latest+bust,cap});
-  if(v.length)openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${fd(m.date)} · close ₹${num(m.brick_close)} · ${stBadge(m.date)}${hasFT(m)?` · ${ftBadge(m)} <small>${ftInfo(m)}</small>`:''}${m.hull_against?' · '+haBadge(m):''}${m.stop!=null?` · ${exitTxt(m)} ${outBadge(m)}`:''}`);
+  if(v.length)openModal(v,`${esc(short(m.coin))} · <span class="b ${m.side.toLowerCase()}">${m.side}</span> ${dhLbl(m)} ${fd(m.date)} · close ₹${num(m.brick_close)} · ${stBadge(m.date)}${hasFT(m)?` · ${ftBadge(m)} <small>${ftInfo(m)}</small>`:''}${m.hull_against?' · '+haBadge(m):''}${m.stop!=null?` · ${exitTxt(m)} ${outBadge(m)}`:''}`);
 }
 function openStock(c){
   if(!DATA)return; const s=(DATA.summary||[]).find(x=>x.coin===c); if(!s||!s.chart_latest)return;
@@ -180,6 +182,23 @@ window.bfIndia=()=>load(true);
 {const ha=$('i-hideAgainst'); if(ha)ha.onchange=()=>{hideAgainst=ha.checked; if(DATA)try{render(DATA)}catch(e){console.error(e)}}}
 {const so=$('i-strongOnly'); if(so)so.onchange=()=>{strongOnly=so.checked; if(DATA)try{render(DATA)}catch(e){console.error(e)}}}
 load(); setInterval(()=>load(),60000);
+// Profit by daily-candle Hull colour (display only)
+let HB=null;
+async function hullBD(){
+  const el=$('i-hullBD'); if(!el||!DATA)return;
+  if(!HB){try{const r=await fetch('hull_breakdown.json?t='+Math.floor(Date.now()/300000),{cache:'no-store'});if(r.ok)HB=await r.json()}catch(e){}}
+  const M=DATA.matches||[], C=FULL&&FULL.columns, ix=k=>C?C.indexOf(k):-1;
+  const nf=m=>{if(!FULL)return null;const R=FULL.coins[m.coin]||[];const want=m.side==='BUY'?'GREEN':'RED';let k=-1;R.forEach((r,i)=>{if(r[ix('brick_date')]===m.date&&r[ix('brick_color')]===want&&Math.abs(r[ix('close')]-m.brick_close)<1e-6)k=i});if(k<0||k+1>=R.length)return null;return R[k+1][ix('brick_color')]!==want};
+  const live=[];['BUY','SELL'].forEach(sd=>['GREEN','RED'].forEach(h=>{const G=M.filter(m=>m.side===sd&&String(m.candle_hull||'').toUpperCase()===h),c=G.filter(m=>m.outcome==='target hit'||m.outcome==='stop hit'),F=G.map(nf).filter(x=>x!==null),t=c.reduce((a,m)=>a+(m.pl_pct||0),0);live.push({side:sd,hull:h,n:G.length,fail_pct:F.length?100*F.filter(Boolean).length/F.length:null,fn:F.length,closed:c.length,win_pct:c.length?100*c.filter(m=>m.outcome==='target hit').length/c.length:null,avg_pl:c.length?t/c.length:null,total_pl:t})}));
+  const f=(v,d=1,p='')=>v==null?'–':(+v).toFixed(d)+p;
+  const tb=(rows,title,note)=>`<h4 style="margin:10px 0 4px">${title}</h4>${note?`<p><small>${note}</small></p>`:''}<div class="tw"><table class="rtable hbd"><thead><tr><th>Group</th><th>Setups</th><th>Next-brick failure</th><th>Win rate</th><th>Avg P/L / trade</th><th>Total P/L</th></tr></thead><tbody>${rows.map(r=>`<tr style="background:${r.total_pl>0?'#DCFCE7':r.total_pl<0?'#FEE2E2':'#fff'}"><td><span class="b ${r.side.toLowerCase()}">${r.side}</span> + <span class="b dh ${r.hull==='GREEN'?'dhg':'dhr'}">Hull ${r.hull}</span></td><td>${r.n}${r.closed!=null&&r.closed!==r.n?` <small>(${r.closed} closed)</small>`:''}</td><td>${f(r.fail_pct,1,'%')}${r.fn!=null&&r.fn!==r.n?` <small>(of ${r.fn})</small>`:''}</td><td>${f(r.win_pct,1,'%')}</td><td>${r.avg_pl==null?'–':sgn(+(+r.avg_pl).toFixed(2))}</td><td><b>${sgn(+(+r.total_pl).toFixed(1))}</b></td></tr>`).join('')}</tbody></table></div>`;
+  let h='<h3>Profit by daily-candle Hull colour</h3><p><small>Display only: no filter changed. Exit 1.5% stop / 3% target (same-day hit of both = stop). Next-brick failure = the first Renko brick after the setup day\'s run is the opposite colour. P/L in % per setup, not compounded, no costs. Green rows made money, red rows lost.</small></p>';
+  if(HB){h+=tb(HB['2021_2025'].rows,`2021–2025 backtest (n = ${HB['2021_2025'].n})`,esc(HB['2021_2025'].note||''));}
+  h+=tb(live,`2026: listed live setups (n = ${M.length})`,'Entry at the setup brick close; open trades are not in win rate or P/L.');
+  if(HB&&HB['2026_backtest'])h+=tb(HB['2026_backtest'].rows,`2026: backtest engine set (n = ${HB['2026_backtest'].n})`,'Same engine as 2021–25 for comparison; its set differs slightly from the live list.');
+  el.innerHTML=h;
+}
+setInterval(hullBD,3000);
 
 // per-stock brick drilldown
 let FULL=null, LIMIT=150; const sel=$('i-sel');
