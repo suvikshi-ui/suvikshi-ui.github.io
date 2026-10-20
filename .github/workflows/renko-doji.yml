@@ -1,0 +1,30 @@
+name: Renko Doji scan (all NSE)
+on:
+  schedule:
+    - cron: "20 4-11 * * 1-5"   # hourly 09:50–16:50 IST, weekdays
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: renko-doji
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install websocket-client==1.8.0
+      - name: Scan all NSE stocks (TradingView only)
+        run: python scanner/doji_scan.py trx/doji_data.json --workers=8
+      - name: Commit
+        run: |
+          git config user.name "trx-scan-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add trx/doji_data.json trx/doji_charts.json scanner/nse_all.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "renko doji: scan $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 7; done
