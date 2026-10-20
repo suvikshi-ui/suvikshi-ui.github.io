@@ -1,7 +1,7 @@
 """Renko Doji scanner (separate from BrickFlow; imports tv_source read-only).
 Universe: Nifty 100 only (scanner/nifty100.json, TradingView NSE:CNX100 constituents).
 Bricks: TradingView daily Renko ATR14, source Close, wicks on (de-duplicated). HAB = javabgar HARSI (RSI 11/13/15/17). No MA filter.
-Doji: HAB body <=16% of range with wicks both sides. Run rules (same as saved_tests/green_run_doji_sell backtest):
+Doji: HAB body <=16% of range with wicks both sides. Live rule (DOJI_RUN_MODE=any): run of >=2 same-colour HAB candles; opposite signal cancels pending / closes open at next open; 0.1% cost. Old rule (DOJI_RUN_MODE=fixed):
 SELL: 4-8 green HAB candles, doji, next HAB red with open==high -> entry on break below brick low; cancelled if a BUY doji setup completes in the run.
 BUY: 3-5 red HAB candles, doji, next HAB green with open==low -> entry on break above brick high; cancelled if a SELL doji setup completes in the run.
 Fill at level or open on gap; cancelled if no break within 20 trading days. Exits 3% stop / 6% target, same day = stop.
@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import tv_source as TV
 UNI = os.path.join(HERE, "nifty100.json")
+RUN_MODE = os.environ.get("DOJI_RUN_MODE", "any")   # "any": run of >= RUN_MIN same-colour HAB candles (live rule); "fixed": old 4-8 green / 3-5 red
+RUN_MIN = 2; COST = 0.1   # % per round trip
 D = lambda t: datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%d")
 
 def universe():
@@ -78,22 +80,23 @@ def analyse(sym, br, dl):
         j = i + 1
         if O[i] is None or bd[j] < "2021" or not isdoji(i): continue
         ndoji += 1
-        for sg, rmin, rmax in ((-1, 4, 8), (1, 3, 5)):
+        for sg, rmin, rmax in (((-1, 4, 8), (1, 3, 5)) if RUN_MODE == "fixed" else ((-1, RUN_MIN, 10**6), (1, RUN_MIN, 10**6))):
             if not fol(j, sg): continue
             run = 0; k = i - 1
             while k >= 0 and O[k] is not None and ((C[k] > O[k]) if sg < 0 else (C[k] < O[k])): run += 1; k -= 1
             if not rmin <= run <= rmax: continue
-            if any(fol(n, -sg) for n in range(i - run, i)): continue   # opposite setup inside the run cancels
+            if RUN_MODE == "fixed" and any(fol(n, -sg) for n in range(i - run, i)): continue   # opposite setup inside the run cancels
             sig.append((j, sg, min(bo[j], bc[j]) if sg < 0 else max(bo[j], bc[j]), i, run))
     out = []
     for k, (j, sg, lv, i, run) in enumerate(sig):
-        opp = [bd[s[0]] for s in sig[k+1:] if s[1] != sg]
+        opp = [bd[s[0]] for s in sig[k+1:] if s[1] != sg and bd[s[0]] > bd[j]]
         st = [z for z, d in enumerate(dd) if d > bd[j]]
         rec = {"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv),
                "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "hab_ma": r2(MA[j]), "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "run": run, "run_start": bd[i - run]}
         z0 = st[0] if st else len(dl); e = None; z = z0; why = None
         for z in range(z0, min(z0 + 20, len(dl))):
             o, h, l = dl[z][1], dl[z][2], dl[z][3]
+            if opp and dd[z] > opp[0]: why = "opposite signal " + opp[0]; break
             if sg < 0 and l < lv: e = min(o, lv); break
             if sg > 0 and h > lv: e = max(o, lv); break
         if e is None:
@@ -105,11 +108,12 @@ def analyse(sym, br, dl):
         for y in range(z, len(dl)):
             h, l = dl[y][2], dl[y][3]
             if (l <= s_ if sg > 0 else h >= s_): res = (dd[y], s_, -3.0, "stop hit"); break
+            if opp and dd[y] > opp[0] and y > z: res = (dd[y], dl[y][1], round((dl[y][1] / e - 1) * 100 * sg, 2), "opposite signal"); break
             if y > z and (h >= t_ if sg > 0 else l <= t_): res = (dd[y], t_, 6.0, "target hit"); break
         rec.update(entry_date=dd[z], entry=r2(e), stop=r2(s_), target=r2(t_))
-        if res: rec.update(status="closed", outcome=res[3], exit_date=res[0], exit=r2(res[1]), pl_pct=res[2], days=y - z)
+        if res: rec.update(status="closed", outcome=res[3], exit_date=res[0], exit=r2(res[1]), pl_gross=res[2], pl_pct=round(res[2] - COST, 2), days=y - z)
         else:
-            last = dl[-1][4]; rec.update(status="open", days=len(dl) - 1 - z, last_price=r2(last), unreal_pct=round((last / e - 1) * 100 * sg, 2))
+            last = dl[-1][4]; rec.update(status="open", days=len(dl) - 1 - z, last_price=r2(last), unreal_pct=round((last / e - 1) * 100 * sg, 2), opposite_pending=opp[0] if opp else None)
         out.append(rec)
     tail = [[bd[k], bo[k], bh[k], bl[k], bc[k], r2(O[k]), r2(H[k]), r2(L[k]), r2(C[k]), r2(MA[k])]
             for k in range(max(0, len(br) - 60), len(br))]
@@ -145,14 +149,14 @@ def main():
         cl = [t for t in T if t["status"] == "closed" and per(t["signal_date"]) == p]; o = {}
         for side in ("ALL", "BUY", "SELL"):
             c = [t for t in cl if side == "ALL" or t["side"] == side]; w = sum(t["pl_pct"] > 0 for t in c); tot = sum(t["pl_pct"] for t in c)
-            o[side] = {"trades": len(c), "targets": w, "stops": len(c) - w, "win_rate": round(w / len(c) * 100, 1) if c else None,
+            o[side] = {"trades": len(c), "targets": w, "stops": sum(t["outcome"] == "stop hit" for t in c), "flips": sum(t["outcome"] == "opposite signal" for t in c), "losses": len(c) - w, "win_rate": round(w / len(c) * 100, 1) if c else None,
                        "avg_pl": round(tot / len(c), 2) if c else None, "total_pl": round(tot, 1)}
         summ[p] = o
     for p in ("2021-25", "2026"):
         summ[p]["qualified"] = sum(1 for t in T if per(t["signal_date"]) == p)
     stocks = {s: {"stats": res[s][3], "dojis": res[s][1], "signals": len(res[s][0]), "bricks": res[s][2]} for s in res}
     meta = {s["symbol"]: [s["name"], s["industry"]] for s in U["symbols"]}
-    doc = {"strategy": "Renko Doji", "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
+    doc = {"strategy": "Renko Doji", "rule": {"run_mode": RUN_MODE, "run_min": RUN_MIN, "cost_pct": COST, "stop_pct": 3, "target_pct": 6}, "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
            "last_scan_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "scan_seconds": round(time.time() - t0),
            "universe": {"size": len(syms), "scanned": len(res), "failed": errs, "kept_from_previous_scan": len(stale), "filter": U.get("filter"), "total_listed": U.get("total_listed")},
            "dojis_total": sum(res[s][1] for s in res), "summary": summ, "trades": T, "meta": meta,
