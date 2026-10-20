@@ -69,7 +69,7 @@ def get(sym, tries=3):
         try:
             br, err, _ = TV._series(tk, True)
             if err or not br: raise RuntimeError(err or "no bricks")
-            dl, err2, _ = TV._series(tk, False, n=1600)
+            dl, err2, _ = TV._series(tk, False, n=1500)
             if err2 or not dl: raise RuntimeError(err2 or "no daily")
             return dedup(br), dl
         except Exception as e: last = e; time.sleep(2 + 3 * a)
@@ -124,17 +124,26 @@ def main():
     OUT = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "trx/doji_data.json"
     opt = dict(a[2:].split("=", 1) for a in sys.argv if a.startswith("--") and "=" in a)
     t0 = time.time(); U = universe(); syms = [s["symbol"] for s in U["symbols"]][: int(opt.get("limit", 10**6))]
-    W = int(opt.get("workers", 8)); res = {}; errs = {}
-    with ThreadPoolExecutor(W) as ex:
-        fs = {ex.submit(get, s): s for s in syms}
-        for f in as_completed(fs):
-            s = fs[f]
-            try: res[s] = analyse(s, *f.result())
-            except Exception as e: errs[s] = str(e)[:120]
-    # retry failures once, slowly
-    for s in list(errs):
-        try: res[s] = analyse(s, *get(s, 2)); errs.pop(s)
-        except Exception: time.sleep(1)
+    W = int(opt.get("workers", 6)); DL = float(opt.get("deadline", 1500)); res = {}; errs = {}; stale = []
+    # incremental cache: previous output; stocks not refreshed before the deadline keep their previous results
+    try: PREV = json.load(open(OUT)); PT = {}; [PT.setdefault(t["stock"], []).append(t) for t in PREV.get("trades", [])]
+    except Exception: PREV, PT = {}, {}
+    try: PCH = json.load(open(os.path.join(os.path.dirname(OUT) or ".", "doji_charts.json")))
+    except Exception: PCH = {}
+    def job(s):
+        if time.time() - t0 > DL: raise TimeoutError("deadline")
+        return get(s)
+    ex = ThreadPoolExecutor(W); fs = {ex.submit(job, s): s for s in syms}; done = 0
+    for f in as_completed(fs):
+        s = fs[f]; done += 1
+        try: res[s] = analyse(s, *f.result())
+        except TimeoutError: pass
+        except Exception as e: errs[s] = str(e)[:120]
+        if done % 100 == 0: print(f"{done}/{len(syms)} done, {len(errs)} errors, {time.time()-t0:.0f}s", flush=True)
+    ex.shutdown()
+    for s in syms:
+        if s not in res and s in PREV.get("stocks", {}):
+            st0 = PREV["stocks"][s]; res[s] = (PT.get(s, []), st0["dojis"], PCH.get(s, []), st0["stats"]); stale.append(s); errs.pop(s, None)
     per = lambda d: "2026" if d >= "2026" else "2021-25"
     T = [t for s in res for t in res[s][0]]; summ = {}
     for p in ("2021-25", "2026"):
@@ -150,7 +159,7 @@ def main():
     meta = {s["symbol"]: [s["name"], s["industry"]] for s in U["symbols"]}
     doc = {"strategy": "Renko Doji", "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
            "last_scan_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "scan_seconds": round(time.time() - t0),
-           "universe": {"size": len(syms), "scanned": len(res), "failed": errs, "filter": U.get("filter"), "total_listed": U.get("total_listed")},
+           "universe": {"size": len(syms), "scanned": len(res), "failed": errs, "kept_from_previous_scan": len(stale), "filter": U.get("filter"), "total_listed": U.get("total_listed")},
            "dojis_total": sum(res[s][1] for s in res), "summary": summ, "trades": T, "meta": meta,
            "stocks": {s: {k: v for k, v in stocks[s].items() if k != "bricks"} for s in stocks}}
     json.dump(doc, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
