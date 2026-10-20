@@ -1,36 +1,24 @@
 """Renko Doji scanner (separate from BrickFlow; imports tv_source read-only).
-Universe: all NSE common stocks from TradingView's screener, liquidity-filtered (scanner/nse_all.json).
-Bricks: TradingView daily Renko ATR14, source Close, wicks on (de-duplicated). HAB = javabgar HARSI (RSI 11/13/15/17) + its MA (EMA 13 of the mean RSI).
-Doji: HAB body <=16% of range with wicks both sides. Next HAB candle: SELL if open==high, close<MA (entry below brick low);
-BUY if open==low, close>MA (entry above brick high). Fill at level or open on gap; cancel after 20 trading days or opposite signal.
-Exits 3% stop / 6% target, same day = stop.
+Universe: Nifty 100 only (scanner/nifty100.json, TradingView NSE:CNX100 constituents).
+Bricks: TradingView daily Renko ATR14, source Close, wicks on (de-duplicated). HAB = javabgar HARSI (RSI 11/13/15/17). No MA filter.
+Doji: HAB body <=16% of range with wicks both sides. Run rules (same as saved_tests/green_run_doji_sell backtest):
+SELL: 4-8 green HAB candles, doji, next HAB red with open==high -> entry on break below brick low; cancelled if a BUY doji setup completes in the run.
+BUY: 3-5 red HAB candles, doji, next HAB green with open==low -> entry on break above brick high; cancelled if a SELL doji setup completes in the run.
+Fill at level or open on gap; cancelled if no break within 20 trading days. Exits 3% stop / 6% target, same day = stop.
 Usage: python scanner/doji_scan.py trx/doji_data.json [--limit=N] [--workers=N]"""
 import json, os, sys, time, urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import tv_source as TV
-UNI = os.path.join(HERE, "nse_all.json")
-MIN_MCAP, MIN_TURNOVER = 5e9, 1e7   # ₹500 Cr market cap, ₹1 Cr avg daily traded value (30d)
+UNI = os.path.join(HERE, "nifty100.json")
 D = lambda t: datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%d")
 
 def universe():
-    b = {"columns": ["name", "description", "sector", "market_cap_basic", "average_volume_30d_calc", "close"],
-         "filter": [{"left": "exchange", "operation": "equal", "right": "NSE"}, {"left": "type", "operation": "equal", "right": "stock"},
-                    {"left": "is_primary", "operation": "equal", "right": True}],
-         "range": [0, 6000], "sort": {"sortBy": "market_cap_basic", "sortOrder": "desc"}}
-    try:
-        rq = urllib.request.Request(TV.SCANNER_URL, data=json.dumps(b).encode(), headers={"Content-Type": "application/json",
-                                    "Origin": "https://www.tradingview.com", "User-Agent": "Mozilla/5.0"})
-        d = json.load(urllib.request.urlopen(rq, timeout=40)); rows = d["data"]
-        out = [{"symbol": r["d"][0], "tv_ticker": r["s"], "name": r["d"][1], "industry": r["d"][2] or "", "market_cap": r["d"][3]}
-               for r in rows if r["s"].startswith("NSE:") and (r["d"][3] or 0) >= MIN_MCAP and (r["d"][4] or 0) * (r["d"][5] or 0) >= MIN_TURNOVER]
-        if len(out) > 500:
-            json.dump({"source": "TradingView screener (exchange NSE, type stock, primary listing)", "total_listed": len(rows),
-                       "filter": "market cap >= ₹500 Cr and 30-day avg traded value >= ₹1 Cr", "updated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                       "symbols": out}, open(UNI, "w"), indent=0, ensure_ascii=False)
-    except Exception as e: print("universe refresh failed, using cached:", e)
-    return json.load(open(UNI))
+    """Nifty 100 only (scanner/nifty100.json, TradingView CNX100 constituents; read-only here)."""
+    d = json.load(open(UNI))
+    return {"symbols": [{"symbol": c["symbol"], "name": c.get("name", ""), "industry": c.get("industry", c.get("sector", ""))} for c in d["constituents"]], "filter": "Nifty 100 constituents (TradingView NSE:CNX100)",
+            "total_listed": len(d["constituents"])}
 
 def rsi(x, L):
     out = [None] * len(x); g = l = 0
@@ -80,24 +68,31 @@ def analyse(sym, br, dl):
     bd = [D(x[0]) for x in br]; bo = [x[1] for x in br]; bh = [x[2] for x in br]; bl = [x[3] for x in br]; bc = [x[4] for x in br]
     O, H, L, C, MA = hab(bc); dd = [D(x[0]) for x in dl]
     sig = []; ndoji = 0
-    for i in range(1, len(br) - 1):
-        if O[i] is None or bd[i] < "2021": continue
-        rg = H[i] - L[i]
-        if rg <= 0: continue
-        body = abs(C[i] - O[i]) / rg
-        if not (body <= 0.16 and H[i] - max(O[i], C[i]) > 0 and min(O[i], C[i]) - L[i] > 0): continue
-        ndoji += 1; j = i + 1; tol = max(0.05, 0.0001 * (H[j] - L[j]))
-        if C[j] < O[j] and abs(H[j] - O[j]) < tol and C[j] < MA[j]: sig.append((j, -1, min(bo[j], bc[j]), i))
-        elif C[j] > O[j] and abs(O[j] - L[j]) < tol and C[j] > MA[j]: sig.append((j, 1, max(bo[j], bc[j]), i))
+    tl = lambda m: max(0.05, 0.0001 * (H[m] - L[m]))
+    def isdoji(m):
+        if m < 0 or O[m] is None: return False
+        r = H[m] - L[m]
+        return r > 0 and abs(C[m] - O[m]) / r <= 0.16 and H[m] - max(O[m], C[m]) > 0 and min(O[m], C[m]) - L[m] > 0
+    fol = lambda n, side: isdoji(n - 1) and ((C[n] < O[n] and abs(H[n] - O[n]) < tl(n)) if side < 0 else (C[n] > O[n] and abs(O[n] - L[n]) < tl(n)))
+    for i in range(9, len(br) - 1):
+        j = i + 1
+        if O[i] is None or bd[j] < "2021" or not isdoji(i): continue
+        ndoji += 1
+        for sg, rmin, rmax in ((-1, 4, 8), (1, 3, 5)):
+            if not fol(j, sg): continue
+            run = 0; k = i - 1
+            while k >= 0 and O[k] is not None and ((C[k] > O[k]) if sg < 0 else (C[k] < O[k])): run += 1; k -= 1
+            if not rmin <= run <= rmax: continue
+            if any(fol(n, -sg) for n in range(i - run, i)): continue   # opposite setup inside the run cancels
+            sig.append((j, sg, min(bo[j], bc[j]) if sg < 0 else max(bo[j], bc[j]), i, run))
     out = []
-    for k, (j, sg, lv, i) in enumerate(sig):
+    for k, (j, sg, lv, i, run) in enumerate(sig):
         opp = [bd[s[0]] for s in sig[k+1:] if s[1] != sg]
         st = [z for z, d in enumerate(dd) if d > bd[j]]
         rec = {"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv),
-               "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "hab_ma": r2(MA[j]), "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1)}
+               "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "hab_ma": r2(MA[j]), "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "run": run, "run_start": bd[i - run]}
         z0 = st[0] if st else len(dl); e = None; z = z0; why = None
         for z in range(z0, min(z0 + 20, len(dl))):
-            if opp and dd[z] >= opp[0]: why = "opposite signal"; break
             o, h, l = dl[z][1], dl[z][2], dl[z][3]
             if sg < 0 and l < lv: e = min(o, lv); break
             if sg > 0 and h > lv: e = max(o, lv); break
