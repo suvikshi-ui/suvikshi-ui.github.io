@@ -97,7 +97,7 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <li>MACD histogram goes <b>dark red → light red</b> <i>or</i> <b>light green → dark green</b></li></ol></div>
 </div><p><small>Hull colour = Hull value vs its value 2 bricks back (rising = green, falling = red). Histogram shade: above zero, dark green if rising / light green if falling; below zero, dark red if falling / light red if rising. "Before" is the brick before the flip, "after" is the flip brick.</small></p></section>
 
-<nav class="tabs" role="tablist"><button class="tab on" data-tab="crypto" role="tab">Cryptocurrency</button><button class="tab" data-tab="india" role="tab">Indian Stock Market (Nifty 100)</button></nav>
+<nav class="tabs" role="tablist"><button class="tab on" data-tab="crypto" role="tab">Cryptocurrency</button><button class="tab" data-tab="india" role="tab">Indian Stock Market (Nifty 100)</button><button class="tab" data-tab="doji" role="tab">Renko Doji</button></nav>
 
 <div id="mkt-crypto" class="mkt">
 <h2 class="mh">Cryptocurrency</h2>
@@ -164,11 +164,23 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 </div>
 </div>
 
+<div id="mkt-doji" class="mkt" hidden>
+<h2 class="mh">Renko Doji (all NSE stocks)</h2>
+<div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px"><b>Rules.</b> Daily Renko from TradingView (ATR 14, source Close, wicks on), each brick a bar. HAB = Heikin Ashi RSI (javabgar HARSI, RSI 11/13/15/17, levels 30/50/70) with its MA line. A <b>doji</b> HAB candle has a body of 16% of its range or less, with wicks on both sides. <b>SELL</b>: the next HAB candle has open = high and closes below the HAB MA; entry when the daily price breaks below that brick's low. <b>BUY</b>: next HAB candle open = low and closes above the HAB MA; entry above that brick's high. Fill at the level, or at the open on a gap. Pending signals cancel after 20 trading days or on an opposite signal. Exits: 3% stop, 6% target (1:2); a day touching both counts as a stop. Separate from BrickFlow.</div>
+<p><small id="d-info">Loading…</small></p><p><b id="d-cnt"></b></p>
+<section><h2>Summary</h2><div class="tw"><table class="rtable"><thead><tr><th>Period</th><th>Side</th><th>Trades</th><th>Targets</th><th>Stops</th><th>Win rate</th><th>Avg P/L</th><th>Total</th></tr></thead><tbody id="d-sum"></tbody></table></div></section>
+<section><h2><span class="b form">PENDING</span> Waiting for the break</h2><div id="d-pend" class="acards"><div class="pending">Loading…</div></div></section>
+<section><h2><span class="b oc-o">OPEN</span> Open trades</h2><div id="d-open" class="acards"><div class="pending">Loading…</div></div></section>
+<section><h2>Closed trades</h2><p><small>Newest exit first. Tap a row for its chart.</small></p><div class="tw sec"><table class="rtable"><thead><tr><th>Stock</th><th>Signal</th><th>Doji → signal</th><th>Entry</th><th>Stop · Target</th><th>Exit</th><th>Days</th><th>Outcome</th></tr></thead><tbody id="d-closed"></tbody></table></div></section>
+<section><h2>Per-stock results</h2><input id="d-q" placeholder="Search stock…" style="padding:8px 10px;border-radius:8px;border:1px solid #99F6E4;margin-bottom:8px"><div class="tw sec"><table class="rtable"><thead><tr><th>Stock</th><th>Dojis</th><th>Signals</th><th>Pending · Open</th><th>Closed</th><th>Win rate</th><th>Total P/L</th><th>Last signal</th></tr></thead><tbody id="d-stk"></tbody></table></div></section>
+<div id="d-modal" class="modal" hidden><div class="mbox" role="dialog"><button class="mx" id="d-mx" aria-label="Close">×</button><div class="mtitle" id="d-mt"></div><canvas id="d-cv" style="width:100%;border-radius:8px"></canvas><div class="mcap" id="d-mc"></div></div></div>
+</div>
 <div class="note"><b>Not financial advice.</b> This page is a live signal scan of chart data, for study only. It shows no stop losses or targets. It's not a recommendation to buy or sell, and no trades or alerts were placed.</div>
-<footer>BrickFlow. Crypto data: TradingView (BingX symbols, daily Renko). Indian stocks: TradingView only (NSE:&lt;SYMBOL&gt;, TradingView's daily Renko, ATR 14, source Close). Constituent list: Nifty 100. Charts are drawn from the scanned data.</footer>
+<footer>BrickFlow. Crypto data: TradingView (BingX symbols, daily Renko). Indian stocks: TradingView only (NSE:<SYMBOL>, TradingView's daily Renko, ATR 14, source Close). Constituent list: Nifty 100. Charts are drawn from the scanned data.</footer>
 </div>
 <div id="modal" class="modal" hidden><div class="mbox" role="dialog" aria-modal="true"><button class="mx" id="mClose" aria-label="Close">×</button>
 <div class="mtitle" id="mTitle"></div><div class="mtabs" id="mTabs"></div><div class="mimg"><img id="mImg" alt="Chart"></div><div class="mcap" id="mCap"></div></div></div>
 <script src="app.js?v=9"></script>
 <script src="india.js?v=21"></script>
+<script src="doji.js?v=1"></script>
 </body></html>
