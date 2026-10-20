@@ -1,7 +1,7 @@
 // Renko Doji tab (separate from BrickFlow). Data: doji_data.json + doji_charts.json written by scanner/doji_scan.py (TradingView only).
 (function(){
 const $=id=>document.getElementById(id), root=$('mkt-doji'); if(!root)return;
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&','<':'<','>':'>','"':'"'}[c]));
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>'&'+({'&':'amp','<':'lt','>':'gt','"':'quot'}[c])+';');
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const fd=d=>{if(!d)return '–';const [y,m,dd]=d.split('-');return (+dd)+' '+MON[+m-1]+' '+y};
 const num=v=>v==null?'–':(+v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -16,8 +16,34 @@ document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{sho
 if(location.hash==='#doji'){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab==='doji'));show(true)}
 const row=(cells)=>'<tr data-stk="'+esc(cells[0][1])+'">'+cells.map(([l,v])=>`<td data-l="${l}">${v}</td>`).join('')+'</tr>';
 function sumTbl(S){const r=[];for(const p of ['2021-25','2026'])for(const s of ['ALL','BUY','SELL']){const x=S[p][s];r.push(`<tr><td data-l="Period"><b>${p==='2021-25'?'2021–2025':'2026'}</b></td><td data-l="Side">${s==='ALL'?'All':side(s)}</td><td data-l="Trades">${x.trades}</td><td data-l="Targets">${x.targets}</td><td data-l="Stops">${x.stops}</td><td data-l="Win rate">${x.win_rate??'–'}%</td><td data-l="Avg P/L">${pc(x.avg_pl)}</td><td data-l="Total">${pc(x.total_pl)}</td></tr>`)}return r.join('')}
+
+function details(){
+  const T=D.trades,np=T.filter(t=>t.status==='pending').length,no=T.filter(t=>t.status==='open').length;
+  const tb=(h,rows)=>`<div class="tw"><table class="rtable"><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td data-l="${h[i]}">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const H=['Test','Period','Trades','Win rate','Avg per trade','Total'];
+  let el=$('d-details'); if(!el){el=document.createElement('section');el.id='d-details';root.querySelector('.note').after(el)}
+  el.innerHTML=`<h2>Setup details</h2>
+<div class="note" style="background:#F0FDFA;border-color:#99F6E4;color:#134E4A;margin-bottom:14px"><b>1. Rules.</b>
+<ul><li>Chart: TradingView daily Renko (ATR 14, source Close, wicks on). Each brick is one bar.</li>
+<li>HAB RSI: javabgar "HARSI – Heikin Ashi RSI" with RSI lengths 11/13/15/17, drawn as candles on the bricks (levels 30/50/70).</li>
+<li>HAB MA filter: the 13 EMA of the average RSI line.</li>
+<li><b>Doji</b>: a HAB candle whose body is 16% of its range or less, with wicks on both sides.</li>
+<li><b>SELL</b>: the next HAB candle has open = high (no upper wick) and HAB is below its MA. Entry when the daily price breaks below that brick's low.</li>
+<li><b>BUY</b>: the mirror. The next HAB candle has open = low (no lower wick) and HAB is above its MA. Entry when the price breaks above that brick's high.</li>
+<li>Exits: 3% stop loss and 6% target (1:2). A day that touches both counts as a stop. A pending signal is cancelled after 20 trading days or on an opposite signal.</li></ul></div>
+<h3>2. Earlier tests (corrected data, 3% stop / 6% target)</h3>
+${tb(H,[['Strong baseline','2021–25','242','–','−0.02%','–'],['Strong baseline','2026','64','–','+0.29%','–'],['Strong buy + HAB MA','2021–25','137','38.0%','+0.42%','+57%'],['Strong buy + HAB MA','2026','31','45.2%','+1.06%','+33%']])}
+<h3>3. Nifty 100: doji pattern with and without the HAB MA filter</h3>
+${tb(['Version','Period','Trades','Targets / Stops','Win rate','Avg per trade','Total'],[['No filter','2021–25','407','–','34.9%','+0.14%','+57%'],['No filter','2026','110','–','36.9%','+0.32%','+33%'],['With MA filter','2021–25','285','105 / 180','36.8%','+0.32%','+90%'],['With MA filter','2026','70 (4 open)','28 / 38','42.4%','+0.82%','+54%']])}
+<h3>4. All NSE stocks (${D.universe.scanned} stocks, with MA filter)</h3>
+${tb(['Period','Side','Trades','Targets','Stops','Win rate','Avg P/L','Total'],['2021-25','2026'].flatMap(p=>['ALL','BUY','SELL'].map(s=>{const x=D.summary[p][s];return [p==='2021-25'?'2021–25':'2026',s==='ALL'?'All':side(s),x.trades,x.targets,x.stops,(x.win_rate??'–')+'%',pc(x.avg_pl),pc(x.total_pl)]})))}
+<p><small>Across all NSE stocks the pattern is roughly break-even: sells are profitable, buys are losing.</small></p>
+<h3>5. Right now</h3><p><b>${np} pending</b> (waiting for the break) · <b>${no} open</b> trades · last scan ${ist(D.last_scan_utc)}.</p>
+<h3>6. Example: ICICI Bank</h3>
+<p>Doji HAB candle on <b>8 Sep 2026</b>; the follow-up candle on <b>15 Sep 2026</b> had open = high. Without the filter this gave a SELL entry on 16 Sep at ₹1,359.0, stopped out on 19 Oct (−3%). With the HAB MA filter this sell is filtered out; the filter left 1 ICICI trade per period (2021–25 and 2026), and both hit the target.</p>`;
+}
 function render(){
-  const T=D.trades, U=D.universe;
+  details(); const T=D.trades, U=D.universe;
   $('d-info').innerHTML=`Last scan: <b>${ist(D.last_scan_utc)}</b> · ${U.scanned} of ${U.size} NSE stocks scanned in ${Math.round(D.scan_seconds/60)} min · Universe: TradingView screener, NSE common stocks (${U.total_listed} listed), filter ${esc(U.filter)} · Source: ${esc(D.source)}`;
   const P=T.filter(t=>t.status==='pending').sort((a,b)=>b.signal_date.localeCompare(a.signal_date)), O=T.filter(t=>t.status==='open').sort((a,b)=>b.entry_date.localeCompare(a.entry_date));
   const C=T.filter(t=>t.status==='closed').sort((a,b)=>b.exit_date.localeCompare(a.exit_date)||a.stock.localeCompare(b.stock));
