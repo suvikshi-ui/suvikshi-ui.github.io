@@ -2,7 +2,7 @@
 "source": "TradingView screener (exchange NSE, type stock, primary listing)",
 "total_listed": 3186,
 "filter": "market cap >= ₹500 Cr and 30-day avg traded value >= ₹1 Cr",
-"updated_utc": "2026-10-20T07:23:13+00:00",
+"updated_utc": "2026-10-20T07:24:23+00:00",
 "symbols": [
 {
 "symbol": "RELIANCE",
