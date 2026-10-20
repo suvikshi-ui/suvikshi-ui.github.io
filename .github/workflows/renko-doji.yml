@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
       - run: pip install websocket-client==1.8.0
       - name: Scan all NSE stocks (TradingView only)
-        run: python scanner/doji_scan.py trx/doji_data.json --workers=8
+        run: python scanner/doji_scan.py trx/doji_data.json --workers=6 --deadline=1500
       - name: Commit
         run: |
           git config user.name "trx-scan-bot"
