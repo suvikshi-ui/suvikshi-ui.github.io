@@ -65,10 +65,17 @@ root.addEventListener('click',e=>{const el=e.target.closest('[data-stk]');if(el&
 async function chart(s){
   if(!CH){try{CH=await (await fetch('doji_charts.json',{cache:'no-store'})).json()}catch(e){CH={}}}
   const B=CH[s]; if(!B){return}
+  // trade markers: each date maps to the last brick on or before that day; dates before the chart window can't be placed
+  const bi=d=>{if(!d||d<B[0][0])return -1;let k=-1;for(let q=0;q<B.length;q++){if(B[q][0]<=d)k=q;else break}return k};
+  const MK=[],LN=[];let unpl=0;
+  D.trades.filter(t=>t.stock===s&&(t.status==='open'||t.status==='closed')).forEach(t=>{const e=bi(t.entry_date);if(e<0){unpl++;return}
+    MK.push({k:e,p:t.entry,ty:t.side,lb:(t.side==='BUY'?'BUY ':'SELL ')+fd(t.entry_date)+' ₹'+num(t.entry)});
+    if(t.status==='closed'){const x=bi(t.exit_date);if(x>=0)MK.push({k:x,p:t.exit,ty:t.outcome==='target hit'?'TGT':t.outcome==='stop hit'?'SL':'EXIT',lb:(t.outcome==='target hit'?'TGT ':t.outcome==='stop hit'?'SL ':'Exit ')+fd(t.exit_date)+' ₹'+num(t.exit)})}
+    else LN.push({k:e,st:t.stop,tg:t.target})});
   const m=$('d-modal');m.hidden=false;$('d-mt').textContent=s+' · Renko (ATR 14, Close) + HAB RSI (11/13/15/17) · last '+B.length+' bricks';
   const cv=$('d-cv'),W=cv.width=Math.min(1000,innerWidth-60),H=cv.height=460,x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);
   const n=B.length,bw=(W-60)/n,ph=270,hy=290,hh=160;
-  const lo=Math.min(...B.map(b=>b[3]),...B.map(b=>b[10]).filter(v=>v!=null)),hi=Math.max(...B.map(b=>b[2]),...B.map(b=>b[10]).filter(v=>v!=null)),py=v=>10+(hi-v)/(hi-lo||1)*(ph-20);
+  const lo=Math.min(...B.map(b=>b[3]),...MK.map(m=>m.p),...LN.flatMap(l=>[l.st,l.tg]),...B.map(b=>b[10]).filter(v=>v!=null)),hi=Math.max(...B.map(b=>b[2]),...MK.map(m=>m.p),...LN.flatMap(l=>[l.st,l.tg]),...B.map(b=>b[10]).filter(v=>v!=null)),py=v=>10+(hi-v)/(hi-lo||1)*(ph-20);
   const hv=B.flatMap(b=>[b[6],b[7],b[9]]).filter(v=>v!=null),hl=Math.min(30,...hv),hH=Math.max(70,...hv),qy=v=>hy+(hH-v)/(hH-hl)*hh;
   x.font='10px sans-serif';
   [30,50,70].forEach(v=>{x.strokeStyle='#ccc';x.setLineDash([3,3]);x.beginPath();x.moveTo(0,qy(v));x.lineTo(W-60,qy(v));x.stroke();x.setLineDash([]);x.fillStyle='#666';x.fillText(v,W-55,qy(v)+3)});
@@ -81,7 +88,17 @@ async function chart(s){
   x.lineWidth=2;B.forEach((b,i)=>{const p=B[i-1];if(!p||p[10]==null||b[10]==null)return;x.strokeStyle=b[4]>b[10]?'#16a34a':b[4]<b[10]?'#dc2626':'#6b7280';x.beginPath();x.moveTo((i-1)*bw+bw/2,py(p[10]));x.lineTo(i*bw+bw/2,py(b[10]));x.stroke()});
   x.lineWidth=1;x.font='11px sans-serif';x.fillStyle='#16a34a';x.fillRect(8,8,14,3);x.fillStyle='#dc2626';x.fillRect(22,8,14,3);x.fillStyle='#111';x.fillText('CM_EMA 11'+(B.some(b=>b[10]!=null)?'':' – not enough bricks yet'),42,13);x.font='10px sans-serif';
   x.strokeStyle='#d97706';x.lineWidth=1.5;x.beginPath();B.forEach((b,i)=>{if(b[9]!=null)(i?x.lineTo:x.moveTo).call(x,i*bw+bw/2,qy(b[9]))});x.stroke();x.lineWidth=1;
-  const tr=D.trades.filter(t=>t.stock===s).slice(-8);$('d-mc').innerHTML='CM_EMA 11 line on the Renko panel: green when the brick close is above the EMA, red below (entry filter). HAB MA line in amber (reference only). Signals: '+tr.map(t=>`${t.side} ${fd(t.signal_date)} (${t.status==='closed'?t.outcome+' '+pc(t.pl_pct):t.status==='cancelled'?'cancelled: '+(t.reason||''):t.status==='skipped'?'<span class="b oc-s">Skipped: CM_EMA 11</span>':t.status})`).join(' · ');
+  // draw trade markers + open-trade dashed stop/target lines (visual only)
+  LN.forEach(l=>{[[l.st,'#dc2626','SL '+num(l.st)],[l.tg,'#16a34a','TGT '+num(l.tg)]].forEach(([v,c,t])=>{x.strokeStyle=c;x.setLineDash([5,4]);x.beginPath();x.moveTo(l.k*bw,py(v));x.lineTo(W-60,py(v));x.stroke();x.setLineDash([]);x.fillStyle=c;x.fillText(t,W-58,py(v)-2)})});
+  MK.forEach((m,q)=>{const cx=m.k*bw+bw/2,y=py(m.p),dy=(q%3)*11;x.lineWidth=2;
+    if(m.ty==='BUY'){x.fillStyle='#15803d';x.beginPath();x.moveTo(cx,y);x.lineTo(cx-6,y+10);x.lineTo(cx+6,y+10);x.fill();x.fillText(m.lb,Math.min(cx-20,W-170),y+21+dy)}
+    else if(m.ty==='SELL'){x.fillStyle='#b91c1c';x.beginPath();x.moveTo(cx,y);x.lineTo(cx-6,y-10);x.lineTo(cx+6,y-10);x.fill();x.fillText(m.lb,Math.min(cx-20,W-170),y-13-dy)}
+    else if(m.ty==='SL'){x.strokeStyle='#dc2626';x.beginPath();x.moveTo(cx-5,y-5);x.lineTo(cx+5,y+5);x.moveTo(cx+5,y-5);x.lineTo(cx-5,y+5);x.stroke();x.fillStyle='#dc2626';x.fillText(m.lb,Math.min(cx+7,W-170),y+4+dy)}
+    else {x.strokeStyle='#16a34a';x.beginPath();x.moveTo(cx-5,y);x.lineTo(cx-1,y+5);x.lineTo(cx+6,y-6);x.stroke();x.fillStyle='#16a34a';x.fillText(m.lb,Math.min(cx+7,W-170),y+4+dy)}
+    x.lineWidth=1});
+  // legend
+  {let lx=8,ly=26;x.font='10px sans-serif';[['▲ BUY entry','#15803d'],['▼ SELL entry','#b91c1c'],['✕ SL hit','#dc2626'],['✓ TGT hit','#16a34a'],['- - open trade SL / TGT','#6b7280']].forEach(([t,c])=>{x.fillStyle=c;x.fillText(t,lx,ly);lx+=x.measureText(t).width+12})}
+  const tr=D.trades.filter(t=>t.stock===s).slice(-8);$('d-mc').innerHTML=(unpl?`${unpl} older trade(s) fall before this chart's ${B.length}-brick window and are not marked. `:'')+'CM_EMA 11 line on the Renko panel: green when the brick close is above the EMA, red below (entry filter). HAB MA line in amber (reference only). Signals: '+tr.map(t=>`${t.side} ${fd(t.signal_date)} (${t.status==='closed'?t.outcome+' '+pc(t.pl_pct):t.status==='cancelled'?'cancelled: '+(t.reason||''):t.status==='skipped'?'<span class="b oc-s">Skipped: CM_EMA 11</span>':t.status})`).join(' · ');
 }
 $('d-mx').addEventListener('click',()=>$('d-modal').hidden=true);
 function load(){fetch('doji_data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{D=d;render()}).catch(e=>{$('d-info').textContent='Renko Doji data not available yet ('+e.message+').'})}
