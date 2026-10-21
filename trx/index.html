@@ -171,6 +171,7 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <section><h2>Summary</h2><div class="tw"><table class="rtable"><thead><tr><th>Period</th><th>Side</th><th>Trades</th><th>Targets</th><th>Stops</th><th>Win rate</th><th>Avg P/L</th><th>Total</th></tr></thead><tbody id="d-sum"></tbody></table></div></section>
 <section><h2><span class="b form">PENDING</span> Waiting for the break</h2><div id="d-pend" class="acards"><div class="pending">Loading…</div></div></section>
 <section><h2><span class="b oc-o">OPEN</span> Open trades</h2><div id="d-open" class="acards"><div class="pending">Loading…</div></div></section>
+<section><h2>Trailing stop &amp; target levels <small>(display only)</small></h2><div id="d-trail"></div></section>
 <section><h2>Closed trades</h2><p><small>Newest exit first. Tap a row for its chart.</small></p><div class="tw sec"><table class="rtable"><thead><tr><th>Stock</th><th>Signal</th><th>Doji → signal</th><th>Entry</th><th>Stop · Target</th><th>Exit</th><th>Days</th><th>Outcome</th></tr></thead><tbody id="d-closed"></tbody></table></div></section>
 <section><h2>Per-stock results</h2><input id="d-q" placeholder="Search stock…" style="padding:8px 10px;border-radius:8px;border:1px solid #99F6E4;margin-bottom:8px"><div class="tw sec"><table class="rtable"><thead><tr><th>Stock</th><th>Dojis</th><th>Signals</th><th>Pending · Open</th><th>Closed</th><th>Win rate</th><th>Total P/L</th><th>Last signal</th></tr></thead><tbody id="d-stk"></tbody></table></div></section>
 <div id="d-modal" class="modal" hidden><div class="mbox" role="dialog"><button class="mx" id="d-mx" aria-label="Close">×</button><div class="mtitle" id="d-mt"></div><canvas id="d-cv" style="width:100%;border-radius:8px"></canvas><div class="mcap" id="d-mc"></div></div></div>
@@ -182,5 +183,5 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <div class="mtitle" id="mTitle"></div><div class="mtabs" id="mTabs"></div><div class="mimg"><img id="mImg" alt="Chart"></div><div class="mcap" id="mCap"></div></div></div>
 <script src="app.js?v=9"></script>
 <script src="india.js?v=21"></script>
-<script src="doji.js?v=1"></script>
+<script src="doji.js?v=2"></script>
 </body></html>
