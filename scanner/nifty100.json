@@ -3,8 +3,8 @@
  "tv_index": "NSE:CNX100",
  "source": "TradingView: constituents of index NSE:CNX100 from TradingView's public screener (scanner.tradingview.com, symbolset SYML:NSE;CNX100), ordered by TradingView market cap",
  "note": "Constituent list from TradingView; all prices and bricks also come only from TradingView.",
- "retrieved_ist": "2026-10-21 00:16 IST",
- "retrieved_utc": "2026-10-20T18:46:25+00:00",
+ "retrieved_ist": "2026-10-21 21:04 IST",
+ "retrieved_utc": "2026-10-21T15:34:13+00:00",
  "count": 100,
  "constituents": [
   {
@@ -33,7 +33,7 @@
    "tv_ticker": "NSE:ICICIBANK",
    "name": "ICICI Bank Limited",
    "industry": "Finance",
-   "market_cap": 9922453638672
+   "market_cap": 9922610868164
   },
   {
    "symbol": "SBIN",
