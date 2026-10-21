@@ -1,7 +1,7 @@
 """Renko Doji scanner (separate from BrickFlow; imports tv_source read-only).
 Universe: Nifty 100 only (scanner/nifty100.json, TradingView NSE:CNX100 constituents).
 Bricks: TradingView daily Renko ATR14, source Close, wicks on (de-duplicated). HAB = javabgar HARSI (RSI 11/13/15/17). No MA filter.
-Doji: HAB body <=16% of range with wicks both sides. Live rule (DOJI_RUN_MODE=any): hard CM_EMA 11 filter (brick close > EMA11 for BUY, < for SELL, equal blocks); run of >=2 same-colour HAB candles; opposite signal cancels pending / closes open at next open; 0.1% cost. Old rule (DOJI_RUN_MODE=fixed):
+Doji: HAB body <=16% of range with wicks both sides. Live rule (DOJI_RUN_MODE=any): hard CM_EMA 11 filter (brick close > EMA11 for BUY, < for SELL, equal blocks); 20-day volume info badge (signal-day volume > prior 20-day avg; not a filter, VOL_FILTER=0); run of >=2 same-colour HAB candles; opposite signal cancels pending / closes open at next open; 0.1% cost. Old rule (DOJI_RUN_MODE=fixed):
 SELL: 4-8 green HAB candles, doji, next HAB red with open==high -> entry on break below brick low; cancelled if a BUY doji setup completes in the run.
 BUY: 3-5 red HAB candles, doji, next HAB green with open==low -> entry on break above brick high; cancelled if a SELL doji setup completes in the run.
 Fill at level or open on gap; cancelled if no break within 20 trading days. Exits 3% stop / 6% target, same day = stop.
@@ -13,6 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import tv_source as TV
 UNI = os.path.join(HERE, "nifty100.json")
 RUN_MODE = os.environ.get("DOJI_RUN_MODE", "any")   # "any": run of >= RUN_MIN same-colour HAB candles (live rule); "fixed": old 4-8 green / 3-5 red
+VOLF = os.environ.get("VOL_FILTER", "0") == "1"   # OFF on the live site: volume is an info badge only (vol_ratio / vol_above_avg); 1 = local test filter
 RUN_MIN = 2; COST = 0.1   # % per round trip
 D = lambda t: datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%d")
 
@@ -94,22 +95,31 @@ def analyse(sym, br, dl):
             if not rmin <= run <= rmax: continue
             if RUN_MODE == "fixed" and any(fol(n, -sg) for n in range(i - run, i)): continue   # opposite setup inside the run cancels
             sig.append((j, sg, min(bo[j], bc[j]) if sg < 0 else max(bo[j], bc[j]), i, run))
-    VI = ema(bc, 11); out = []; keep_sig = []
+    VI = ema(bc, 11); out = []; keep_sig = []; VR = {}
     for (j, sg, lv, i, run) in sig:   # hard CM_EMA 11 filter: BUY needs brick close > EMA11, SELL close < EMA11 (equal blocks both)
         m = j
         while m + 1 < len(br) and bd[m + 1] == bd[j]: m += 1   # latest brick on the signal day
         e1 = VI[m]
         ok = e1 is not None and (bc[m] > e1 if sg > 0 else bc[m] < e1)
+        vr = None   # signal-day volume / avg of the previous 20 trading days (day excluded); info badge
+        q = [z for z, d in enumerate(dd) if d <= bd[j]]
+        if q and q[-1] >= 20 and len(dl[q[-1]]) > 5:
+            z = q[-1]; av = sum(dl[y][5] for y in range(z - 20, z)) / 20; vr = dl[z][5] / av if av else None
+        VR[j] = vr
+        if ok and VOLF:
+            if not (vr is not None and vr > 1):
+                out.append({"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv), "run": run, "status": "skipped", "reason": "volume", "vol_ratio": None if vr is None else round(vr, 2)}); continue
         if ok: keep_sig.append((j, sg, lv, i, run))
         else: out.append({"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv), "run": run, "run_start": bd[i - run],
                           "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "status": "skipped", "reason": "CM_EMA 11",
-                          "close": bc[m], "ema11": r2(e1)})
+                          "close": bc[m], "ema11": r2(e1), "vol_ratio": None if vr is None else round(vr, 2), "vol_above_avg": vr is not None and vr > 1})
     sig = keep_sig
     for k, (j, sg, lv, i, run) in enumerate(sig):
         opp = [bd[s[0]] for s in sig[k+1:] if s[1] != sg and bd[s[0]] > bd[j]]
         st = [z for z, d in enumerate(dd) if d > bd[j]]
         rec = {"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv),
-               "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "hab_ma": r2(MA[j]), "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "run": run, "run_start": bd[i - run]}
+               "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "hab_ma": r2(MA[j]), "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "run": run, "run_start": bd[i - run],
+               "vol_ratio": None if VR[j] is None else round(VR[j], 2), "vol_above_avg": VR[j] is not None and VR[j] > 1}
         z0 = st[0] if st else len(dl); e = None; z = z0; why = None
         for z in range(z0, min(z0 + 20, len(dl))):
             o, h, l = dl[z][1], dl[z][2], dl[z][3]
@@ -170,10 +180,10 @@ def main():
                        "avg_pl": round(tot / len(c), 2) if c else None, "total_pl": round(tot, 1)}
         summ[p] = o
     for p in ("2021-25", "2026"):
-        summ[p]["qualified"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] != "skipped"); summ[p]["skipped_ema"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] == "skipped")
+        summ[p]["qualified"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] != "skipped"); summ[p]["skipped_ema"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] == "skipped" and t.get("reason") != "volume"); summ[p]["skipped_volume"] = sum(1 for t in T if per(t["signal_date"]) == p and t.get("reason") == "volume")
     stocks = {s: {"stats": res[s][3], "dojis": res[s][1], "signals": len(res[s][0]), "bricks": res[s][2]} for s in res}
     meta = {s["symbol"]: [s["name"], s["industry"]] for s in U["symbols"]}
-    doc = {"strategy": "Renko Doji", "rule": {"run_mode": RUN_MODE, "run_min": RUN_MIN, "ema_filter": "CM_EMA TrendBars EMA 11 on brick closes; BUY close > EMA, SELL close < EMA, equal blocks both", "cost_pct": COST, "stop_pct": 3, "target_pct": 6}, "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
+    doc = {"strategy": "Renko Doji", "rule": {"run_mode": RUN_MODE, "run_min": RUN_MIN, "ema_filter": "CM_EMA TrendBars EMA 11 on brick closes; BUY close > EMA, SELL close < EMA, equal blocks both", "volume_filter": "signal-day volume > average of the previous 20 trading days (day excluded)" if VOLF else None, "volume_badge": "20-day volume above average = signal-day volume > avg of previous 20 trading days (info only)", "cost_pct": COST, "stop_pct": 3, "target_pct": 6}, "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
            "last_scan_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "scan_seconds": round(time.time() - t0),
            "universe": {"size": len(syms), "scanned": len(res), "failed": errs, "kept_from_previous_scan": len(stale), "filter": U.get("filter"), "total_listed": U.get("total_listed")},
            "dojis_total": sum(res[s][1] for s in res), "summary": summ, "trades": T, "meta": meta,
