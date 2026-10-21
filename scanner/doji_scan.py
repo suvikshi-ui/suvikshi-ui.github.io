@@ -1,7 +1,7 @@
 """Renko Doji scanner (separate from BrickFlow; imports tv_source read-only).
 Universe: Nifty 100 only (scanner/nifty100.json, TradingView NSE:CNX100 constituents).
 Bricks: TradingView daily Renko ATR14, source Close, wicks on (de-duplicated). HAB = javabgar HARSI (RSI 11/13/15/17). No MA filter.
-Doji: HAB body <=16% of range with wicks both sides. Live rule (DOJI_RUN_MODE=any): run of >=2 same-colour HAB candles; opposite signal cancels pending / closes open at next open; 0.1% cost. Old rule (DOJI_RUN_MODE=fixed):
+Doji: HAB body <=16% of range with wicks both sides. Live rule (DOJI_RUN_MODE=any): hard CMMA filter (VIDYA 9 rising for BUY, falling for SELL, flat blocks); run of >=2 same-colour HAB candles; opposite signal cancels pending / closes open at next open; 0.1% cost. Old rule (DOJI_RUN_MODE=fixed):
 SELL: 4-8 green HAB candles, doji, next HAB red with open==high -> entry on break below brick low; cancelled if a BUY doji setup completes in the run.
 BUY: 3-5 red HAB candles, doji, next HAB green with open==low -> entry on break above brick high; cancelled if a SELL doji setup completes in the run.
 Fill at level or open on gap; cancelled if no break within 20 trading days. Exits 3% stop / 6% target, same day = stop.
@@ -65,6 +65,18 @@ def get(sym, tries=3):
         except Exception as e: last = e; time.sleep(2 + 3 * a)
     raise RuntimeError(str(last))
 
+def vidya(x, L=9):
+    """CMMA = TradingView-standard VIDYA: alpha 2/(L+1) scaled by |CMO(L)| on brick closes."""
+    out = [None] * len(x); v = 0.0; a = 2 / (L + 1)
+    for i in range(len(x)):
+        if i >= L:
+            ch = [x[k] - x[k-1] for k in range(i - L + 1, i + 1)]; up = sum(c for c in ch if c > 0); dn = -sum(c for c in ch if c < 0)
+            k = abs((up - dn) / (up + dn)) if up + dn else 0
+        else: k = 0
+        v = a * k * x[i] + (1 - a * k) * v
+        out[i] = v if i >= L * 3 else None
+    return out
+
 r2 = lambda v: None if v is None else round(v, 2)
 def analyse(sym, br, dl):
     bd = [D(x[0]) for x in br]; bo = [x[1] for x in br]; bh = [x[2] for x in br]; bl = [x[3] for x in br]; bc = [x[4] for x in br]
@@ -87,7 +99,17 @@ def analyse(sym, br, dl):
             if not rmin <= run <= rmax: continue
             if RUN_MODE == "fixed" and any(fol(n, -sg) for n in range(i - run, i)): continue   # opposite setup inside the run cancels
             sig.append((j, sg, min(bo[j], bc[j]) if sg < 0 else max(bo[j], bc[j]), i, run))
-    out = []
+    VI = vidya(bc, 9); out = []; keep_sig = []
+    for (j, sg, lv, i, run) in sig:   # hard CMMA filter: BUY needs VIDYA strictly rising, SELL strictly falling (flat blocks both)
+        m = j
+        while m + 1 < len(br) and bd[m + 1] == bd[j]: m += 1   # latest brick on the signal day
+        v1, v0 = VI[m], VI[m - 1]
+        ok = v1 is not None and v0 is not None and (v1 > v0 if sg > 0 else v1 < v0)
+        if ok: keep_sig.append((j, sg, lv, i, run))
+        else: out.append({"stock": sym, "side": "BUY" if sg > 0 else "SELL", "doji_date": bd[i], "signal_date": bd[j], "level": r2(lv), "run": run, "run_start": bd[i - run],
+                          "doji_body_pct": round(abs(C[i]-O[i])/(H[i]-L[i])*100, 1), "hab": [r2(O[j]), r2(H[j]), r2(L[j]), r2(C[j])], "status": "skipped", "reason": "CMMA",
+                          "cmma": [r2(v0), r2(v1)]})
+    sig = keep_sig
     for k, (j, sg, lv, i, run) in enumerate(sig):
         opp = [bd[s[0]] for s in sig[k+1:] if s[1] != sg and bd[s[0]] > bd[j]]
         st = [z for z, d in enumerate(dd) if d > bd[j]]
@@ -115,7 +137,7 @@ def analyse(sym, br, dl):
         else:
             last = dl[-1][4]; rec.update(status="open", days=len(dl) - 1 - z, last_price=r2(last), unreal_pct=round((last / e - 1) * 100 * sg, 2), opposite_pending=opp[0] if opp else None)
         out.append(rec)
-    tail = [[bd[k], bo[k], bh[k], bl[k], bc[k], r2(O[k]), r2(H[k]), r2(L[k]), r2(C[k]), r2(MA[k])]
+    tail = [[bd[k], bo[k], bh[k], bl[k], bc[k], r2(O[k]), r2(H[k]), r2(L[k]), r2(C[k]), r2(MA[k]), r2(VI[k])]
             for k in range(max(0, len(br) - 60), len(br))]
     return out, ndoji, tail, {"bricks": len(br), "last_brick": bd[-1], "last_price": dl[-1][4], "last_daily": dd[-1]}
 
@@ -153,17 +175,17 @@ def main():
                        "avg_pl": round(tot / len(c), 2) if c else None, "total_pl": round(tot, 1)}
         summ[p] = o
     for p in ("2021-25", "2026"):
-        summ[p]["qualified"] = sum(1 for t in T if per(t["signal_date"]) == p)
+        summ[p]["qualified"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] != "skipped"); summ[p]["skipped_cmma"] = sum(1 for t in T if per(t["signal_date"]) == p and t["status"] == "skipped")
     stocks = {s: {"stats": res[s][3], "dojis": res[s][1], "signals": len(res[s][0]), "bricks": res[s][2]} for s in res}
     meta = {s["symbol"]: [s["name"], s["industry"]] for s in U["symbols"]}
-    doc = {"strategy": "Renko Doji", "rule": {"run_mode": RUN_MODE, "run_min": RUN_MIN, "cost_pct": COST, "stop_pct": 3, "target_pct": 6}, "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
+    doc = {"strategy": "Renko Doji", "rule": {"run_mode": RUN_MODE, "run_min": RUN_MIN, "cmma_filter": "VIDYA 9 (CMO 9) on brick closes; BUY strictly rising, SELL strictly falling, flat blocks both", "cost_pct": COST, "stop_pct": 3, "target_pct": 6}, "source": "TradingView (NSE daily Renko ATR 14, Close, wicks; daily candles)",
            "last_scan_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "scan_seconds": round(time.time() - t0),
            "universe": {"size": len(syms), "scanned": len(res), "failed": errs, "kept_from_previous_scan": len(stale), "filter": U.get("filter"), "total_listed": U.get("total_listed")},
            "dojis_total": sum(res[s][1] for s in res), "summary": summ, "trades": T, "meta": meta,
            "stocks": {s: {k: v for k, v in stocks[s].items() if k != "bricks"} for s in stocks}}
     json.dump(doc, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
-    keep = {t["stock"] for t in T if t["status"] in ("pending", "open") or t["signal_date"] >= "2026"}
+    keep = set(stocks)   # charts for every scanned Nifty 100 stock (loaded only when a pop-up opens)
     json.dump({s: stocks[s]["bricks"] for s in sorted(keep)}, open(os.path.join(os.path.dirname(OUT) or ".", "doji_charts.json"), "w"), separators=(",", ":"))
-    c = {k: sum(t["status"] == k for t in T) for k in ("pending", "open", "closed", "cancelled")}
+    c = {k: sum(t["status"] == k for t in T) for k in ("pending", "open", "closed", "cancelled", "skipped")}
     print(f"universe {len(syms)} scanned {len(res)} failed {len(errs)} in {doc['scan_seconds']}s; {c}; {json.dumps(summ)}")
 if __name__ == "__main__": main()
