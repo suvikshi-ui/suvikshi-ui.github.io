@@ -22,3 +22,4 @@ brick_date,brick_time_utc,brick_seq_in_day,open,high,low,close,brick_color,box_s
 2026-09-24,2026-09-24T03:45:00.000Z,1,350.0,350.0,340.0,340.0,RED,10.0,,,,,,,,False,False,False
 2026-09-28,2026-09-28T03:45:00.000Z,1,340.0,340.0,330.0,330.0,RED,10.0,,,,,,,,False,False,False
 2026-10-01,2026-10-01T03:45:00.000Z,1,330.0,330.0,320.0,320.0,RED,10.0,,,,,,,,False,False,False
+2026-10-22,2026-10-22T03:45:00.000Z,1,320.0,320.0,310.0,310.0,RED,10.0,,,,,,,,False,False,False
