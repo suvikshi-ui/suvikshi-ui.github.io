@@ -3,8 +3,8 @@
  "tv_index": "NSE:CNX100",
  "source": "TradingView: constituents of index NSE:CNX100 from TradingView's public screener (scanner.tradingview.com, symbolset SYML:NSE;CNX100), ordered by TradingView market cap",
  "note": "Constituent list from TradingView; all prices and bricks also come only from TradingView.",
- "retrieved_ist": "2026-10-23 15:00 IST",
- "retrieved_utc": "2026-10-23T09:30:12+00:00",
+ "retrieved_ist": "2026-10-24 14:39 IST",
+ "retrieved_utc": "2026-10-24T09:09:34+00:00",
  "count": 100,
  "constituents": [
   {
@@ -12,700 +12,700 @@
    "tv_ticker": "NSE:RELIANCE",
    "name": "Reliance Industries Limited",
    "industry": "Energy Minerals",
-   "market_cap": 15914265937500
+   "market_cap": 16103721484375
   },
   {
    "symbol": "BHARTIARTL",
    "tv_ticker": "NSE:BHARTIARTL",
    "name": "Bharti Airtel Limited",
    "industry": "Communications",
-   "market_cap": 11850277290959
+   "market_cap": 11788217929688
   },
   {
    "symbol": "HDFCBANK",
    "tv_ticker": "NSE:HDFCBANK",
    "name": "HDFC Bank Limited",
    "industry": "Finance",
-   "market_cap": 10689629612567
+   "market_cap": 10671127252479
   },
   {
    "symbol": "ICICIBANK",
    "tv_ticker": "NSE:ICICIBANK",
    "name": "ICICI Bank Limited",
    "industry": "Finance",
-   "market_cap": 10014513837495
+   "market_cap": 10015949465332
   },
   {
    "symbol": "TCS",
    "tv_ticker": "NSE:TCS",
    "name": "Tata Consultancy Services Limited",
    "industry": "Technology Services",
-   "market_cap": 9056072768066
+   "market_cap": 9146524953125
   },
   {
    "symbol": "SBIN",
    "tv_ticker": "NSE:SBIN",
    "name": "State Bank of India",
    "industry": "Finance",
-   "market_cap": 8938151187613
+   "market_cap": 8833843637695
   },
   {
    "symbol": "BAJFINANCE",
    "tv_ticker": "NSE:BAJFINANCE",
    "name": "Bajaj Finance Limited",
    "industry": "Finance",
-   "market_cap": 5852088387524
+   "market_cap": 5771462167969
   },
   {
    "symbol": "LT",
    "tv_ticker": "NSE:LT",
    "name": "Larsen & Toubro Limited",
    "industry": "Industrial Services",
-   "market_cap": 4953222070312
+   "market_cap": 5015137346191
   },
   {
    "symbol": "INFY",
    "tv_ticker": "NSE:INFY",
    "name": "Infosys Limited",
    "industry": "Technology Services",
-   "market_cap": 4671076379639
+   "market_cap": 4685280347778
   },
   {
    "symbol": "KOTAKBANK",
    "tv_ticker": "NSE:KOTAKBANK",
    "name": "Kotak Mahindra Bank Limited",
    "industry": "Finance",
-   "market_cap": 4352695148585
+   "market_cap": 4278583618334
   },
   {
    "symbol": "HINDUNILVR",
    "tv_ticker": "NSE:HINDUNILVR",
    "name": "Hindustan Unilever Limited",
    "industry": "Consumer Non-Durables",
-   "market_cap": 4309150459961
+   "market_cap": 4276256181641.0005
   },
   {
    "symbol": "SUNPHARMA",
    "tv_ticker": "NSE:SUNPHARMA",
    "name": "Sun Pharmaceutical Industries Limited",
    "industry": "Health Technology",
-   "market_cap": 4208214520970
+   "market_cap": 4181942537842
   },
   {
    "symbol": "ADANIPORTS",
    "tv_ticker": "NSE:ADANIPORTS",
    "name": "Adani Ports & Special Economic Zone Ltd",
    "industry": "Transportation",
-   "market_cap": 4046212655861
-  },
-  {
-   "symbol": "TITAN",
-   "tv_ticker": "NSE:TITAN",
-   "name": "Titan Company Limited",
-   "industry": "Consumer Durables",
-   "market_cap": 3871546726052
+   "market_cap": 3923642150391
   },
   {
    "symbol": "HCLTECH",
    "tv_ticker": "NSE:HCLTECH",
    "name": "HCL Technologies Limited",
    "industry": "Technology Services",
-   "market_cap": 3869686345703
+   "market_cap": 3864259015625
+  },
+  {
+   "symbol": "TITAN",
+   "tv_ticker": "NSE:TITAN",
+   "name": "Titan Company Limited",
+   "industry": "Consumer Durables",
+   "market_cap": 3816592847351
   },
   {
    "symbol": "AXISBANK",
    "tv_ticker": "NSE:AXISBANK",
    "name": "Axis Bank Limited",
    "industry": "Finance",
-   "market_cap": 3762172414069
-  },
-  {
-   "symbol": "ADANIPOWER",
-   "tv_ticker": "NSE:ADANIPOWER",
-   "name": "Adani Power Limited",
-   "industry": "Utilities",
-   "market_cap": 3566703977964
+   "market_cap": 3780388832635
   },
   {
    "symbol": "M&M",
    "tv_ticker": "NSE:M&M",
    "name": "Mahindra & Mahindra Ltd.",
    "industry": "Consumer Durables",
-   "market_cap": 3549653332581
+   "market_cap": 3541570394531
   },
   {
    "symbol": "MARUTI",
    "tv_ticker": "NSE:MARUTI",
    "name": "Maruti Suzuki India Limited",
    "industry": "Consumer Durables",
-   "market_cap": 3520679837463
+   "market_cap": 3539842734742
+  },
+  {
+   "symbol": "ADANIPOWER",
+   "tv_ticker": "NSE:ADANIPOWER",
+   "name": "Adani Power Limited",
+   "industry": "Utilities",
+   "market_cap": 3509814191406
   },
   {
    "symbol": "ADANIENT",
    "tv_ticker": "NSE:ADANIENT",
    "name": "Adani Enterprises Limited",
    "industry": "Distribution Services",
-   "market_cap": 3440419506836
-  },
-  {
-   "symbol": "HAL",
-   "tv_ticker": "NSE:HAL",
-   "name": "Hindustan Aeronautics Limited",
-   "industry": "Electronic Technology",
-   "market_cap": 3260278244019
-  },
-  {
-   "symbol": "ITC",
-   "tv_ticker": "NSE:ITC",
-   "name": "ITC Limited",
-   "industry": "Consumer Non-Durables",
-   "market_cap": 3236005912354
+   "market_cap": 3367334277344
   },
   {
    "symbol": "ULTRACEMCO",
    "tv_ticker": "NSE:ULTRACEMCO",
    "name": "UltraTech Cement Limited",
    "industry": "Non-Energy Minerals",
-   "market_cap": 3231094861603
+   "market_cap": 3257885716492
   },
   {
-   "symbol": "JSWSTEEL",
-   "tv_ticker": "NSE:JSWSTEEL",
-   "name": "JSW Steel Limited",
-   "industry": "Non-Energy Minerals",
-   "market_cap": 2980764064098
+   "symbol": "ITC",
+   "tv_ticker": "NSE:ITC",
+   "name": "ITC Limited",
+   "industry": "Consumer Non-Durables",
+   "market_cap": 3222849022882
+  },
+  {
+   "symbol": "HAL",
+   "tv_ticker": "NSE:HAL",
+   "name": "Hindustan Aeronautics Limited",
+   "industry": "Electronic Technology",
+   "market_cap": 3155313873317
   },
   {
    "symbol": "ETERNAL",
    "tv_ticker": "NSE:ETERNAL",
    "name": "Eternal Limited",
    "industry": "Transportation",
-   "market_cap": 2942391834751
+   "market_cap": 3059161135742
+  },
+  {
+   "symbol": "JSWSTEEL",
+   "tv_ticker": "NSE:JSWSTEEL",
+   "name": "JSW Steel Limited",
+   "industry": "Non-Energy Minerals",
+   "market_cap": 2902754018555
   },
   {
    "symbol": "NTPC",
    "tv_ticker": "NSE:NTPC",
    "name": "NTPC Limited",
    "industry": "Utilities",
-   "market_cap": 2926938696000
+   "market_cap": 2889606472656
   },
   {
    "symbol": "ONGC",
    "tv_ticker": "NSE:ONGC",
    "name": "Oil & Natural Gas Corp. Ltd.",
    "industry": "Energy Minerals",
-   "market_cap": 2828675876686
+   "market_cap": 2843143121094
   },
   {
    "symbol": "BAJAJ_AUTO",
    "tv_ticker": "NSE:BAJAJ_AUTO",
    "name": "Bajaj Auto Limited",
    "industry": "Consumer Durables",
-   "market_cap": 2784436151433
+   "market_cap": 2770022636719
   },
   {
    "symbol": "BAJAJFINSV",
    "tv_ticker": "NSE:BAJAJFINSV",
    "name": "Bajaj Finserv Limited",
    "industry": "Finance",
-   "market_cap": 2699473461304
+   "market_cap": 2653013680664
   },
   {
    "symbol": "BEL",
    "tv_ticker": "NSE:BEL",
    "name": "Bharat Electronics Limited",
    "industry": "Electronic Technology",
-   "market_cap": 2682688822754
+   "market_cap": 2632251393590
   },
   {
    "symbol": "COALINDIA",
    "tv_ticker": "NSE:COALINDIA",
    "name": "Coal India Ltd.",
    "industry": "Energy Minerals",
-   "market_cap": 2478033173747
+   "market_cap": 2451225267090
   },
   {
    "symbol": "DIVISLAB",
    "tv_ticker": "NSE:DIVISLAB",
    "name": "Divi's Laboratories Limited",
    "industry": "Health Technology",
-   "market_cap": 2420741494370
+   "market_cap": 2384969604980
   },
   {
    "symbol": "POWERGRID",
    "tv_ticker": "NSE:POWERGRID",
    "name": "Power Grid Corporation of India Limited",
    "industry": "Utilities",
-   "market_cap": 2302829487235
+   "market_cap": 2299109160679
   },
   {
    "symbol": "NESTLEIND",
    "tv_ticker": "NSE:NESTLEIND",
    "name": "Nestle India Ltd.",
    "industry": "Consumer Non-Durables",
-   "market_cap": 2294694053955
+   "market_cap": 2262780357620
   },
   {
    "symbol": "ASIANPAINT",
    "tv_ticker": "NSE:ASIANPAINT",
    "name": "Asian Paints Ltd.",
    "industry": "Process Industries",
-   "market_cap": 2198049659800
+   "market_cap": 2210950822754
   },
   {
    "symbol": "HINDZINC",
    "tv_ticker": "NSE:HINDZINC",
    "name": "Hindustan Zinc Limited",
    "industry": "Non-Energy Minerals",
-   "market_cap": 2181320855103
+   "market_cap": 2099983467284.9998
   },
   {
    "symbol": "TATASTEEL",
    "tv_ticker": "NSE:TATASTEEL",
    "name": "Tata Steel Limited",
    "industry": "Non-Energy Minerals",
-   "market_cap": 2157154406847
-  },
-  {
-   "symbol": "SHRIRAMFIN",
-   "tv_ticker": "NSE:SHRIRAMFIN",
-   "name": "Shriram Finance Limited",
-   "industry": "Finance",
-   "market_cap": 2117740429688
+   "market_cap": 2087870764893
   },
   {
    "symbol": "DMART",
    "tv_ticker": "NSE:DMART",
    "name": "Avenue Supermarts Ltd.",
    "industry": "Retail Trade",
-   "market_cap": 2065342336423
+   "market_cap": 2065211906372
   },
   {
-   "symbol": "ADANIGREEN",
-   "tv_ticker": "NSE:ADANIGREEN",
-   "name": "Adani Green Energy Limited",
-   "industry": "Utilities",
-   "market_cap": 2055675832031
-  },
-  {
-   "symbol": "HINDALCO",
-   "tv_ticker": "NSE:HINDALCO",
-   "name": "Hindalco Industries Limited",
-   "industry": "Non-Energy Minerals",
-   "market_cap": 1995537187500
+   "symbol": "SHRIRAMFIN",
+   "tv_ticker": "NSE:SHRIRAMFIN",
+   "name": "Shriram Finance Limited",
+   "industry": "Finance",
+   "market_cap": 2040089947266
   },
   {
    "symbol": "GRASIM",
    "tv_ticker": "NSE:GRASIM",
    "name": "Grasim Industries Ltd.",
    "industry": "Non-Energy Minerals",
-   "market_cap": 1957213626103
+   "market_cap": 1972322481445
+  },
+  {
+   "symbol": "ADANIGREEN",
+   "tv_ticker": "NSE:ADANIGREEN",
+   "name": "Adani Green Energy Limited",
+   "industry": "Utilities",
+   "market_cap": 1951903734741
   },
   {
    "symbol": "EICHERMOT",
    "tv_ticker": "NSE:EICHERMOT",
    "name": "Eicher Motors Limited",
    "industry": "Consumer Durables",
-   "market_cap": 1953771141846
+   "market_cap": 1935378186035
+  },
+  {
+   "symbol": "HINDALCO",
+   "tv_ticker": "NSE:HINDALCO",
+   "name": "Hindalco Industries Limited",
+   "industry": "Non-Energy Minerals",
+   "market_cap": 1933738457031
   },
   {
    "symbol": "TVSMOTOR",
    "tv_ticker": "NSE:TVSMOTOR",
    "name": "TVS Motor Company Limited",
    "industry": "Consumer Durables",
-   "market_cap": 1889849038825
+   "market_cap": 1889421506805
   },
   {
    "symbol": "WIPRO",
    "tv_ticker": "NSE:WIPRO",
    "name": "Wipro Limited",
    "industry": "Technology Services",
-   "market_cap": 1880134980469
+   "market_cap": 1877677795898
   },
   {
    "symbol": "IOC",
    "tv_ticker": "NSE:IOC",
    "name": "Indian Oil Corp. Ltd.",
    "industry": "Energy Minerals",
-   "market_cap": 1842821595703
-  },
-  {
-   "symbol": "TECHM",
-   "tv_ticker": "NSE:TECHM",
-   "name": "Tech Mahindra Limited",
-   "industry": "Technology Services",
-   "market_cap": 1788790280151
+   "market_cap": 1821639738281
   },
   {
    "symbol": "INDIGO",
    "tv_ticker": "NSE:INDIGO",
    "name": "InterGlobe Aviation Ltd",
    "industry": "Transportation",
-   "market_cap": 1786013004425
+   "market_cap": 1754306343597
+  },
+  {
+   "symbol": "TECHM",
+   "tv_ticker": "NSE:TECHM",
+   "name": "Tech Mahindra Limited",
+   "industry": "Technology Services",
+   "market_cap": 1753978990728
   },
   {
    "symbol": "TORNTPHARM",
    "tv_ticker": "NSE:TORNTPHARM",
    "name": "Torrent Pharmaceuticals Ltd",
    "industry": "Health Technology",
-   "market_cap": 1753490099489
+   "market_cap": 1704747739746
   },
   {
    "symbol": "SOLARINDS",
    "tv_ticker": "NSE:SOLARINDS",
    "name": "Solar Industries India Limited",
    "industry": "Process Industries",
-   "market_cap": 1723030079881
+   "market_cap": 1657777739258
   },
   {
    "symbol": "SBILIFE",
    "tv_ticker": "NSE:SBILIFE",
    "name": "SBI Life Insurance Co. Ltd.",
    "industry": "Finance",
-   "market_cap": 1663652521118
+   "market_cap": 1650608200989
   },
   {
    "symbol": "DLF",
    "tv_ticker": "NSE:DLF",
    "name": "DLF Limited",
    "industry": "Finance",
-   "market_cap": 1645091978044
+   "market_cap": 1617739815926
   },
   {
    "symbol": "MOTHERSON",
    "tv_ticker": "NSE:MOTHERSON",
    "name": "Samvardhana Motherson International Limited",
    "industry": "Producer Manufacturing",
-   "market_cap": 1634826485876
-  },
-  {
-   "symbol": "ADANIENSOL",
-   "tv_ticker": "NSE:ADANIENSOL",
-   "name": "Adani Energy Solutions Ltd",
-   "industry": "Utilities",
-   "market_cap": 1581280126831
-  },
-  {
-   "symbol": "HYUNDAI",
-   "tv_ticker": "NSE:HYUNDAI",
-   "name": "Hyundai Motor India Limited",
-   "industry": "Consumer Durables",
-   "market_cap": 1539765455933
-  },
-  {
-   "symbol": "TMCV",
-   "tv_ticker": "NSE:TMCV",
-   "name": "Tata Motors Limited",
-   "industry": "Consumer Durables",
-   "market_cap": 1524858867459
+   "market_cap": 1593665649414
   },
   {
    "symbol": "PIDILITIND",
    "tv_ticker": "NSE:PIDILITIND",
    "name": "Pidilite Industries Limited",
    "industry": "Process Industries",
-   "market_cap": 1497254036865
+   "market_cap": 1542069803955
+  },
+  {
+   "symbol": "HYUNDAI",
+   "tv_ticker": "NSE:HYUNDAI",
+   "name": "Hyundai Motor India Limited",
+   "industry": "Consumer Durables",
+   "market_cap": 1503201104736
+  },
+  {
+   "symbol": "ADANIENSOL",
+   "tv_ticker": "NSE:ADANIENSOL",
+   "name": "Adani Energy Solutions Ltd",
+   "industry": "Utilities",
+   "market_cap": 1491820977656
+  },
+  {
+   "symbol": "TMCV",
+   "tv_ticker": "NSE:TMCV",
+   "name": "Tata Motors Limited",
+   "industry": "Consumer Durables",
+   "market_cap": 1457279773594
   },
   {
    "symbol": "TRENT",
    "tv_ticker": "NSE:TRENT",
    "name": "Trent Limited",
    "industry": "Retail Trade",
-   "market_cap": 1479665917922
+   "market_cap": 1448178661973
   },
   {
    "symbol": "PNB",
    "tv_ticker": "NSE:PNB",
    "name": "Punjab National Bank",
    "industry": "Finance",
-   "market_cap": 1405587007925
-  },
-  {
-   "symbol": "VAML",
-   "tv_ticker": "NSE:VAML",
-   "name": "Vedanta Aluminium Metal Limited",
-   "industry": "Non-Energy Minerals",
-   "market_cap": 1404611395586
-  },
-  {
-   "symbol": "JIOFIN",
-   "tv_ticker": "NSE:JIOFIN",
-   "name": "Jio Financial Services Limited",
-   "industry": "Finance",
-   "market_cap": 1393262877930
+   "market_cap": 1383175715764
   },
   {
    "symbol": "UNIONBANK",
    "tv_ticker": "NSE:UNIONBANK",
    "name": "Union Bank of India Limited",
    "industry": "Finance",
-   "market_cap": 1389316195312
+   "market_cap": 1362598576172
   },
   {
-   "symbol": "ABB",
-   "tv_ticker": "NSE:ABB",
-   "name": "ABB India Limited",
-   "industry": "Producer Manufacturing",
-   "market_cap": 1368928076477
+   "symbol": "JIOFIN",
+   "tv_ticker": "NSE:JIOFIN",
+   "name": "Jio Financial Services Limited",
+   "industry": "Finance",
+   "market_cap": 1353644028320
+  },
+  {
+   "symbol": "VAML",
+   "tv_ticker": "NSE:VAML",
+   "name": "Vedanta Aluminium Metal Limited",
+   "industry": "Non-Energy Minerals",
+   "market_cap": 1347128645142
   },
   {
    "symbol": "VBL",
    "tv_ticker": "NSE:VBL",
    "name": "Varun Beverages Ltd.",
    "industry": "Consumer Non-Durables",
-   "market_cap": 1359086300604
+   "market_cap": 1330335096259
   },
   {
    "symbol": "BSE",
    "tv_ticker": "NSE:BSE",
    "name": "BSE Ltd.",
    "industry": "Finance",
-   "market_cap": 1329831470947
+   "market_cap": 1315901862563
   },
   {
-   "symbol": "CHOLAFIN",
-   "tv_ticker": "NSE:CHOLAFIN",
-   "name": "Cholamandalam Investment and Finance Co. Ltd.",
-   "industry": "Finance",
-   "market_cap": 1310222747936
+   "symbol": "ABB",
+   "tv_ticker": "NSE:ABB",
+   "name": "ABB India Limited",
+   "industry": "Producer Manufacturing",
+   "market_cap": 1301117397766
   },
   {
    "symbol": "BOSCHLTD",
    "tv_ticker": "NSE:BOSCHLTD",
    "name": "Bosch Limited",
    "industry": "Producer Manufacturing",
-   "market_cap": 1307944041040
+   "market_cap": 1299180819018
   },
   {
    "symbol": "TATACAP",
    "tv_ticker": "NSE:TATACAP",
    "name": "Tata Capital Ltd.",
    "industry": "Finance",
-   "market_cap": 1299288415388
+   "market_cap": 1293173569476
   },
   {
    "symbol": "CGPOWER",
    "tv_ticker": "NSE:CGPOWER",
    "name": "CG Power & Industrial Solutions Ltd",
    "industry": "Producer Manufacturing",
-   "market_cap": 1285582101562
+   "market_cap": 1283927879119
   },
   {
-   "symbol": "LTM",
-   "tv_ticker": "NSE:LTM",
-   "name": "LTM Limited",
-   "industry": "Technology Services",
-   "market_cap": 1267759467712
+   "symbol": "CHOLAFIN",
+   "tv_ticker": "NSE:CHOLAFIN",
+   "name": "Cholamandalam Investment and Finance Co. Ltd.",
+   "industry": "Finance",
+   "market_cap": 1251051674602
   },
   {
    "symbol": "BAJAJHLDNG",
    "tv_ticker": "NSE:BAJAJHLDNG",
    "name": "Bajaj Holdings & Investment Limited.",
    "industry": "Finance",
-   "market_cap": 1251540171538
+   "market_cap": 1243705064392
   },
   {
    "symbol": "IDEA",
    "tv_ticker": "NSE:IDEA",
    "name": "Vodafone Idea Ltd",
    "industry": "Communications",
-   "market_cap": 1250278576492
+   "market_cap": 1229693446017
+  },
+  {
+   "symbol": "LTM",
+   "tv_ticker": "NSE:LTM",
+   "name": "LTM Limited",
+   "industry": "Technology Services",
+   "market_cap": 1227092657505
   },
   {
    "symbol": "BPCL",
    "tv_ticker": "NSE:BPCL",
    "name": "Bharat Petroleum Corporation Limited",
    "industry": "Energy Minerals",
-   "market_cap": 1242971436768
+   "market_cap": 1220194473267
   },
   {
    "symbol": "CUMMINSIND",
    "tv_ticker": "NSE:CUMMINSIND",
    "name": "Cummins India Limited",
    "industry": "Producer Manufacturing",
-   "market_cap": 1227441654053
+   "market_cap": 1202743105895
   },
   {
    "symbol": "BANKBARODA",
    "tv_ticker": "NSE:BANKBARODA",
    "name": "Bank of Baroda",
    "industry": "Finance",
-   "market_cap": 1217597123891
+   "market_cap": 1194584579590
   },
   {
    "symbol": "POWERINDIA",
    "tv_ticker": "NSE:POWERINDIA",
    "name": "Hitachi Energy India Limited",
    "industry": "Electronic Technology",
-   "market_cap": 1205013882561
+   "market_cap": 1170024576187
   },
   {
    "symbol": "SIEMENS",
    "tv_ticker": "NSE:SIEMENS",
    "name": "Siemens Limited",
    "industry": "Producer Manufacturing",
-   "market_cap": 1200838372925
-  },
-  {
-   "symbol": "POLYCAB",
-   "tv_ticker": "NSE:POLYCAB",
-   "name": "Polycab India Ltd.",
-   "industry": "Producer Manufacturing",
-   "market_cap": 1152905637360
+   "market_cap": 1157391670227
   },
   {
    "symbol": "HDFCLIFE",
    "tv_ticker": "NSE:HDFCLIFE",
    "name": "HDFC Life Insurance Co. Ltd.",
    "industry": "Finance",
-   "market_cap": 1142564666689
+   "market_cap": 1137350399780
   },
   {
    "symbol": "ZYDUSLIFE",
    "tv_ticker": "NSE:ZYDUSLIFE",
    "name": "Zydus Lifesciences Limited",
    "industry": "Health Technology",
-   "market_cap": 1132166795044
+   "market_cap": 1125034618634
   },
   {
-   "symbol": "TATAPOWER",
-   "tv_ticker": "NSE:TATAPOWER",
-   "name": "Tata Power Company Limited",
-   "industry": "Utilities",
-   "market_cap": 1129552548462
-  },
-  {
-   "symbol": "BRITANNIA",
-   "tv_ticker": "NSE:BRITANNIA",
-   "name": "Britannia Industries Ltd",
-   "industry": "Consumer Non-Durables",
-   "market_cap": 1117628918457
-  },
-  {
-   "symbol": "GAIL",
-   "tv_ticker": "NSE:GAIL",
-   "name": "GAIL (India) Limited",
-   "industry": "Utilities",
-   "market_cap": 1103959184283
-  },
-  {
-   "symbol": "CANBK",
-   "tv_ticker": "NSE:CANBK",
-   "name": "Canara Bank",
-   "industry": "Finance",
-   "market_cap": 1092559929496
+   "symbol": "POLYCAB",
+   "tv_ticker": "NSE:POLYCAB",
+   "name": "Polycab India Ltd.",
+   "industry": "Producer Manufacturing",
+   "market_cap": 1117489581833
   },
   {
    "symbol": "APOLLOHOSP",
    "tv_ticker": "NSE:APOLLOHOSP",
    "name": "Apollo Hospitals Enterprise Limited",
    "industry": "Health Services",
-   "market_cap": 1091325514069
+   "market_cap": 1111735773604
   },
   {
-   "symbol": "PFC",
-   "tv_ticker": "NSE:PFC",
-   "name": "Power Finance Corporation Limited",
-   "industry": "Finance",
-   "market_cap": 1075833188965
+   "symbol": "TATAPOWER",
+   "tv_ticker": "NSE:TATAPOWER",
+   "name": "Tata Power Company Limited",
+   "industry": "Utilities",
+   "market_cap": 1105587501465
+  },
+  {
+   "symbol": "BRITANNIA",
+   "tv_ticker": "NSE:BRITANNIA",
+   "name": "Britannia Industries Ltd",
+   "industry": "Consumer Non-Durables",
+   "market_cap": 1095420814024
   },
   {
    "symbol": "CIPLA",
    "tv_ticker": "NSE:CIPLA",
    "name": "Cipla Ltd",
    "industry": "Health Technology",
-   "market_cap": 1074387137936
+   "market_cap": 1080122999512
+  },
+  {
+   "symbol": "GAIL",
+   "tv_ticker": "NSE:GAIL",
+   "name": "GAIL (India) Limited",
+   "industry": "Utilities",
+   "market_cap": 1073713786277.0001
+  },
+  {
+   "symbol": "CANBK",
+   "tv_ticker": "NSE:CANBK",
+   "name": "Canara Bank",
+   "industry": "Finance",
+   "market_cap": 1055823832981
+  },
+  {
+   "symbol": "PFC",
+   "tv_ticker": "NSE:PFC",
+   "name": "Power Finance Corporation Limited",
+   "industry": "Finance",
+   "market_cap": 1042832170898
   },
   {
    "symbol": "JINDALSTEL",
    "tv_ticker": "NSE:JINDALSTEL",
    "name": "Jindal Steel Limited",
    "industry": "Non-Energy Minerals",
-   "market_cap": 1050384702559.0001
+   "market_cap": 1032329192383
   },
   {
    "symbol": "DRREDDY",
    "tv_ticker": "NSE:DRREDDY",
    "name": "Dr. Reddy's Laboratories Ltd.",
    "industry": "Health Technology",
-   "market_cap": 1033660705444
-  },
-  {
-   "symbol": "IRFC",
-   "tv_ticker": "NSE:IRFC",
-   "name": "Indian Railway Finance Corp. Ltd.",
-   "industry": "Finance",
-   "market_cap": 1006928416347
+   "market_cap": 1021563788391
   },
   {
    "symbol": "TMPV",
    "tv_ticker": "NSE:TMPV",
    "name": "Tata Motors Passenger Vehicles Ltd",
    "industry": "Consumer Durables",
-   "market_cap": 992566394531
+   "market_cap": 977650321130
   },
   {
-   "symbol": "ENRIN",
-   "tv_ticker": "NSE:ENRIN",
-   "name": "Siemens Energy India Limited",
-   "industry": "Producer Manufacturing",
-   "market_cap": 986453823547
+   "symbol": "IRFC",
+   "tv_ticker": "NSE:IRFC",
+   "name": "Indian Railway Finance Corp. Ltd.",
+   "industry": "Finance",
+   "market_cap": 973603686523
   },
   {
    "symbol": "HDFCAMC",
    "tv_ticker": "NSE:HDFCAMC",
    "name": "HDFC Asset Management Co. Ltd.",
    "industry": "Finance",
-   "market_cap": 977214656601
-  },
-  {
-   "symbol": "MUTHOOTFIN",
-   "tv_ticker": "NSE:MUTHOOTFIN",
-   "name": "Muthoot Finance Ltd",
-   "industry": "Finance",
-   "market_cap": 969546367950
+   "market_cap": 965415138245
   },
   {
    "symbol": "TATACONSUM",
    "tv_ticker": "NSE:TATACONSUM",
    "name": "Tata Consumer Products Limited",
    "industry": "Consumer Non-Durables",
-   "market_cap": 953076468384
+   "market_cap": 950110078125
   },
   {
-   "symbol": "VEDL",
-   "tv_ticker": "NSE:VEDL",
-   "name": "Vedanta Limited",
-   "industry": "Non-Energy Minerals",
-   "market_cap": 911120389893
+   "symbol": "MUTHOOTFIN",
+   "tv_ticker": "NSE:MUTHOOTFIN",
+   "name": "Muthoot Finance Ltd",
+   "industry": "Finance",
+   "market_cap": 949874412659
+  },
+  {
+   "symbol": "ENRIN",
+   "tv_ticker": "NSE:ENRIN",
+   "name": "Siemens Energy India Limited",
+   "industry": "Producer Manufacturing",
+   "market_cap": 943363241364
   },
   {
    "symbol": "AMBUJACEM",
    "tv_ticker": "NSE:AMBUJACEM",
    "name": "Ambuja Cements Limited",
    "industry": "Non-Energy Minerals",
-   "market_cap": 883476703323
+   "market_cap": 889564535645
+  },
+  {
+   "symbol": "VEDL",
+   "tv_ticker": "NSE:VEDL",
+   "name": "Vedanta Limited",
+   "industry": "Non-Energy Minerals",
+   "market_cap": 883747674316
   },
   {
    "symbol": "GODREJCP",
    "tv_ticker": "NSE:GODREJCP",
    "name": "Godrej Consumer Products Limited",
    "industry": "Consumer Non-Durables",
-   "market_cap": 880758567155
+   "market_cap": 871344149292
   },
   {
    "symbol": "MAXHEALTH",
    "tv_ticker": "NSE:MAXHEALTH",
    "name": "Max Healthcare Institute Ltd",
    "industry": "Health Services",
-   "market_cap": 791690574361
+   "market_cap": 795194467468
   },
   {
    "symbol": "MAZDOCK",
    "tv_ticker": "NSE:MAZDOCK",
    "name": "Mazagon Dock Shipbuilders Ltd.",
    "industry": "Producer Manufacturing",
-   "market_cap": 776909889404
+   "market_cap": 751093569092
   }
  ]
 }
