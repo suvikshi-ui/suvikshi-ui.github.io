@@ -78,7 +78,35 @@ select{background:#fff!important;color:#1E293B!important;border-color:#99F6E4!im
 footer{color:var(--mu);border-top-color:#99F6E4}
 .rf{display:inline-flex;align-items:center;gap:8px;margin-left:6px}#bfRefresh{background:#0D9488;color:#fff;border:0;border-radius:999px;padding:5px 14px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px #0d948844}#bfRefresh:hover{background:#0F766E}#bfRefresh:disabled{opacity:.75;cursor:wait}.spin{display:none;width:11px;height:11px;border:2px solid #ffffff88;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}#bfRefresh.busy .spin{display:inline-block}@keyframes sp{to{transform:rotate(360deg)}}.rf a{color:#0D9488;font-weight:600;font-size:13px}#bfRefreshSt{color:#0F766E}
 .dh{font-weight:700}.dhg{background:#16A34A;color:#fff;border:1px solid #15803D}.dhr{background:#DC2626;color:#fff;border:1px solid #B91C1C}
-</style></head><body><!--OPENQ--><div id="openq" style="background:#111;color:#fff;border:3px solid #ffcc00;border-radius:10px;padding:10px 12px;margin:8px;font-family:system-ui,Arial,sans-serif;font-size:16px;line-height:1.35">
+</style></head><body><!--LIVESIG--><style>@keyframes lsp{0%{opacity:1}50%{opacity:.2}100%{opacity:1}}#lsig .dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff6d00;animation:lsp 1.2s infinite;margin-right:6px}#lsig .r{background:#2a1600;border-left:8px solid #ff9100;margin:6px 0;padding:6px 8px;border-radius:6px}#lsig .cx{opacity:.45;text-decoration:line-through;border-left-color:#777}</style>
+<div id="lsig" style="background:#1a0e00;color:#fff;border:3px solid #ff9100;border-radius:10px;padding:10px 12px;margin:8px;font-family:system-ui,Arial,sans-serif;font-size:16px;line-height:1.35">
+<div style="font-size:22px;font-weight:900;letter-spacing:1px;color:#ff9100"><span class="dot"></span>LIVE SIGNALS <span id="ls-n"></span></div>
+<div id="ls-w"></div><div id="ls-u" style="font-size:13px;color:#ccc;margin-bottom:6px">Connecting to live scanner…</div><div id="ls-b"></div>
+<div style="font-size:12px;color:#bbb">Provisional: price has reached the trigger of a qualifying flip brick in the forming 15m candle. Becomes a trade only if the candle closes past it (then it moves to OPEN TRADES).</div></div>
+<script>(()=>{const q=new URLSearchParams(location.search),T=q.get('feed')||'suvikshi-cm15-d8a59aaf-feed',U='https://ntfy.sh/'+T,
+HR={BUY:[48.0,5745],SELL:[50.2,5611]},HT='Approximation from 15m candles only (27 Jul–26 Oct 2026, 100 stocks): of candles whose high/low crossed the 2-box Renko reversal level mid-candle, this share closed past it. Not filtered by the EMA/2-brick rule; no tick data. Not a prediction.';
+const S={},$=i=>document.getElementById(i);let hb=0,deg=null,lid=null;
+const ist=t=>new Date(t*1000+(330+new Date().getTimezoneOffset())*6e4),hm=t=>{const d=ist(t);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')},
+cs=c=>Date.parse(c.replace(' ','T')+':00+05:30')/1000;
+function h(e){if(!e||e.event!='message')return;lid=e.id;let v;try{v=JSON.parse(e.message)}catch(x){return}
+ if(v.type=='LIVE')S[v.id]=Object.assign(S[v.id]||{},v,{st:'live'});
+ else if(v.type=='CLOSED')delete S[v.id];
+ else if(v.type=='CANCELLED'){S[v.id]=Object.assign(S[v.id]||{},v,{st:'cx',cts:v.ts})}
+ else if(v.type=='SNAPSHOT'){const ids=new Set(v.live.map(x=>x.id));for(const k in S)if(S[k].st=='live'&&!ids.has(k))delete S[k];v.live.forEach(x=>S[x.id]=Object.assign(S[x.id]||{},x,{st:'live'}))}
+ else if(v.type=='HEARTBEAT'){hb=Math.max(hb,v.ts);if(deg&&v.ts>deg.ts)deg=null}
+ else if(v.type=='DEGRADED'){hb=Math.max(hb,v.ts);deg=v}}
+function r(){const n=Date.now()/1000,d=ist(n),m=d.getHours()*60+d.getMinutes(),mk=d.getDay()>0&&d.getDay()<6&&m>=555&&m<=930;
+ for(const k in S){const s=S[k];if(s.st=='cx'&&n-s.cts>900)delete S[k];else if(s.st=='live'&&n>cs(s.candle)+900+300)delete S[k]}
+ let w='';if(deg)w+='<div style="background:#d50000;padding:6px;border-radius:6px;font-weight:800">FEED DEGRADED: '+deg.failing+'/'+deg.total+' symbols failing (since '+hm(deg.ts)+' IST)</div>';
+ if(mk&&n-hb>600)w+='<div style="background:#d50000;padding:6px;border-radius:6px;font-weight:800">Live scanner offline since '+(hb?hm(hb)+' IST':'(no heartbeat in last 12h)')+'</div>';
+ $('ls-w').innerHTML=w;$('ls-u').textContent=(hb?'Scanner heartbeat '+hm(hb)+' IST':'No scanner heartbeat yet')+(mk?'':' · market closed');
+ const L=Object.entries(S);$('ls-n').textContent='('+L.filter(x=>x[1].st=='live').length+')';
+ $('ls-b').innerHTML=L.length?L.map(([k,s])=>{const sd=s.side=='BUY'?1:-1,box=Math.abs(s.entry-s.stop)/2,lp=s.last??s.entry,db=box?((lp-s.entry)*sd/box):0,dp=(lp-s.entry)/s.entry*100*sd,tl=Math.max(0,cs(s.candle)+900-n),c=s.side=='BUY'?'#00c853':'#ff1744',hr=HR[s.side];
+ return '<div class="r'+(s.st=='cx'?' cx':'')+'"><div style="font-size:20px;font-weight:900">'+(s.st=='cx'?'CANCELLED ':'<span style="background:#ff9100;color:#000;padding:0 6px;border-radius:4px;font-size:14px">LIVE</span> ')+s.sym+' <span style="background:'+c+';color:#000;padding:1px 8px;border-radius:4px">'+s.side+'</span></div><div style="font-weight:700">Entry (trigger) '+s.entry+' · Stop '+s.stop+' · Target 1.5R '+s.target+' · Last '+lp+'</div>'
+ +(s.st=='live'?'<div style="font-size:14px;color:#ffd180">Distance: '+(db>=0?'+':'')+db.toFixed(2)+' box ('+(dp>=0?'+':'')+dp.toFixed(2)+'%) past trigger · Time left: '+Math.floor(tl/60)+'m '+String(Math.floor(tl%60)).padStart(2,'0')+'s · <span title="'+HT+'" style="text-decoration:underline dotted;cursor:help">Hist. hold rate ≈'+hr[0]+'% (n='+hr[1]+') ⓘ</span></div>':'')+'<div style="font-size:12px;color:#ccc">Candle '+s.candle+' IST</div></div>'}).join(''):'<div style="font-size:18px;font-weight:700">No live signals right now</div>'}
+async function poll(since){try{const t=await(await fetch(U+'/json?poll=1&since='+since)).text();t.split('\n').forEach(l=>{if(l.trim())try{h(JSON.parse(l))}catch(x){}})}catch(x){}r()}
+(async()=>{await poll('12h');let es;try{es=new EventSource(U+'/sse'+(lid?'?since='+lid:''));es.onmessage=e=>{try{h(JSON.parse(e.data))}catch(x){}r()};
+ let f=0;es.onerror=()=>{if(++f>3&&es.readyState==2){es.close();setInterval(()=>poll(lid||'12h'),20000)}}}catch(x){setInterval(()=>poll(lid||'12h'),20000)}setInterval(r,1000)})();})();</script><!--/LIVESIG--><!--OPENQ--><div id="openq" style="background:#111;color:#fff;border:3px solid #ffcc00;border-radius:10px;padding:10px 12px;margin:8px;font-family:system-ui,Arial,sans-serif;font-size:16px;line-height:1.35">
 <div style="font-size:22px;font-weight:900;letter-spacing:1px;color:#ffcc00">OPEN TRADES <span id="oq-n">…</span></div>
 <div id="oq-u" style="font-size:13px;color:#ccc;margin-bottom:6px">Loading…</div><div id="oq-b"></div></div>
 <script>(async()=>{const n=document.getElementById('oq-n'),u=document.getElementById('oq-u'),b=document.getElementById('oq-b');let d;try{d=await(await fetch('cmema11_15m_live.json?t='+Date.now())).json()}catch(e){u.textContent='Live feed failed to load';n.textContent='';return}
