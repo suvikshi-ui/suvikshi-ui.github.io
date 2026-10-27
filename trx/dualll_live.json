@@ -1,0 +1,183 @@
+{
+ "generated_ist": "2026-10-27 12:00 IST",
+ "generated_epoch": 1793082639,
+ "source": "TradingView only (BINGX:*.P 1h + 1D)",
+ "timeframe": "1h",
+ "pairs": 33,
+ "scanned": 33,
+ "last_bar": "2026-10-27 10:30",
+ "counts": {
+  "SIGNAL": 0,
+  "OPEN": 0,
+  "ARMED": 0
+ },
+ "daily_filter": {
+  "AAVEUSDT.P": {
+   "close": 135.77,
+   "ema50": 146.75,
+   "above": false
+  },
+  "ADAUSDT.P": {
+   "close": 0.2066,
+   "ema50": 0.224664,
+   "above": false
+  },
+  "APTUSDT.P": {
+   "close": 0.6978,
+   "ema50": 0.748136,
+   "above": false
+  },
+  "ATOMUSDT.P": {
+   "close": 1.638,
+   "ema50": 1.70931,
+   "above": false
+  },
+  "AVAXUSDT.P": {
+   "close": 8.974,
+   "ema50": 9.46186,
+   "above": false
+  },
+  "BCHUSDT.P": {
+   "close": 281.07,
+   "ema50": 277.669,
+   "above": true
+  },
+  "BILLUSDT.P": {
+   "close": 0.005923,
+   "ema50": 0.0113046,
+   "above": false
+  },
+  "BNBUSDT.P": {
+   "close": 743.0,
+   "ema50": 734.239,
+   "above": true
+  },
+  "BTCUSDT.P": {
+   "close": 80118.3,
+   "ema50": 80761.9,
+   "above": false
+  },
+  "CCUSDT.P": {
+   "close": 0.09942,
+   "ema50": 0.112188,
+   "above": false
+  },
+  "CFGUSDT.P": {
+   "close": 0.1019,
+   "ema50": 0.130929,
+   "above": false
+  },
+  "DOGEUSDT.P": {
+   "close": 0.07773,
+   "ema50": 0.0843041,
+   "above": false
+  },
+  "DOTUSDT.P": {
+   "close": 1.0104,
+   "ema50": 1.09931,
+   "above": false
+  },
+  "ETHUSDT.P": {
+   "close": 2323.51,
+   "ema50": 2457.89,
+   "above": false
+  },
+  "HBARUSDT.P": {
+   "close": 0.0773,
+   "ema50": 0.0854372,
+   "above": false
+  },
+  "HYPEUSDT.P": {
+   "close": 78.314,
+   "ema50": 81.6461,
+   "above": false
+  },
+  "LINKUSDT.P": {
+   "close": 11.399,
+   "ema50": 12.2745,
+   "above": false
+  },
+  "LTCUSDT.P": {
+   "close": 56.77,
+   "ema50": 59.7067,
+   "above": false
+  },
+  "MONADUSDT.P": {
+   "close": 0.02181,
+   "ema50": 0.0244676,
+   "above": false
+  },
+  "MUSDT.P": {
+   "close": 0.9591,
+   "ema50": 1.01037,
+   "above": false
+  },
+  "NEARUSDT.P": {
+   "close": 4.506,
+   "ema50": 4.29215,
+   "above": true
+  },
+  "NOTUSDT.P": {
+   "close": 0.000372,
+   "ema50": 0.00043211,
+   "above": false
+  },
+  "ONDOUSDT.P": {
+   "close": 0.4156,
+   "ema50": 0.438635,
+   "above": false
+  },
+  "PIUSDT.P": {
+   "close": 0.07683,
+   "ema50": 0.0844141,
+   "above": false
+  },
+  "SOLUSDT.P": {
+   "close": 100.915,
+   "ema50": 105.92,
+   "above": false
+  },
+  "SUIUSDT.P": {
+   "close": 0.9178,
+   "ema50": 0.977028,
+   "above": false
+  },
+  "TRXUSDT.P": {
+   "close": 0.32921,
+   "ema50": 0.333034,
+   "above": false
+  },
+  "UNIUSDT.P": {
+   "close": 7.152,
+   "ema50": 7.25749,
+   "above": false
+  },
+  "WLFIUSDT.P": {
+   "close": 0.05299,
+   "ema50": 0.0560427,
+   "above": false
+  },
+  "XLMUSDT.P": {
+   "close": 0.16931,
+   "ema50": 0.189217,
+   "above": false
+  },
+  "XMRUSDT.P": {
+   "close": 599.32,
+   "ema50": 546.518,
+   "above": true
+  },
+  "XRPUSDT.P": {
+   "close": 1.3084,
+   "ema50": 1.36196,
+   "above": false
+  },
+  "ZECUSDT.P": {
+   "close": 1232.29,
+   "ema50": 1193.59,
+   "above": true
+  }
+ },
+ "rows": [],
+ "errors": []
+}
