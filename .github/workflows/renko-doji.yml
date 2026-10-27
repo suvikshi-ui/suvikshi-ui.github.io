@@ -1,7 +1,6 @@
+# auto-scan disabled 27 Oct 2026 per Suvikshi; only Sweep Live is live
 name: Renko Doji scan (Nifty 100)
 on:
-  schedule:
-    - cron: "20 4-11 * * 1-5"   # hourly 09:50–16:50 IST, weekdays
   workflow_dispatch:
 permissions:
   contents: write
