@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Clean Sweep · Trades list</title><style>
+:root{--bg:#0f1218;--card:#171c25;--line:#262d3a;--tx:#e6e9ef;--mu:#8d96a8;--g:#26a69a;--r:#ef5350;--lg:#a5d6a7;--lr:#f8a5a3;--acc:#5b8def}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+.w{max-width:1100px;margin:0 auto;padding:20px 16px 48px}
+header h1{margin:6px 0 4px;font-size:26px}header p{margin:0;color:var(--mu)}
+.tag{display:inline-block;font-size:12px;color:var(--acc);border:1px solid var(--acc);border-radius:20px;padding:1px 10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card .k{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.card .v{font-size:28px;font-weight:700}
+.v.s{color:var(--r)}.v.bu{color:var(--g)}
+section{margin:28px 0}h2{font-size:19px;margin:0 0 10px}h3{font-size:16px;margin:0 0 6px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-left:4px solid}
+.rule.rs{border-left-color:var(--r)}.rule.rb{border-left-color:var(--g)}.rule ol{margin:6px 0 0;padding-left:20px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white-space:nowrap}tr:last-child td{border-bottom:0}
+small{color:var(--mu)}
+.b{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.sell{background:var(--r);color:#fff}.buy{background:var(--g);color:#fff}
+.sello{border:1px solid var(--r);color:var(--r)}.buyo{border:1px solid var(--g);color:var(--g)}
+.dg{background:#26a69a;color:#fff}.lg{background:#b2dfdb;color:#10322e}.dr{background:#ef5350;color:#fff}.lr{background:#ffcdd2;color:#4a1414}
+.hr{background:#4a1f24;color:#ff8a80;border:1px solid #ef5350}.hg{background:#173b2f;color:#69f0ae;border:1px solid #26a69a}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+svg{width:100%;height:auto;display:block}.grid{stroke:#232a36}.ax{fill:#8d96a8;font-size:11px}
+.up{fill:#26a69a}.dn{fill:#ef5350}.msell{fill:#ffd54f;stroke:#000}.mbuy{fill:#69f0ae;stroke:#000}.mfail{fill:none;stroke:#9aa3b5;stroke-width:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--mu);margin:8px 4px 2px}
+.note{background:#231d10;border:1px solid #5c4813;color:#f3d98b;border-radius:12px;padding:12px 14px;font-size:14px}
+.pending{color:var(--mu);padding:16px}
+.live{margin-top:10px;display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;background:#122019;border:1px solid #1f4d3a;color:#b9e8d2;border-radius:10px;padding:6px 12px;font-size:13px}
+.live.stale{background:#2a1c10;border-color:#6b4a14;color:#f3d98b}.dot{width:8px;height:8px;border-radius:50%;background:#26a69a;display:inline-block;animation:pl 1.6s infinite}
+@keyframes pl{50%{opacity:.3}}.new{background:#ffd54f;color:#1a1400}.form{border:1px dashed #ffb74d;color:#ffb74d}.conf{border:1px solid #4a5568;color:#9aa3b5}tr.isnew td{background:#2a2510}
+.acards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.ac{background:linear-gradient(180deg,#1b2230,#151a23);border:2px solid #2d3546;border-radius:14px;padding:14px 16px;cursor:pointer;transition:transform .1s,border-color .1s}
+.ac:hover{transform:translateY(-2px)}.ac.sellc{border-color:#ef5350;box-shadow:0 0 0 1px #ef535033,0 6px 24px #ef535022}.ac.buyc{border-color:#26a69a;box-shadow:0 0 0 1px #26a69a33,0 6px 24px #26a69a22}
+.ac .top{display:flex;justify-content:space-between;align-items:center;gap:8px}.ac .coin{font-size:20px;font-weight:800}.ac .sig{font-size:16px;padding:3px 12px}
+.ac .row{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-top:6px;color:#c9d0dc}.ac .row span:first-child{color:#8d96a8}
+.ac .px{font-size:24px;font-weight:700;margin-top:6px}.ac .vw{margin-top:10px;font-size:12px;color:#5b8def}
+.sec{opacity:.9}.sec td{font-size:13px}.click{cursor:pointer}.click:hover td{background:#1c2230}.lnk{color:#5b8def;cursor:pointer;text-decoration:none}
+.modal{position:fixed;inset:0;background:#000c;z-index:50;display:flex;align-items:center;justify-content:center;padding:12px}.modal[hidden]{display:none}
+.mbox{background:#131722;border:1px solid #2a3040;border-radius:14px;max-width:1120px;width:100%;max-height:96vh;overflow:auto;padding:14px;position:relative}
+.mx{position:absolute;top:6px;right:10px;background:none;border:0;color:#cfd3dc;font-size:30px;cursor:pointer;line-height:1}
+.mtitle{font-weight:700;font-size:16px;padding-right:36px}.mtabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.mtabs button{background:#1c2230;color:#cfd3dc;border:1px solid #2a3040;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:13px}
+.mtabs button.on{background:#2a3a5c;border-color:#5b8def;color:#fff}.mimg img{width:100%;height:auto;display:block;border-radius:8px}.mcap{color:#8d96a8;font-size:12px;margin-top:8px}
+.tabs{display:flex;gap:8px;margin:26px 0 6px;position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{background:#171c25;color:#cfd3dc;border:1px solid #262d3a;border-radius:10px 10px 0 0;padding:10px 16px;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tab.on{background:#22304a;border-color:#5b8def;color:#fff}.mkt[hidden]{display:none}h2.sub{margin-top:34px;font-size:20px}
+.mh{font-size:24px;margin:18px 0 4px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.chip{background:#171c25;border:1px solid #262d3a;border-radius:6px;padding:2px 8px;font-size:12px;color:#c9d0dc}
+footer{color:var(--mu);font-size:13px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:640px){
+ .rtable thead{display:none}.rtable tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}
+ .rtable td{display:flex;gap:10px;border:0;padding:4px 12px}.rtable td::before{content:attr(data-l);color:var(--mu);font-size:12px;min-width:110px;flex:none}
+ header h1{font-size:21px}}
+
+/* ===== BrickFlow fresh mint/aqua light theme ===== */
+:root{--bg:#E6FFFA;--card:#FFFFFF;--line:#B2F5EA;--tx:#1E293B;--mu:#5B6B7F;--g:#0F9F6E;--r:#DC2626;--acc:#0D9488}
+body{background:linear-gradient(160deg,#E6FFFA 0%,#F0FDF4 60%,#ECFEFF 100%) fixed;color:var(--tx)}
+header{background:linear-gradient(120deg,#0D9488,#14B8A6 60%,#2DD4BF);color:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 10px 30px #0d948833}
+header p,header small{color:#E6FFFA}header h1{color:#fff}.tag{color:#fff;border-color:#ffffffaa;background:#ffffff22}
+.live{background:#ffffff;border:1px solid #99F6E4;color:#115E59}.live b{color:#0F766E}.live.stale{background:#FFFBEB;border-color:#FCD34D;color:#92400E}.dot{background:#14B8A6}
+.card,.rule,.tw,.chart,.ac{background:#fff;border-color:var(--line);box-shadow:0 2px 10px #0d948812}
+.card .k,th,small{color:var(--mu)}.v.s{color:#DC2626}.v.bu{color:#059669}
+.rule.rs{border-left-color:#DC2626}.rule.rb{border-left-color:#059669}
+th{background:#F0FDFA}td{border-bottom-color:#E0F7F2}tr.isnew td{background:#FEF9C3}.click:hover td{background:#F0FDFA}
+.sell{background:#DC2626;color:#fff}.buy{background:#059669;color:#fff}.sello{border-color:#DC2626;color:#DC2626}.buyo{border-color:#059669;color:#059669}
+.dg{background:#059669;color:#fff}.lg{background:#A7F3D0;color:#064E3B}.dr{background:#DC2626;color:#fff}.lr{background:#FECACA;color:#7F1D1D}
+.hr{background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5}.hg{background:#D1FAE5;color:#047857;border:1px solid #6EE7B7}
+.strong{background:#0D9488;color:#fff}
+.acards .ac.isstrong,.ac.isstrong.buyc,.ac.isstrong.sellc{border:2px solid #0D9488;box-shadow:0 0 0 3px #FCD34D,0 8px 26px #0d948840}.ac .star{color:#F59E0B;text-shadow:0 0 6px #FDE68A}
+tr.isstrong td{background:#FFFBEB}tr.isstrong td:first-child{box-shadow:inset 4px 0 0 #F59E0B}tr.isstrong.isnew td{background:#FEF9C3}tr.isstrong.click:hover td{background:#FEF3C7}.acards .ac.isagainst,.ac.isagainst.buyc,.ac.isagainst.sellc{border:2px dashed #D97706;background:#FFFBEB}.acards .ac.isstrong.isagainst{border:2px dashed #D97706}.b.hagainst{border:1px solid #D97706;color:#92400E;background:#FEF3C7;font-weight:600}tr.isagainst td:nth-child(2){box-shadow:inset 0 -2px 0 #D97706}.b.oc-t{background:#D1FAE5;color:#065F46}.b.oc-s{background:#FEE2E2;color:#991B1B}.b.oc-o{border:1px solid #CBD5E1;color:#475569}.noft{border:1px solid #CBD5E1;color:#64748B;background:#F8FAFC;font-weight:500}
+.new{background:#FACC15;color:#422006;box-shadow:0 0 0 2px #FDE68A}.form{border:1px dashed #D97706;color:#B45309;background:#FFFBEB}.conf{border:1px solid #CBD5E1;color:#475569;background:#F8FAFC}
+.ac{background:#fff}.ac.sellc{border-color:#F87171;box-shadow:0 6px 22px #dc262622}.ac.buyc{border-color:#34D399;box-shadow:0 6px 22px #05966922}.ac .row{color:#334155}.ac .row span:first-child{color:#64748B}.ac .vw,.lnk,a{color:#0D9488}
+.grid{stroke:#D5F5EE}.ax{fill:#64748B}.mfail{stroke:#64748B}
+.tabs{background:transparent;border-bottom:2px solid #99F6E4}.tab{background:#fff;color:#0F766E;border-color:#99F6E4}.tab.on{background:#0D9488;border-color:#0D9488;color:#fff}
+.note{background:#FFFBEB;border-color:#FDE68A;color:#713F12}.pending{color:var(--mu)}.chip{background:#F0FDFA;border-color:#99F6E4;color:#134E4A}
+select{background:#fff!important;color:#1E293B!important;border-color:#99F6E4!important}
+.modal{background:#0f172a99}.mbox{background:#fff;border-color:#99F6E4}.mx{color:#334155}.mtitle{color:#1E293B}.mtabs button{background:#F0FDFA;color:#0F766E;border-color:#99F6E4}.mtabs button.on{background:#0D9488;color:#fff;border-color:#0D9488}.mcap{color:#64748B}
+footer{color:var(--mu);border-top-color:#99F6E4}
+.rf{display:inline-flex;align-items:center;gap:8px;margin-left:6px}#bfRefresh{background:#0D9488;color:#fff;border:0;border-radius:999px;padding:5px 14px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px #0d948844}#bfRefresh:hover{background:#0F766E}#bfRefresh:disabled{opacity:.75;cursor:wait}.spin{display:none;width:11px;height:11px;border:2px solid #ffffff88;border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}#bfRefresh.busy .spin{display:inline-block}@keyframes sp{to{transform:rotate(360deg)}}.rf a{color:#0D9488;font-weight:600;font-size:13px}#bfRefreshSt{color:#0F766E}
+.dh{font-weight:700}.dhg{background:#16A34A;color:#fff;border:1px solid #15803D}.dhr{background:#DC2626;color:#fff;border:1px solid #B91C1C}
+</style></head><body><div class="w"><nav class="sitenav"><a href="sweeplive.html" class="on">Clean Sweep</a><a href="others.html">Others</a></nav><style>.subnav{display:flex;gap:8px;margin:-6px 0 14px}.subnav a{color:#0F766E;border:1px solid #99F6E4;border-radius:8px;padding:6px 12px;font-size:14px;text-decoration:none}.subnav a.on{background:#CCFBF1;font-weight:600}</style><nav class="subnav"><a href="sweeplive.html">Sweep Live</a><a href="sweepstart.html">Start Here</a><a href="sweeptrades.html" class="on" aria-current="page">Trades</a></nav><style>#tt th{cursor:pointer}#tt tr.r:hover td{background:#F0FDFA;cursor:pointer}.pos{color:#047857}.neg{color:#B91C1C}#md{display:none;position:fixed;inset:0;background:#0008;z-index:9}#md>div{background:#fff;max-width:900px;margin:5vh auto;padding:14px;border-radius:12px}#md canvas{width:100%;height:380px}.flt{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}</style>
+<header><span class="tag">Clean Sweep · backtest trades</span><h1>Clean Sweep: saare trades (2021–2026)</h1><p>Row 4 buys: NSE150 daily Renko + CM_EMA 11, limit at brick (3 din), EMA50/200 trend, EMA 11 exit. 0.1% cost + 0.05% slippage, ek stock mein ek position. Missed entries nahi gine. Row par click karein chart ke liye. TradingView data.</p></header>
+<div class="flt"><label>Year <select id="fy"><option value="">All</option></select></label><label>Stock <input id="fs" placeholder="e.g. DIVISLAB"></label><span id="sum" class="note"></span></div>
+<table id="tt"><thead><tr><th data-k="n">#</th><th data-k="stock">Stock</th><th data-k="signal">Signal date</th><th data-k="entry_date">Entry date</th><th data-k="entry">Entry</th><th data-k="stop">Stop</th><th data-k="exit_date">Exit date</th><th data-k="exit">Exit</th><th data-k="reason">Exit reason</th><th data-k="pl">P/L %</th><th data-k="days">Days</th></tr></thead><tbody></tbody></table>
+<h2>OPEN trades (224 mein shaamil nahi)</h2><table><tr><th>Stock</th><th>Signal</th><th>Entry date</th><th>Entry</th><th>Stop</th><th>Last close</th><th>P/L %</th></tr><tr><td>DIVISLAB</td><td>2026-04-16</td><td>2026-04-17</td><td>6228.55</td><td>6079.33</td><td>9050.0</td><td>+45.2</td></tr></table><p class="note">Open trades Sweep Live scan se (live data).</p>
+<div id="md"><div><b id="mt"></b> <button onclick="md.style.display='none'" style="float:right">Close ✕</button><p class="note">Bricks har trade ke aas-paas (signal se ~25 bricks pehle se exit ke baad tak).</p><canvas id="cv" width="880" height="380"></canvas><p class="note">Daily Renko bricks (ATR 14): green/red boxes · black = brick EMA 11 · orange = EMA 50 · purple = EMA 200 · red dashed = stop · ▲ entry · ▼ exit</p></div></div>
+<script>
+let D,T=[],sk='n',sa=1;const $=i=>document.getElementById(i),md=$('md');
+fetch('sweeptrades_data.json').then(r=>r.json()).then(j=>{D=j;T=j.trades;[...new Set(T.map(t=>t.year))].sort().forEach(y=>$('fy').innerHTML+=`<option>${y}</option>`);draw()});
+function draw(){const y=$('fy').value,s=$('fs').value.trim().toUpperCase();let R=T.filter(t=>(!y||t.year==y)&&(!s||t.stock.includes(s)));
+R.sort((a,b)=>(a[sk]>b[sk]?1:a[sk]<b[sk]?-1:0)*sa);
+$('tt').tBodies[0].innerHTML=R.map(t=>`<tr class="r" data-id="${t.stock}|${t.entry_date}"><td>${t.n}</td><td>${t.stock}</td><td>${t.signal}</td><td>${t.entry_date}</td><td>${t.entry}</td><td>${t.stop}</td><td>${t.exit_date}</td><td>${t.exit}</td><td>${t.reason}</td><td class="${t.pl>0?'pos':'neg'}">${t.pl.toFixed(2)}</td><td>${t.days}</td></tr>`).join('');
+const p=R.map(t=>t.pl),g=p.filter(v=>v>0).reduce((a,b)=>a+b,0),l=-p.filter(v=>v<0).reduce((a,b)=>a+b,0);
+$('sum').textContent=`${R.length} trades · win ${(R.length?p.filter(v=>v>0).length/R.length*100:0).toFixed(1)}% · PF ${l?(g/l).toFixed(2):'-'} · total ${(g-l).toFixed(1)}%`}
+$('fy').onchange=draw;$('fs').oninput=draw;document.querySelectorAll('#tt th').forEach(h=>h.onclick=()=>{sa=sk==h.dataset.k?-sa:1;sk=h.dataset.k;draw()});
+$('tt').onclick=e=>{const r=e.target.closest('tr.r');if(r)chart(r.dataset.id)};
+let CH=null;function chart(id){if(!CH){fetch('sweeptrades_charts.json').then(r=>r.json()).then(j=>{CH=j;chart(id)});return}
+const c=CH[id],t=T.find(x=>x.stock+'|'+x.entry_date==id);$('mt').textContent=`${t.stock}: entry ${t.entry_date} @ ${t.entry}, exit ${t.exit_date} @ ${t.exit} (${t.reason}, ${t.pl.toFixed(2)}%)`;md.style.display='block';
+const cv=$('cv'),x=cv.getContext('2d'),W=cv.width,H=cv.height,P=46;x.clearRect(0,0,W,H);if(!c){x.fillText('Chart data missing',20,20);return}
+const n=c.o.length,all=[...c.o,...c.c,...c.e11,...c.e50,...c.e200,t.stop,t.entry,t.exit].filter(v=>v!=null),lo=Math.min(...all),hi=Math.max(...all);
+const bw=(W-2*P)/n,X=i=>P+i*bw+bw/2,Y=v=>H-P-(v-lo)/(hi-lo)*(H-2*P);
+x.font='11px sans-serif';x.fillStyle='#64748B';[lo,(lo+hi)/2,hi].forEach(v=>x.fillText(v.toFixed(1),2,Y(v)));x.fillText(c.d[0],P,H-8);x.fillText(c.d[n-1],W-P-60,H-8);
+for(let i=0;i<n;i++){const g=c.c[i]>c.o[i],t0=Y(Math.max(c.o[i],c.c[i])),b0=Y(Math.min(c.o[i],c.c[i]));x.fillStyle=g?'#26a69a':'#ef5350';x.fillRect(P+i*bw+1,t0,Math.max(1,bw-2),Math.max(1,b0-t0))}
+const L=(a,col,w)=>{x.beginPath();x.strokeStyle=col;x.lineWidth=w;let m=0;a.forEach((v,i)=>{if(v==null)return;m?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v));m=1});x.stroke()};
+L(c.e11,'#0F172A',2);L(c.e50,'#F59E0B',1.5);L(c.e200,'#7C3AED',1.5);
+const ix=d=>{let i=c.d.findIndex(z=>z>=d);return i<0?n-1:i},a=ix(c.ein),b=ix(c.eout);
+x.beginPath();x.strokeStyle='#DC2626';x.lineWidth=1.5;x.setLineDash([5,4]);x.moveTo(X(a)-bw/2,Y(t.stop));x.lineTo(X(b)+bw/2,Y(t.stop));x.stroke();x.setLineDash([]);
+const M=(i,v,up,col)=>{x.fillStyle=col;x.beginPath();const px=X(i),py=Y(v);up?(x.moveTo(px,py),x.lineTo(px-7,py+12),x.lineTo(px+7,py+12)):(x.moveTo(px,py),x.lineTo(px-7,py-12),x.lineTo(px+7,py-12));x.fill()};
+M(a,t.entry,1,'#059669');M(b,t.exit,0,'#2563EB')}
+</script></div></body></html>
