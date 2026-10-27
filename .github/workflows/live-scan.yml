@@ -1,7 +1,6 @@
+# auto-scan disabled 27 Oct 2026 per Suvikshi; only Sweep Live is live
 name: Live strategy scan
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
