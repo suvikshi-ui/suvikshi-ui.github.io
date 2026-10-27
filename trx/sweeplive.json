@@ -1,0 +1,83 @@
+{
+ "generated_ist": "2026-10-27 12:13 IST",
+ "generated_epoch": 1793083454,
+ "source": "TradingView only (NSE:<SYM> 1D)",
+ "strategy": "NSE150 daily Renko + CM_EMA11, buys only, limit at brick, EMA50/200 trend, EMA11 exit (sweep row 4)",
+ "stocks": 150,
+ "scanned": 146,
+ "last_bar": "2026-10-26",
+ "trend_pass": 22,
+ "trend_pass_list": [
+  "ADANIPORTS",
+  "BAJAJHLDNG",
+  "BHARTIARTL",
+  "BSE",
+  "DIVISLAB",
+  "DLF",
+  "DRREDDY",
+  "ETERNAL",
+  "FEDERALBNK",
+  "HCLTECH",
+  "ICICIBANK",
+  "INDHOTEL",
+  "JSWSTEEL",
+  "KOTAKBANK",
+  "LAURUSLABS",
+  "PAYTM",
+  "PERSISTENT",
+  "PNB",
+  "TCS",
+  "TECHM",
+  "UNIONBANK",
+  "ZYDUSLIFE"
+ ],
+ "counts": {
+  "SIGNAL": 0,
+  "OPEN": 1,
+  "EXIT": 2
+ },
+ "rows": [
+  {
+   "stock": "AUROPHARMA",
+   "signal_date": "2026-02-25",
+   "brick": 1194.79,
+   "entry": 1186.2,
+   "entry_date": "2026-03-02",
+   "stop": 1164.57,
+   "risk_pct": 1.86,
+   "status": "EXIT EMA11",
+   "exit_date": "2026-10-23",
+   "exit": 1571.7,
+   "pl_pct": 32.4
+  },
+  {
+   "stock": "BAJAJHLDNG",
+   "signal_date": "2026-10-22",
+   "brick": 11289.4,
+   "entry": 11243.0,
+   "entry_date": "2026-10-23",
+   "stop": 11039.8,
+   "risk_pct": 1.84,
+   "status": "EXIT STOP",
+   "exit_date": "2026-10-23",
+   "exit": 11039.8,
+   "pl_pct": -1.91
+  },
+  {
+   "stock": "DIVISLAB",
+   "signal_date": "2026-04-16",
+   "brick": 6228.55,
+   "entry": 6228.55,
+   "entry_date": "2026-04-17",
+   "stop": 6079.33,
+   "risk_pct": 2.45,
+   "status": "OPEN",
+   "last_close": 9050.0,
+   "ema11": 8885.47,
+   "pl_pct": 45.2
+  }
+ ],
+ "errors": [
+  "BAJAJ-AUTO: series_error"
+ ]
+}
