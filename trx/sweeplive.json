@@ -1,6 +1,6 @@
 {
- "generated_ist": "2026-10-27 12:13 IST",
- "generated_epoch": 1793083454,
+ "generated_ist": "2026-10-27 12:23 IST",
+ "generated_epoch": 1793084058,
  "source": "TradingView only (NSE:<SYM> 1D)",
  "strategy": "NSE150 daily Renko + CM_EMA11, buys only, limit at brick, EMA50/200 trend, EMA11 exit (sweep row 4)",
  "stocks": 150,
@@ -34,7 +34,8 @@
  "counts": {
   "SIGNAL": 0,
   "OPEN": 1,
-  "EXIT": 2
+  "EXIT": 2,
+  "MISSED": 0
  },
  "rows": [
   {
