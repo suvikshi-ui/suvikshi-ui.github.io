@@ -83,17 +83,27 @@ footer{color:var(--mu);border-top-color:#99F6E4}
 <h2>New buy signals</h2><div id="sig"></div>
 <h2>Exit signals (last 5 trading days)</h2><div id="ex"></div>
 <h2>Open trades</h2><div id="op"></div>
+<h2>Missed entries (last ~10 trading days)</h2><div id="ms"></div>
+<h2>Strategy guide</h2><div class="note" style="line-height:1.7">
+<p><b>Signal kab banta hai?</b> Daily chart par Renko bricks hain, box size ATR 14 se. Jab lagataar exactly do red bricks ke turant baad ek nayi green brick banti hai, aur woh green brick EMA 11 ke upar cross karti hai, tab signal ban sakta hai. Saath mein teen shartein: RSI 14 pachpan se sattar ke beech ho, aur us din ka close EMA 50 aur EMA 200 dono ke upar ho. Sirf buy, sell nahi.</p>
+<p><b>Scan kab hota hai?</b> Market 3:30 baje band hota hai, uske baad lagbhag 4 baje scan chalta hai, aur page update ho jata hai.</p>
+<p><b>Entry kaise?</b> Agle din se brick level par buy limit lagti hai, jo teen trading din tak valid rehti hai. Agar price brick level ko chhoota hai toh limit par fill hota hai. Agar din ka open hi brick level se neeche khule, toh open par fill hota hai.</p>
+<p><b>Cancel kab?</b> Agar teen din mein price brick level tak wapas nahi aaya, ya entry se pehle stop hit ho gaya, toh signal cancel. Yeh Missed entries table mein dikhte hain.</p>
+<p><b>Stop loss:</b> Brick level se ek box neeche, yaani green brick ka open.</p>
+<p><b>Exit:</b> Jab pehli red brick EMA 11 ke neeche cross kare, us din ke close par exit. Is variant mein koi trailing stop nahi hai.</p>
+<p><b>Baaki niyam:</b> Ek stock mein ek waqt par ek hi position. Backtest mein sirf woh trades gine gaye jo fill hue, missed wale nahi. Yeh sirf signals hain, koi trade apne aap nahi hota.</p></div>
 <p><small>Rules (sweep row 4, backtest 2021–2026: 224 trades, 29% win, PF 2.64; 2025–26 PF 1.93): Renko 2-box reversal on daily closes, box = ATR14 of the last candle before each month; CM_EMA 11 on brick closes. Signal = green brick after exactly 2 red bricks that crosses above EMA 11, RSI14 between 55 and 70, daily close above EMA 50 and EMA 200. Entry = buy limit at the green brick level, valid 3 candles (cancelled if the stop is hit first). Stop = one box below (brick open). Exit = red brick crossing below EMA 11, at that day's close. One position per stock. TradingView data only. Signals only, no orders are placed. Not advice.</small></p></section>
 <script>
 const E=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&','<':'<','>':'>'}[c]));
 function tb(rows,cols){if(!rows.length)return '<p class="note">None right now.</p>';return '<table><tr>'+cols.map(c=>'<th>'+c[0]+'</th>').join('')+'</tr>'+rows.map(r=>'<tr>'+cols.map(c=>'<td>'+E(r[c[1]])+'</td>').join('')+'</tr>').join('')+'</table>'}
 async function load(){try{const d=await (await fetch('sweeplive.json?t='+Date.now())).json();
 document.getElementById('upd').textContent='Last updated: '+d.generated_ist;
-document.getElementById('meta').textContent=`Scanned ${d.scanned}/${d.stocks} stocks · last daily candle ${d.last_bar} · ${d.trend_pass} above EMA 50 & 200 · signals ${d.counts.SIGNAL}, open ${d.counts.OPEN}, exits ${d.counts.EXIT}`+(d.errors.length?` · data errors: ${d.errors.join(', ')}`:'');
+document.getElementById('meta').textContent=`Scanned ${d.scanned}/${d.stocks} stocks · last daily candle ${d.last_bar} · ${d.trend_pass} above EMA 50 & 200 · signals ${d.counts.SIGNAL}, open ${d.counts.OPEN}, exits ${d.counts.EXIT}, missed ${d.counts.MISSED??0}`+(d.errors.length?` · data errors: ${d.errors.join(', ')}`:'');
 const R=d.rows;
 document.getElementById('sig').innerHTML=tb(R.filter(r=>r.status=='SIGNAL'),[['Stock','stock'],['Signal date','signal_date'],['Entry (limit)','entry'],['Stop','stop'],['Risk %','risk_pct'],['Last close','last_close'],['Valid','valid_until']]);
 document.getElementById('ex').innerHTML=tb(R.filter(r=>r.status.startsWith('EXIT')),[['Stock','stock'],['Exit','status'],['Exit date','exit_date'],['Exit price','exit'],['Entry date','entry_date'],['Entry','entry'],['Stop','stop'],['P/L %','pl_pct']]);
 document.getElementById('op').innerHTML=tb(R.filter(r=>r.status=='OPEN'),[['Stock','stock'],['Signal date','signal_date'],['Entry date','entry_date'],['Entry','entry'],['Stop','stop'],['Last close','last_close'],['EMA 11','ema11'],['P/L %','pl_pct']]);
+document.getElementById('ms').innerHTML=tb(R.filter(r=>r.status=='MISSED'),[['Stock','stock'],['Signal date','signal_date'],['Brick level','brick'],['Stop','stop'],['Cancel date','cancel_date'],['Reason','reason']]);
 }catch(e){document.getElementById('meta').textContent='Could not load sweeplive.json: '+e}}
 load();setInterval(load,300000);
 </script></div></body></html>
