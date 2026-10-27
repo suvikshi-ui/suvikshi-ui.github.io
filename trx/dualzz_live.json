@@ -1,19 +1,35 @@
 {
- "updated": "2026-10-28 00:57 IST",
- "last_closed_candle": "2026-10-28 00:45",
+ "updated": "2026-10-28 01:09 IST",
+ "last_closed_candle": "2026-10-28 01:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 0,
-  "TRIGGERED": 0,
+  "TRIGGERED": 1,
   "OPEN": 0,
   "CLOSED": 4,
   "EXPIRED": 5,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "WLFIUSDT.P",
+   "side": "BUY",
+   "anchor1_time": "2026-10-27 15:00",
+   "anchor1": 0.0523,
+   "anchor2_time": "2026-10-28 00:15",
+   "anchor2": 0.0522,
+   "setup_time": "2026-10-28 00:45",
+   "swing_target": 0.05277,
+   "time": "2026-10-28 01:00",
+   "signal_bar": "2026-10-28 00:45",
+   "entry": 0.0526,
+   "stop": 0.05226,
+   "target_4R": 0.05396,
+   "status": "TRIGGERED (stop order pending)"
+  },
   {
    "coin": "BCHUSDT.P",
    "side": "SELL",
