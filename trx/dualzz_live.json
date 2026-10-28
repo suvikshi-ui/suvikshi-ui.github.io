@@ -1,19 +1,50 @@
 {
- "updated": "2026-10-28 11:37 IST",
- "last_closed_candle": "2026-10-28 11:30",
+ "updated": "2026-10-28 11:48 IST",
+ "last_closed_candle": "2026-10-28 11:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 1,
-  "TRIGGERED": 0,
+  "ACTIVE": 2,
+  "TRIGGERED": 1,
   "OPEN": 1,
   "CLOSED": 5,
   "EXPIRED": 8,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "ETHUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 22:45",
+   "anchor1": 2356.81,
+   "anchor2_time": "2026-10-28 07:45",
+   "anchor2": 2367.96,
+   "setup_time": "2026-10-28 11:30",
+   "swing_target": 2338.87,
+   "time": "2026-10-28 11:45",
+   "signal_bar": "2026-10-28 11:30",
+   "entry": 2350.59,
+   "stop": 2353.37,
+   "target_4R": 2339.47,
+   "status": "TRIGGERED (stop order pending)"
+  },
+  {
+   "coin": "LTCUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 20:45",
+   "anchor1": 56.91,
+   "anchor2_time": "2026-10-28 09:00",
+   "anchor2": 57.73,
+   "setup_time": "2026-10-28 11:30",
+   "swing_target": 56.39,
+   "time": "2026-10-28 11:45",
+   "entry": null,
+   "stop": null,
+   "target_4R": null,
+   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
+  },
   {
    "coin": "XLMUSDT.P",
    "side": "SELL",
@@ -47,8 +78,8 @@
    "fill": 1.3266,
    "fill_time": "2026-10-28 11:15",
    "status_4R": "OPEN",
-   "unreal": -0.08,
-   "unreal_4R": -0.08
+   "unreal": -0.24,
+   "unreal_4R": -0.24
   },
   {
    "coin": "CFGUSDT.P",
@@ -70,7 +101,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 1.75
+   "unreal_4R": 1.66
   },
   {
    "coin": "MUSDT.P",
