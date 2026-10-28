@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-29 02:10 IST",
- "last_closed_candle": "2026-10-29 02:00",
+ "updated": "2026-10-29 02:25 IST",
+ "last_closed_candle": "2026-10-29 02:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -10,7 +10,7 @@
   "TRIGGERED": 0,
   "OPEN": 0,
   "CLOSED": 7,
-  "EXPIRED": 10,
+  "EXPIRED": 9,
   "SKIPPED": 0
  },
  "signals": [
@@ -318,22 +318,6 @@
    "exit": 0.005904,
    "exit_time_4R": "2026-10-26 11:30",
    "exit_4R": 0.005904
-  },
-  {
-   "coin": "XMRUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-25 14:45",
-   "anchor1": 596.83,
-   "anchor2_time": "2026-10-26 01:00",
-   "anchor2": 595.27,
-   "setup_time": "2026-10-26 02:00",
-   "swing_target": 609.86,
-   "time": "2026-10-26 02:15",
-   "signal_bar": "2026-10-26 02:00",
-   "entry": 604.05,
-   "stop": 600.14,
-   "target_4R": 619.69,
-   "status": "EXPIRED (not filled next bar)"
   }
  ]
 }
