@@ -1,16 +1,16 @@
 {
- "updated": "2026-10-28 20:09 IST",
- "last_closed_candle": "2026-10-28 20:00",
+ "updated": "2026-10-28 20:26 IST",
+ "last_closed_candle": "2026-10-28 20:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 0,
-  "TRIGGERED": 1,
+  "TRIGGERED": 0,
   "OPEN": 0,
   "CLOSED": 7,
-  "EXPIRED": 9,
+  "EXPIRED": 10,
   "SKIPPED": 0
  },
  "signals": [
@@ -28,7 +28,7 @@
    "entry": 0.16863,
    "stop": 0.17001,
    "target_4R": 0.16311,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "EXPIRED (not filled next bar)"
   },
   {
    "coin": "UNIUSDT.P",
