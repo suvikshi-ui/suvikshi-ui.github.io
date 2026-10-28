@@ -1,19 +1,35 @@
 {
- "updated": "2026-10-28 08:34 IST",
- "last_closed_candle": "2026-10-28 08:30",
+ "updated": "2026-10-28 08:53 IST",
+ "last_closed_candle": "2026-10-28 08:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 1,
-  "TRIGGERED": 0,
+  "ACTIVE": 0,
+  "TRIGGERED": 1,
   "OPEN": 0,
   "CLOSED": 4,
   "EXPIRED": 8,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "CFGUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 21:15",
+   "anchor1": 0.1109,
+   "anchor2_time": "2026-10-28 00:15",
+   "anchor2": 0.1134,
+   "setup_time": "2026-10-28 05:15",
+   "swing_target": 0.1074,
+   "time": "2026-10-28 08:45",
+   "signal_bar": "2026-10-28 08:30",
+   "entry": 0.1105,
+   "stop": 0.1115,
+   "target_4R": 0.1065,
+   "status": "TRIGGERED (stop order pending)"
+  },
   {
    "coin": "MUSDT.P",
    "side": "SELL",
@@ -45,21 +61,6 @@
    "stop": 1301.88,
    "target_4R": 1287.33,
    "status": "EXPIRED (not filled next bar)"
-  },
-  {
-   "coin": "CFGUSDT.P",
-   "side": "SELL",
-   "anchor1_time": "2026-10-27 21:15",
-   "anchor1": 0.1109,
-   "anchor2_time": "2026-10-28 00:15",
-   "anchor2": 0.1134,
-   "setup_time": "2026-10-28 05:15",
-   "swing_target": 0.1074,
-   "time": "2026-10-28 05:30",
-   "entry": null,
-   "stop": null,
-   "target_4R": null,
-   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
   },
   {
    "coin": "WLFIUSDT.P",
