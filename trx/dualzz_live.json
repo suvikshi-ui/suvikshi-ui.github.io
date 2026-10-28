@@ -1,15 +1,15 @@
 {
- "updated": "2026-10-28 16:41 IST",
- "last_closed_candle": "2026-10-28 16:30",
+ "updated": "2026-10-28 16:56 IST",
+ "last_closed_candle": "2026-10-28 16:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 1,
-  "TRIGGERED": 1,
+  "TRIGGERED": 0,
   "OPEN": 0,
-  "CLOSED": 6,
+  "CLOSED": 7,
   "EXPIRED": 9,
   "SKIPPED": 0
  },
@@ -25,10 +25,17 @@
    "swing_target": 7.032,
    "time": "2026-10-28 16:30",
    "signal_bar": "2026-10-28 16:15",
-   "entry": 7.163,
+   "entry": 7.162,
    "stop": 7.18,
-   "target_4R": 7.095,
-   "status": "TRIGGERED (stop order pending)"
+   "target_4R": 7.09,
+   "status": "CLOSED STOP -0.40%",
+   "fill": 7.162,
+   "fill_time": "2026-10-28 16:30",
+   "status_4R": "CLOSED STOP -0.40%",
+   "exit_time": "2026-10-28 16:30",
+   "exit": 7.18,
+   "exit_time_4R": "2026-10-28 16:30",
+   "exit_4R": 7.18
   },
   {
    "coin": "ETHUSDT.P",
@@ -104,7 +111,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 1.48
+   "unreal_4R": 1.93
   },
   {
    "coin": "MUSDT.P",
