@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-28 17:44 IST",
- "last_closed_candle": "2026-10-28 17:30",
+ "updated": "2026-10-28 17:52 IST",
+ "last_closed_candle": "2026-10-28 17:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -108,10 +108,11 @@
    "status": "CLOSED TARGET +2.66%",
    "fill": 0.1105,
    "fill_time": "2026-10-28 08:45",
-   "status_4R": "OPEN",
+   "status_4R": "CLOSED TARGET +3.47%",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 2.2
+   "exit_time_4R": "2026-10-28 17:30",
+   "exit_4R": 0.1065
   },
   {
    "coin": "MUSDT.P",
