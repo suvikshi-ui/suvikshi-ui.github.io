@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28 07:50 IST",
- "last_closed_candle": "2026-10-28 07:45",
+ "updated": "2026-10-28 08:09 IST",
+ "last_closed_candle": "2026-10-28 08:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 2,
+  "ACTIVE": 1,
   "TRIGGERED": 0,
   "OPEN": 0,
   "CLOSED": 4,
@@ -29,21 +29,6 @@
    "stop": 1.0778,
    "target_4R": 1.0258,
    "status": "EXPIRED (not filled next bar)"
-  },
-  {
-   "coin": "SOLUSDT.P",
-   "side": "SELL",
-   "anchor1_time": "2026-10-27 18:15",
-   "anchor1": 101.167,
-   "anchor2_time": "2026-10-28 03:00",
-   "anchor2": 101.828,
-   "setup_time": "2026-10-28 06:45",
-   "swing_target": 99.818,
-   "time": "2026-10-28 07:00",
-   "entry": null,
-   "stop": null,
-   "target_4R": null,
-   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
   },
   {
    "coin": "ZECUSDT.P",
