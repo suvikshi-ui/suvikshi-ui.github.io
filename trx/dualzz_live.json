@@ -1,16 +1,16 @@
 {
- "updated": "2026-10-28 07:17 IST",
- "last_closed_candle": "2026-10-28 07:15",
+ "updated": "2026-10-28 07:39 IST",
+ "last_closed_candle": "2026-10-28 07:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 2,
-  "TRIGGERED": 1,
+  "TRIGGERED": 0,
   "OPEN": 0,
   "CLOSED": 4,
-  "EXPIRED": 7,
+  "EXPIRED": 8,
   "SKIPPED": 0
  },
  "signals": [
@@ -28,7 +28,7 @@
    "entry": 1.0674,
    "stop": 1.0778,
    "target_4R": 1.0258,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "EXPIRED (not filled next bar)"
   },
   {
    "coin": "SOLUSDT.P",
