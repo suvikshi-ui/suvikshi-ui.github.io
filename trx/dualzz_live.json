@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-28 13:21 IST",
- "last_closed_candle": "2026-10-28 13:15",
+ "updated": "2026-10-28 13:38 IST",
+ "last_closed_candle": "2026-10-28 13:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -78,8 +78,8 @@
    "fill": 1.3266,
    "fill_time": "2026-10-28 11:15",
    "status_4R": "OPEN",
-   "unreal": -0.04,
-   "unreal_4R": -0.04
+   "unreal": -0.31,
+   "unreal_4R": -0.31
   },
   {
    "coin": "CFGUSDT.P",
@@ -101,7 +101,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 2.66
+   "unreal_4R": 2.75
   },
   {
    "coin": "MUSDT.P",
