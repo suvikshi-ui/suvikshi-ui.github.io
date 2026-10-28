@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28 14:02 IST",
- "last_closed_candle": "2026-10-28 14:00",
+ "updated": "2026-10-28 14:24 IST",
+ "last_closed_candle": "2026-10-28 14:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 1,
+  "ACTIVE": 2,
   "TRIGGERED": 0,
   "OPEN": 0,
   "CLOSED": 6,
@@ -14,6 +14,21 @@
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "BCHUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 21:30",
+   "anchor1": 294.44,
+   "anchor2_time": "2026-10-28 11:45",
+   "anchor2": 299.7,
+   "setup_time": "2026-10-28 14:00",
+   "swing_target": 287.59,
+   "time": "2026-10-28 14:15",
+   "entry": null,
+   "stop": null,
+   "target_4R": null,
+   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
+  },
   {
    "coin": "ETHUSDT.P",
    "side": "SELL",
@@ -88,7 +103,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 2.11
+   "unreal_4R": 1.84
   },
   {
    "coin": "MUSDT.P",
