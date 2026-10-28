@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-28 07:06 IST",
- "last_closed_candle": "2026-10-28 07:00",
+ "updated": "2026-10-28 07:17 IST",
+ "last_closed_candle": "2026-10-28 07:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -10,10 +10,26 @@
   "TRIGGERED": 1,
   "OPEN": 0,
   "CLOSED": 4,
-  "EXPIRED": 6,
+  "EXPIRED": 7,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "MUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 21:00",
+   "anchor1": 1.0813,
+   "anchor2_time": "2026-10-28 04:00",
+   "anchor2": 1.0851,
+   "setup_time": "2026-10-28 07:00",
+   "swing_target": 1.0469,
+   "time": "2026-10-28 07:15",
+   "signal_bar": "2026-10-28 07:00",
+   "entry": 1.0674,
+   "stop": 1.0778,
+   "target_4R": 1.0258,
+   "status": "TRIGGERED (stop order pending)"
+  },
   {
    "coin": "SOLUSDT.P",
    "side": "SELL",
@@ -43,7 +59,7 @@
    "entry": 1298.97,
    "stop": 1301.88,
    "target_4R": 1287.33,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "EXPIRED (not filled next bar)"
   },
   {
    "coin": "CFGUSDT.P",
