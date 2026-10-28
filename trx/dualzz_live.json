@@ -1,19 +1,34 @@
 {
- "updated": "2026-10-28 11:26 IST",
- "last_closed_candle": "2026-10-28 11:15",
+ "updated": "2026-10-28 11:37 IST",
+ "last_closed_candle": "2026-10-28 11:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 0,
-  "TRIGGERED": 1,
-  "OPEN": 0,
+  "ACTIVE": 1,
+  "TRIGGERED": 0,
+  "OPEN": 1,
   "CLOSED": 5,
   "EXPIRED": 8,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "XLMUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-27 18:15",
+   "anchor1": 0.16916,
+   "anchor2_time": "2026-10-28 07:45",
+   "anchor2": 0.17275,
+   "setup_time": "2026-10-28 11:15",
+   "swing_target": 0.16684,
+   "time": "2026-10-28 11:30",
+   "entry": null,
+   "stop": null,
+   "target_4R": null,
+   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
+  },
   {
    "coin": "XRPUSDT.P",
    "side": "SELL",
@@ -28,7 +43,12 @@
    "entry": 1.3266,
    "stop": 1.3296,
    "target_4R": 1.3146,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "OPEN",
+   "fill": 1.3266,
+   "fill_time": "2026-10-28 11:15",
+   "status_4R": "OPEN",
+   "unreal": -0.08,
+   "unreal_4R": -0.08
   },
   {
    "coin": "CFGUSDT.P",
