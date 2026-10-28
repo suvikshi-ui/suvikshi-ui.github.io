@@ -1,14 +1,14 @@
 {
- "updated": "2026-10-28 08:53 IST",
- "last_closed_candle": "2026-10-28 08:45",
+ "updated": "2026-10-28 09:02 IST",
+ "last_closed_candle": "2026-10-28 09:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 0,
-  "TRIGGERED": 1,
-  "OPEN": 0,
+  "TRIGGERED": 0,
+  "OPEN": 1,
   "CLOSED": 4,
   "EXPIRED": 8,
   "SKIPPED": 0
@@ -28,7 +28,12 @@
    "entry": 0.1105,
    "stop": 0.1115,
    "target_4R": 0.1065,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "OPEN",
+   "fill": 0.1105,
+   "fill_time": "2026-10-28 08:45",
+   "status_4R": "OPEN",
+   "unreal": -0.33,
+   "unreal_4R": -0.33
   },
   {
    "coin": "MUSDT.P",
