@@ -1,16 +1,16 @@
 {
- "updated": "2026-10-28 11:48 IST",
- "last_closed_candle": "2026-10-28 11:45",
+ "updated": "2026-10-28 12:11 IST",
+ "last_closed_candle": "2026-10-28 12:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 2,
-  "TRIGGERED": 1,
+  "TRIGGERED": 0,
   "OPEN": 1,
   "CLOSED": 5,
-  "EXPIRED": 8,
+  "EXPIRED": 9,
   "SKIPPED": 0
  },
  "signals": [
@@ -28,7 +28,7 @@
    "entry": 2350.59,
    "stop": 2353.37,
    "target_4R": 2339.47,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "EXPIRED (not filled next bar)"
   },
   {
    "coin": "LTCUSDT.P",
@@ -78,8 +78,8 @@
    "fill": 1.3266,
    "fill_time": "2026-10-28 11:15",
    "status_4R": "OPEN",
-   "unreal": -0.24,
-   "unreal_4R": -0.24
+   "unreal": -0.1,
+   "unreal_4R": -0.1
   },
   {
    "coin": "CFGUSDT.P",
@@ -101,7 +101,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 1.66
+   "unreal_4R": 1.75
   },
   {
    "coin": "MUSDT.P",
