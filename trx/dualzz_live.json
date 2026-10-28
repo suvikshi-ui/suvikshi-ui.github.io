@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-28 16:56 IST",
- "last_closed_candle": "2026-10-28 16:45",
+ "updated": "2026-10-28 17:05 IST",
+ "last_closed_candle": "2026-10-28 17:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -111,7 +111,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-28 11:00",
    "exit": 0.1074,
-   "unreal_4R": 1.93
+   "unreal_4R": 2.2
   },
   {
    "coin": "MUSDT.P",
