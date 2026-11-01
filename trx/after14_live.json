@@ -1,0 +1,205 @@
+{
+ "universe": "Nifty 100 (NSE)",
+ "timeframe": "5m",
+ "last_closed_candle": "2026-10-30 15:25",
+ "symbols": 100,
+ "errors": [],
+ "rules": "Anchor Break strict (zigzag 12/5/2): anchor1 = last LL (buy) / HH (sell) of session D with only HH/LL after it; anchor2 = first pivot of next trading day beyond anchor1; entry = first 5m close back through anchor1 on D+1, entry candle 14:00-15:25 IST. Stop = previous candle low/high; target 1:2; stop+target same candle = stop. A: no filter. B: stop >= 1% of entry.",
+ "config": {
+  "entry_start": "14:00",
+  "entry_end": "15:30",
+  "target_R": 2,
+  "variants": {
+   "A": {
+    "min_stop_pct": 0
+   },
+   "B": {
+    "min_stop_pct": 1.0
+   }
+  }
+ },
+ "note": "Backtest stats on the page are from crypto (BingX 15m); untested on Nifty.",
+ "variants": {
+  "A": {
+   "open": [
+    {
+     "symbol": "BAJAJFINSV",
+     "side": "SELL",
+     "anchor1_time": "2026-10-29 14:35",
+     "anchor1": 1673.0,
+     "anchor2_time": "2026-10-30 13:00",
+     "anchor2": 1680.0,
+     "entry_time": "2026-10-30 14:45",
+     "entry": 1672.0,
+     "stop": 1676.4,
+     "target": 1663.2,
+     "R_pct": 0.263,
+     "variants": [
+      "A"
+     ],
+     "status": "OPEN",
+     "exit_time": null,
+     "last": 1666.9,
+     "R_now": 1.16,
+     "id": "BAJAJFINSV|SELL|2026-10-30 14:45"
+    },
+    {
+     "symbol": "COALINDIA",
+     "side": "BUY",
+     "anchor1_time": "2026-10-29 13:05",
+     "anchor1": 388.5,
+     "anchor2_time": "2026-10-30 09:40",
+     "anchor2": 382.75,
+     "entry_time": "2026-10-30 14:35",
+     "entry": 389.0,
+     "stop": 387.75,
+     "target": 391.5,
+     "R_pct": 0.321,
+     "variants": [
+      "A"
+     ],
+     "status": "OPEN",
+     "exit_time": null,
+     "last": 390.0,
+     "R_now": 0.8,
+     "id": "COALINDIA|BUY|2026-10-30 14:35"
+    }
+   ],
+   "closed": [
+    {
+     "symbol": "JSWSTEEL",
+     "side": "BUY",
+     "anchor1_time": "2026-10-29 14:30",
+     "anchor1": 1245.9,
+     "anchor2_time": "2026-10-30 14:00",
+     "anchor2": 1245.6,
+     "entry_time": "2026-10-30 14:30",
+     "entry": 1253.0,
+     "stop": 1251.5,
+     "target": 1256.0,
+     "R_pct": 0.12,
+     "variants": [
+      "A"
+     ],
+     "status": "STOP",
+     "exit_time": "2026-10-30 14:35",
+     "last": 1248.0,
+     "R_now": -1.0,
+     "id": "JSWSTEEL|BUY|2026-10-30 14:30"
+    },
+    {
+     "symbol": "BAJFINANCE",
+     "side": "SELL",
+     "anchor1_time": "2026-10-29 15:10",
+     "anchor1": 943.3,
+     "anchor2_time": "2026-10-30 13:00",
+     "anchor2": 952.45,
+     "entry_time": "2026-10-30 14:10",
+     "entry": 941.8,
+     "stop": 943.35,
+     "target": 938.7,
+     "R_pct": 0.165,
+     "variants": [
+      "A"
+     ],
+     "status": "STOP",
+     "exit_time": "2026-10-30 14:15",
+     "last": 940.15,
+     "R_now": -1.0,
+     "id": "BAJFINANCE|SELL|2026-10-30 14:10"
+    },
+    {
+     "symbol": "JINDALSTEL",
+     "side": "SELL",
+     "anchor1_time": "2026-10-27 12:45",
+     "anchor1": 1052.7,
+     "anchor2_time": "2026-10-28 09:15",
+     "anchor2": 1060.2,
+     "entry_time": "2026-10-28 14:50",
+     "entry": 1052.0,
+     "stop": 1055.0,
+     "target": 1046.0,
+     "R_pct": 0.285,
+     "variants": [
+      "A"
+     ],
+     "status": "STOP",
+     "exit_time": "2026-10-28 15:10",
+     "last": 1056.9,
+     "R_now": -1.0,
+     "id": "JINDALSTEL|SELL|2026-10-28 14:50"
+    },
+    {
+     "symbol": "ETERNAL",
+     "side": "SELL",
+     "anchor1_time": "2026-10-27 15:10",
+     "anchor1": 331.45,
+     "anchor2_time": "2026-10-28 13:40",
+     "anchor2": 331.75,
+     "entry_time": "2026-10-28 14:00",
+     "entry": 329.2,
+     "stop": 330.1,
+     "target": 327.4,
+     "R_pct": 0.273,
+     "variants": [
+      "A"
+     ],
+     "status": "TARGET",
+     "exit_time": "2026-10-28 15:10",
+     "last": 342.5,
+     "R_now": 2.0,
+     "id": "ETERNAL|SELL|2026-10-28 14:00"
+    },
+    {
+     "symbol": "TMCV",
+     "side": "SELL",
+     "anchor1_time": "2026-10-26 12:30",
+     "anchor1": 395.45,
+     "anchor2_time": "2026-10-27 12:40",
+     "anchor2": 404.15,
+     "entry_time": "2026-10-27 14:10",
+     "entry": 395.15,
+     "stop": 398.15,
+     "target": 389.15,
+     "R_pct": 0.759,
+     "variants": [
+      "A"
+     ],
+     "status": "STOP",
+     "exit_time": "2026-10-27 14:35",
+     "last": 396.2,
+     "R_now": -1.0,
+     "id": "TMCV|SELL|2026-10-27 14:10"
+    },
+    {
+     "symbol": "TVSMOTOR",
+     "side": "SELL",
+     "anchor1_time": "2026-10-23 15:10",
+     "anchor1": 3983.2,
+     "anchor2_time": "2026-10-26 13:20",
+     "anchor2": 3988.0,
+     "entry_time": "2026-10-26 14:00",
+     "entry": 3970.0,
+     "stop": 3971.4,
+     "target": 3967.2,
+     "R_pct": 0.035,
+     "variants": [
+      "A"
+     ],
+     "status": "STOP",
+     "exit_time": "2026-10-26 14:05",
+     "last": 4212.0,
+     "R_now": -1.0,
+     "id": "TVSMOTOR|SELL|2026-10-26 14:00"
+    }
+   ],
+   "waiting": []
+  },
+  "B": {
+   "open": [],
+   "closed": [],
+   "waiting": []
+  }
+ },
+ "updated": "2026-11-02 02:52 IST"
+}

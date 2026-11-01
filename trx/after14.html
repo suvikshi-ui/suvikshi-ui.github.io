@@ -21,4 +21,16 @@ th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white
 <div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
 <div class="v best"><h3>2 · 1% stop filter, 1:2 target<span class="live">Active setup</span></h3><p><small><b>Best setup.</b> Entries after 14:00 IST, stop at least 1% from entry.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>42</td><td>66.7%</td><td>+23.0%</td></tr><tr><td><b>1:2</b></td><td>42</td><td><b>50.0%</b></td><td><b>+41.5%</b></td></tr></tbody></table></div></div>
 </div></section>
+<section id="live"><h2>Live signals · Nifty 100 · 5m</h2>
+<p class="note">Live scan of the Nifty 100 (NSE) on 5m, entries 14:00–15:30 IST, target 1:2, TradingView data, signals only. The backtest stats above are from crypto (BingX 15m) and are untested on Nifty.</p>
+<p><small id="lu">Loading…</small></p><div class="vs" id="lv"></div></section>
+<script>
+fetch('after14_live.json?'+Date.now()).then(r=>r.json()).then(j=>{
+document.getElementById('lu').textContent='Updated '+j.updated+' · last closed candle '+j.last_closed_candle+' IST · '+j.symbols+' symbols';
+const nm={A:'A · No filter',B:'B · Stop ≥1% of entry'},f=x=>(+x).toPrecision(6).replace(/\.?0+$/,'');
+document.getElementById('lv').innerHTML=Object.entries(j.variants).map(([k,v])=>{
+const rows=[...v.open,...v.closed].map(r=>`<tr><td>${r.symbol}${r.status=='OPEN'?'<span class="live">Active setup</span>':''}</td><td><span class="b ${r.side.toLowerCase()}">${r.side}</span></td><td>${r.entry_time}</td><td>${f(r.entry)}</td><td>${f(r.stop)}</td><td>${f(r.target)}</td><td>${r.R_pct}%</td><td>${r.status}${r.exit_time?' <small>'+r.exit_time+'</small>':''} <small>(${r.R_now}R)</small></td></tr>`).join('')||'<tr><td colspan="8"><small>No signals in the last 7 days.</small></td></tr>';
+return `<div class="v${k=='B'?' best':''}" style="grid-column:1/-1"><h3>${nm[k]||k}${k=='B'?'<span class="live">Active setup</span>':''}</h3><p><small>${v.open.length} open · ${v.closed.length} closed (7 days)</small></p><div class="tw"><table><thead><tr><th>Symbol</th><th>Side</th><th>Entry IST</th><th>Entry</th><th>Stop</th><th>Target</th><th>Stop %</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></div>`}).join('')
+}).catch(e=>{document.getElementById('lu').textContent='Live data unavailable.'});
+</script>
 <p class="note">Totals are the sum of % per trade at 1x after 0.15% cost. The sample is small and the time filter was found after seeing results, so treat it as unproven.</p></div></body></html>
