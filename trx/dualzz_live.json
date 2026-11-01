@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 16:26 IST",
- "last_closed_candle": "2026-11-01 16:15",
+ "updated": "2026-11-01 16:38 IST",
+ "last_closed_candle": "2026-11-01 16:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -10,7 +10,7 @@
   "TRIGGERED": 0,
   "OPEN": 1,
   "CLOSED": 17,
-  "EXPIRED": 8,
+  "EXPIRED": 7,
   "SKIPPED": 0
  },
  "signals": [
@@ -335,7 +335,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.34
+   "unreal_4R": 1.32
   },
   {
    "coin": "BILLUSDT.P",
@@ -463,8 +463,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": 1.68,
-   "unreal_4R": 1.68
+   "unreal": 1.45,
+   "unreal_4R": 1.45
   },
   {
    "coin": "MONADUSDT.P",
@@ -610,22 +610,6 @@
    "entry": 0.07519,
    "stop": 0.07378,
    "target_4R": 0.08083,
-   "status": "EXPIRED (not filled next bar)"
-  },
-  {
-   "coin": "AVAXUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 19:45",
-   "anchor1": 8.785,
-   "anchor2_time": "2026-10-29 09:00",
-   "anchor2": 8.552,
-   "setup_time": "2026-10-29 10:45",
-   "swing_target": 9.158,
-   "time": "2026-10-29 16:30",
-   "signal_bar": "2026-10-29 16:15",
-   "entry": 8.831,
-   "stop": 8.703,
-   "target_4R": 9.343,
    "status": "EXPIRED (not filled next bar)"
   }
  ]
