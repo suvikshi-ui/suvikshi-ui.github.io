@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 21:35 IST",
- "last_closed_candle": "2026-11-01 21:30",
+ "updated": "2026-11-01 21:54 IST",
+ "last_closed_candle": "2026-11-01 21:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -335,7 +335,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.77
+   "unreal_4R": 1.72
   },
   {
    "coin": "BILLUSDT.P",
