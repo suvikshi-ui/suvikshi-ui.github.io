@@ -26,17 +26,7 @@ th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white
 .vt.F{background:#2962ff;color:#fff}.vt.N{background:#ff9800;color:#111}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px}.kv b{color:var(--mu);font-weight:500}
 .sp table{width:100%;font-size:13px}.sp .act{font-size:10px;color:#26d07c;margin-left:4px}
-</style></head><body><div class="w"><p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
-<section><h2>Rules</h2><div class="rules">
-<div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Only Higher Highs (HH) may form for the rest of that day.</li><li>Anchor 2 is the next day's first low pivot, an LL below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
-<div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH, only LL for the rest of that day, Anchor 2 the next day's first high pivot above Anchor 1.</li><li>Entry is the first 15m close below Anchor 1.</li><li>Stop is the previous candle's high.</li></ol></div>
-<div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle at or after 14:00 IST (through to 05:30).</li></ol></div>
-</div></section>
-<section><h2>Variants</h2><div class="vs">
-<div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
-<div class="v best"><h3>2 · 1% stop filter, 1:2 target<span class="live">Active setup</span></h3><p><small><b>Best setup.</b> Entries after 14:00 IST, stop at least 1% from entry.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>42</td><td>66.7%</td><td>+23.0%</td></tr><tr><td><b>1:2</b></td><td>42</td><td><b>50.0%</b></td><td><b>+41.5%</b></td></tr></tbody></table></div></div>
-</div></section>
-<section id="status" class="sp"><h2 style="margin-top:0">Scanner status</h2>
+</style></head><body><div class="w"><section id="status" class="sp"><h2 style="margin-top:0">Scanner status</h2>
 <div class="spg">
 <div class="sc"><h3><span class="dot" id="cdot"></span>Crypto · After 14 <span class="st" id="cst">…</span></h3>
 <div class="kv"><b>Last run</b><span id="crun">…</span>
@@ -93,4 +83,15 @@ const rows=[...v.open,...v.closed].map(r=>`<tr><td>${r.symbol}${r.status=='OPEN'
 return `<div class="v${k=='B'?' best':''}" style="grid-column:1/-1"><h3>${nm[k]||k}${k=='B'?'<span class="live">Active setup</span>':''}</h3><p><small>${v.open.length} open · ${v.closed.length} closed (7 days)</small></p><div class="tw"><table><thead><tr><th>Symbol</th><th>Side</th><th>Entry IST</th><th>Entry</th><th>Stop</th><th>Target</th><th>Stop %</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></div>`}).join('')
 }).catch(e=>{document.getElementById('lu').textContent='Live data unavailable.'});
 </script>
+<p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
+<section><h2>Rules</h2><div class="rules">
+<div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Only Higher Highs (HH) may form for the rest of that day.</li><li>Anchor 2 is the next day's first low pivot, an LL below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
+<div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH, only LL for the rest of that day, Anchor 2 the next day's first high pivot above Anchor 1.</li><li>Entry is the first 15m close below Anchor 1.</li><li>Stop is the previous candle's high.</li></ol></div>
+<div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle at or after 14:00 IST (through to 05:30).</li></ol></div>
+</div></section>
+<section><h2>Variants</h2><div class="vs">
+<div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
+<div class="v best"><h3>2 · 1% stop filter, 1:2 target<span class="live">Active setup</span></h3><p><small><b>Best setup.</b> Entries after 14:00 IST, stop at least 1% from entry.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>42</td><td>66.7%</td><td>+23.0%</td></tr><tr><td><b>1:2</b></td><td>42</td><td><b>50.0%</b></td><td><b>+41.5%</b></td></tr></tbody></table></div></div>
+</div></section>
+
 <p class="note">Totals are the sum of % per trade at 1x after 0.15% cost. The sample is small and the time filter was found after seeing results, so treat it as unproven.</p></div></body></html>
