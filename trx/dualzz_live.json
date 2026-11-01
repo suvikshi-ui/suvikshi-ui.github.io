@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-02 02:20 IST",
- "last_closed_candle": "2026-11-02 02:15",
+ "updated": "2026-11-02 02:35 IST",
+ "last_closed_candle": "2026-11-02 02:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -149,8 +149,8 @@
    "target_4R": 700.42,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": -0.18,
-   "unreal_4R": -0.18
+   "unreal": -0.13,
+   "unreal_4R": -0.13
   },
   {
    "pivots": [
@@ -207,8 +207,8 @@
    "target_4R": 6.94,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": -0.07,
-   "unreal_4R": -0.07
+   "unreal": -0.19,
+   "unreal_4R": -0.19
   },
   {
    "pivots": [
@@ -332,7 +332,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-11-02 00:45",
    "exit": 592.9,
-   "unreal_4R": 0.88
+   "unreal_4R": 0.55
   },
   {
    "pivots": [
@@ -1094,6 +1094,11 @@
      "2026-11-01 15:15",
      0.07774,
      "LH"
+    ],
+    [
+     "2026-11-02 00:30",
+     0.0759,
+     "LL"
     ]
    ],
    "coin": "PIUSDT.P",
@@ -3485,7 +3490,7 @@
    "target_4R": 11.565,
    "status": "OPEN",
    "status_4R": "CLOSED TARGET +2.33%",
-   "unreal": 0.98,
+   "unreal": 0.96,
    "exit_time_4R": "2026-10-31 05:45",
    "exit_4R": 11.565
   },
@@ -5538,6 +5543,11 @@
      "2026-11-01 20:15",
      1.2546,
      "LH"
+    ],
+    [
+     "2026-11-02 00:30",
+     1.2425,
+     "LL"
     ]
    ],
    "coin": "XRPUSDT.P",
@@ -5908,8 +5918,8 @@
    "target_4R": 0.0671,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": -1.75,
-   "unreal_4R": -1.75
+   "unreal": -1.29,
+   "unreal_4R": -1.29
   },
   {
    "pivots": [
@@ -6815,7 +6825,7 @@
   }
  ],
  "alerts": {
-  "sent": 0,
+  "sent": 2,
   "failed": 0
  }
 }
