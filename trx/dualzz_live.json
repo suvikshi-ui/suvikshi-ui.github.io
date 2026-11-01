@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 20:12 IST",
- "last_closed_candle": "2026-11-01 20:00",
+ "updated": "2026-11-01 20:21 IST",
+ "last_closed_candle": "2026-11-01 20:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -10,7 +10,7 @@
   "TRIGGERED": 0,
   "OPEN": 1,
   "CLOSED": 17,
-  "EXPIRED": 7,
+  "EXPIRED": 5,
   "SKIPPED": 0
  },
  "signals": [
@@ -335,7 +335,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.59
+   "unreal_4R": 1.36
   },
   {
    "coin": "BILLUSDT.P",
@@ -463,8 +463,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": 1.38,
-   "unreal_4R": 1.38
+   "unreal": 1.31,
+   "unreal_4R": 1.31
   },
   {
    "coin": "MONADUSDT.P",
@@ -579,38 +579,6 @@
    "exit": 0.00598,
    "exit_time_4R": "2026-10-29 23:00",
    "exit_4R": 0.00598
-  },
-  {
-   "coin": "BCHUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 23:45",
-   "anchor1": 282.15,
-   "anchor2_time": "2026-10-29 09:00",
-   "anchor2": 275.21,
-   "setup_time": "2026-10-29 14:45",
-   "swing_target": 291.29,
-   "time": "2026-10-29 20:15",
-   "signal_bar": "2026-10-29 20:00",
-   "entry": 283.95,
-   "stop": 279.07,
-   "target_4R": 303.47,
-   "status": "EXPIRED (not filled next bar)"
-  },
-  {
-   "coin": "HBARUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 23:30",
-   "anchor1": 0.0746,
-   "anchor2_time": "2026-10-29 08:45",
-   "anchor2": 0.0728,
-   "setup_time": "2026-10-29 10:45",
-   "swing_target": 0.07696,
-   "time": "2026-10-29 20:15",
-   "signal_bar": "2026-10-29 20:00",
-   "entry": 0.07519,
-   "stop": 0.07378,
-   "target_4R": 0.08083,
-   "status": "EXPIRED (not filled next bar)"
   }
  ]
 }
