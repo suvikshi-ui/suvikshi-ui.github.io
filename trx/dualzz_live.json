@@ -1,19 +1,35 @@
 {
- "updated": "2026-11-02 00:12 IST",
- "last_closed_candle": "2026-11-02 00:00",
+ "updated": "2026-11-02 00:24 IST",
+ "last_closed_candle": "2026-11-02 00:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
-  "ACTIVE": 5,
-  "TRIGGERED": 0,
+  "ACTIVE": 4,
+  "TRIGGERED": 1,
   "OPEN": 1,
   "CLOSED": 16,
   "EXPIRED": 5,
   "SKIPPED": 0
  },
  "signals": [
+  {
+   "coin": "ONDOUSDT.P",
+   "side": "SELL",
+   "anchor1_time": "2026-10-30 20:45",
+   "anchor1": 0.4036,
+   "anchor2_time": "2026-10-31 07:00",
+   "anchor2": 0.4227,
+   "setup_time": "2026-10-31 07:45",
+   "swing_target": 0.3923,
+   "time": "2026-11-02 00:15",
+   "signal_bar": "2026-11-02 00:00",
+   "entry": 0.4025,
+   "stop": 0.4042,
+   "target_4R": 0.3957,
+   "status": "TRIGGERED (stop order pending)"
+  },
   {
    "coin": "AAVEUSDT.P",
    "side": "SELL",
@@ -239,21 +255,6 @@
    "exit_4R": 0.07132
   },
   {
-   "coin": "ONDOUSDT.P",
-   "side": "SELL",
-   "anchor1_time": "2026-10-30 20:45",
-   "anchor1": 0.4036,
-   "anchor2_time": "2026-10-31 07:00",
-   "anchor2": 0.4227,
-   "setup_time": "2026-10-31 07:45",
-   "swing_target": 0.3923,
-   "time": "2026-10-31 08:00",
-   "entry": null,
-   "stop": null,
-   "target_4R": null,
-   "status": "ACTIVE SETUP (waiting for close beyond anchor1)"
-  },
-  {
    "coin": "SUIUSDT.P",
    "side": "SELL",
    "anchor1_time": "2026-10-30 20:45",
@@ -335,7 +336,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 0.94
+   "unreal_4R": 1.02
   },
   {
    "coin": "BILLUSDT.P",
@@ -463,8 +464,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": -0.82,
-   "unreal_4R": -0.82
+   "unreal": -0.91,
+   "unreal_4R": -0.91
   },
   {
    "coin": "MONADUSDT.P",
