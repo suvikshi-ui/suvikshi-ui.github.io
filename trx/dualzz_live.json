@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 20:41 IST",
- "last_closed_candle": "2026-11-01 20:30",
+ "updated": "2026-11-01 20:49 IST",
+ "last_closed_candle": "2026-11-01 20:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -9,7 +9,7 @@
   "ACTIVE": 5,
   "TRIGGERED": 0,
   "OPEN": 1,
-  "CLOSED": 17,
+  "CLOSED": 16,
   "EXPIRED": 5,
   "SKIPPED": 0
  },
@@ -188,8 +188,8 @@
    "time": "2026-11-01 01:45",
    "signal_bar": "2026-11-01 01:30",
    "entry": 0.0003613,
-   "stop": 0.0003633,
-   "target_4R": 0.0003533,
+   "stop": 0.0003634,
+   "target_4R": 0.0003529,
    "status": "EXPIRED (not filled next bar)"
   },
   {
@@ -335,7 +335,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.16
+   "unreal_4R": 1.38
   },
   {
    "coin": "BILLUSDT.P",
@@ -463,8 +463,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": 1.19,
-   "unreal_4R": 1.19
+   "unreal": 0.94,
+   "unreal_4R": 0.94
   },
   {
    "coin": "MONADUSDT.P",
@@ -556,29 +556,6 @@
    "exit": 612.2,
    "exit_time_4R": "2026-10-30 06:00",
    "exit_4R": 612.2
-  },
-  {
-   "coin": "BILLUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 16:45",
-   "anchor1": 0.006042,
-   "anchor2_time": "2026-10-29 13:15",
-   "anchor2": 0.005717,
-   "setup_time": "2026-10-29 16:30",
-   "swing_target": 0.006347,
-   "time": "2026-10-29 20:45",
-   "signal_bar": "2026-10-29 20:30",
-   "entry": 0.006111,
-   "stop": 0.00598,
-   "target_4R": 0.006635,
-   "status": "CLOSED STOP -2.29%",
-   "fill": 0.006111,
-   "fill_time": "2026-10-29 20:45",
-   "status_4R": "CLOSED STOP -2.29%",
-   "exit_time": "2026-10-29 23:00",
-   "exit": 0.00598,
-   "exit_time_4R": "2026-10-29 23:00",
-   "exit_4R": 0.00598
   }
  ]
 }
