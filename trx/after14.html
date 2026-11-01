@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trading · After 14</title><style>
+:root{--bg:#0f1218;--card:#171c25;--line:#262d3a;--tx:#e6e9ef;--mu:#8d96a8;--g:#26a69a;--r:#ef5350;--acc:#5b8def}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}a{color:var(--acc)}
+.w{max-width:1100px;margin:0 auto;padding:20px 16px 48px}header h1{margin:6px 0 4px;font-size:26px}header p{margin:0;color:var(--mu)}
+.tag{display:inline-block;font-size:12px;color:var(--acc);border:1px solid var(--acc);border-radius:20px;padding:1px 10px}
+section{margin:28px 0}h2{font-size:19px;margin:0 0 10px}h3{font-size:16px;margin:0 0 6px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-left:4px solid}.rule.rs{border-left-color:var(--r)}.rule.rb{border-left-color:var(--g)}.rule ol{margin:6px 0 0;padding-left:20px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white-space:nowrap}tr:last-child td{border-bottom:0}small{color:var(--mu)}
+.b{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;font-weight:600}.sell{background:var(--r);color:#fff}.buy{background:var(--g);color:#fff}
+.note{background:#231d10;border:1px solid #5c4813;color:#f3d98b;border-radius:12px;padding:12px 14px;font-size:14px}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}.v{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}.v.best{border:2px solid var(--g)}.live{background:var(--g);color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;margin-left:8px}
+</style></head><body><div class="w"><p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
+<section><h2>Rules</h2><div class="rules">
+<div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Only Higher Highs (HH) may form for the rest of that day.</li><li>Anchor 2 is the next day's first low pivot, an LL below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
+<div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH, only LL for the rest of that day, Anchor 2 the next day's first high pivot above Anchor 1.</li><li>Entry is the first 15m close below Anchor 1.</li><li>Stop is the previous candle's high.</li></ol></div>
+<div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle at or after 14:00 IST (through to 05:30).</li></ol></div>
+</div></section>
+<section><h2>Variants</h2><div class="vs">
+<div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
+<div class="v best"><h3>2 · 1% stop filter, 1:2 target<span class="live">Active setup</span></h3><p><small><b>Best setup.</b> Entries after 14:00 IST, stop at least 1% from entry.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>42</td><td>66.7%</td><td>+23.0%</td></tr><tr><td><b>1:2</b></td><td>42</td><td><b>50.0%</b></td><td><b>+41.5%</b></td></tr></tbody></table></div></div>
+</div></section>
+<p class="note">Totals are the sum of % per trade at 1x after 0.15% cost. The sample is small and the time filter was found after seeing results, so treat it as unproven.</p></div></body></html>
