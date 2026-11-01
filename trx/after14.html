@@ -11,6 +11,21 @@ th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white
 .b{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;font-weight:600}.sell{background:var(--r);color:#fff}.buy{background:var(--g);color:#fff}
 .note{background:#231d10;border:1px solid #5c4813;color:#f3d98b;border-radius:12px;padding:12px 14px;font-size:14px}
 .vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}.v{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}.v.best{border:2px solid var(--g)}.live{background:var(--g);color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;margin-left:8px}
+</style><style>
+.sp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
+.spg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc{border:1px solid var(--line);border-radius:10px;padding:12px}
+.sc h3{margin:0 0 8px;display:flex;align-items:center;gap:8px;font-size:16px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;background:#777}
+.dot.on{background:#26d07c;box-shadow:0 0 0 0 #26d07c99;animation:pl 1.6s infinite}
+.dot.off{background:#e05252}
+@keyframes pl{0%{box-shadow:0 0 0 0 #26d07c99}70%{box-shadow:0 0 0 9px #26d07c00}100%{box-shadow:0 0 0 0 #26d07c00}}
+.st{font-weight:700;font-size:12px;padding:2px 8px;border-radius:20px}
+.st.on{background:#26d07c22;color:#26d07c}.st.off{background:#e0525222;color:#e05252}
+.vt{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;margin-right:4px;white-space:nowrap}
+.vt.F{background:#2962ff;color:#fff}.vt.N{background:#ff9800;color:#111}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px}.kv b{color:var(--mu);font-weight:500}
+.sp table{width:100%;font-size:13px}.sp .act{font-size:10px;color:#26d07c;margin-left:4px}
 </style></head><body><div class="w"><p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
 <section><h2>Rules</h2><div class="rules">
 <div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Only Higher Highs (HH) may form for the rest of that day.</li><li>Anchor 2 is the next day's first low pivot, an LL below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
@@ -21,6 +36,51 @@ th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white
 <div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
 <div class="v best"><h3>2 · 1% stop filter, 1:2 target<span class="live">Active setup</span></h3><p><small><b>Best setup.</b> Entries after 14:00 IST, stop at least 1% from entry.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>42</td><td>66.7%</td><td>+23.0%</td></tr><tr><td><b>1:2</b></td><td>42</td><td><b>50.0%</b></td><td><b>+41.5%</b></td></tr></tbody></table></div></div>
 </div></section>
+<section id="status" class="sp"><h2 style="margin-top:0">Scanner status</h2>
+<div class="spg">
+<div class="sc"><h3><span class="dot" id="cdot"></span>Crypto · After 14 <span class="st" id="cst">…</span></h3>
+<div class="kv"><b>Last run</b><span id="crun">…</span>
+<b>Universe</b><span id="cuni">Crypto · 33 coins (BingX)</span>
+<b>Timeframe</b><span id="ctf">15m</span>
+<b>Entry window</b><span>After 14:00 IST (to 05:30 day end)</span>
+<b>Close-all</b><span>None</span>
+<b>Variants</b><span><span class="vt F">Filter</span>stop ≥1%, 1:2 <span class="act">● Active setup</span><br><span class="vt N">No Filter</span>1:2</span>
+<b>Open trades</b><span id="copen">…</span>
+<b>Today (IST)</b><span id="ctoday">…</span></div></div>
+<div class="sc"><h3><span class="dot off"></span>Nifty 100 · 5m <span class="st off">STOPPED</span></h3>
+<div class="kv"><b>Status</b><span>Routine paused · no live data</span>
+<b>Universe</b><span>Nifty 100 (NSE)</span>
+<b>Timeframe</b><span>5m</span>
+<b>Entry window</b><span>09:30–14:00 IST</span>
+<b>Close-all</b><span>15:00 IST</span>
+<b>Variants</b><span><span class="vt F">Filter</span>stop ≥1%, 1:2 <span class="act">● Active setup</span><br><span class="vt N">No Filter</span>1:2</span>
+<b>Open trades</b><span>0</span></div></div>
+</div>
+<h3 style="margin:16px 0 6px">Open trades</h3><div class="tw"><table><thead><tr><th>Variant</th><th>Symbol</th><th>Side</th><th>Signal IST</th><th>Entry</th><th>Stop</th><th>Target</th><th>Last</th><th>Current R</th></tr></thead><tbody id="otb"><tr><td colspan="9"><small>Loading…</small></td></tr></tbody></table></div>
+<h3 style="margin:16px 0 6px">Best setup</h3><p style="margin:0"><span class="vt F">Filter</span><b>Crypto · after 2 PM · 1% stop · 1:2</b> — 42 trades, 50% win, +41.5% (backtest 1 Sep–2 Nov 2026).</p>
+<h3 style="margin:16px 0 6px">Last backtests</h3><div class="tw"><table><thead><tr><th>Market</th><th>Range</th><th>Variant</th><th>Trades</th><th>Win 1:2</th><th>Total</th></tr></thead><tbody>
+<tr><td>Crypto 15m</td><td>1 Sep–2 Nov 2026</td><td><span class="vt N">No Filter</span></td><td>122</td><td>40.2%</td><td>+32.9%</td></tr>
+<tr><td>Crypto 15m</td><td>1 Sep–2 Nov 2026</td><td><span class="vt F">Filter</span></td><td>42</td><td>50.0%</td><td>+41.5%</td></tr>
+<tr><td>Nifty 100 5m</td><td>26–30 Oct 2026</td><td><span class="vt N">No Filter</span></td><td>54</td><td>29.6%</td><td>−1.30R gross</td></tr>
+<tr><td>Nifty 100 5m</td><td>26–30 Oct 2026</td><td><span class="vt F">Filter</span></td><td>2</td><td>0% (2 closed 15:00)</td><td>+1.30R gross</td></tr>
+</tbody></table></div><p><small>Nifty: small sample, no edge. Signals only, no trades placed.</small></p>
+</section>
+<script>
+fetch('after14_live.json?'+Date.now()).then(r=>r.json()).then(j=>{
+const m=/(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/.exec(j.updated||'');let age=1e9;
+if(m){const t=Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5])-330*60000;age=(Date.now()-t)/60000}
+const on=age<=35,d=document.getElementById('cdot'),s=document.getElementById('cst');
+d.className='dot '+(on?'on':'off');s.className='st '+(on?'on':'off');s.textContent=on?'LIVE · RUNNING':'STALE / STOPPED';
+document.getElementById('crun').textContent=(j.updated||'?')+' · last candle '+j.last_closed_candle+' IST';
+if(j.symbols)document.getElementById('cuni').textContent='Crypto · '+j.symbols+' coins (BingX)';if(j.timeframe)document.getElementById('ctf').textContent=j.timeframe;
+const V=j.variants||{},tg=k=>k=='B'?'<span class="vt F">Filter</span>':'<span class="vt N">No Filter</span>',f=x=>(+x).toPrecision(6).replace(/\.?0+$/,'');
+const today=new Date(Date.now()+330*60000).toISOString().slice(0,10);
+document.getElementById('copen').innerHTML=['B','A'].map(k=>tg(k)+(V[k]?V[k].open.length:0)).join(' ');
+document.getElementById('ctoday').innerHTML=['B','A'].map(k=>{const a=V[k]?[...V[k].open,...V[k].closed]:[];return tg(k)+a.filter(r=>(r.entry_time||'').startsWith(today)).length+' signals'}).join(' ');
+const rows=[];['B','A'].forEach(k=>(V[k]?V[k].open:[]).forEach(r=>rows.push(`<tr><td>${tg(k)}</td><td>${r.symbol}</td><td><span class="b ${r.side.toLowerCase()}">${r.side}</span></td><td>${r.entry_time}</td><td>${f(r.entry)}</td><td>${f(r.stop)}</td><td>${f(r.target)}</td><td>${r.last!=null?f(r.last):'–'}</td><td>${r.R_now!=null?(r.R_now>0?'+':'')+r.R_now+'R':'–'}</td></tr>`)));
+document.getElementById('otb').innerHTML=rows.join('')||'<tr><td colspan="9"><small>No open trades.</small></td></tr>';
+}).catch(e=>{document.getElementById('cst').textContent='NO DATA';document.getElementById('cst').className='st off';document.getElementById('cdot').className='dot off'});
+</script>
 <section id="live"><h2>Live signals · Crypto · 15m</h2>
 <p><small>Live scan of 33 BingX perps on 15m (TradingView data), entries 14:00 IST → 05:30 day end, target 1:2. Signals only, no trades.</small></p>
 <p><small id="lu">Loading…</small></p><div class="vs" id="lv"></div></section>
