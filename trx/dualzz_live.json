@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 16:06 IST",
- "last_closed_candle": "2026-11-01 16:00",
+ "updated": "2026-11-01 16:26 IST",
+ "last_closed_candle": "2026-11-01 16:15",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -9,7 +9,7 @@
   "ACTIVE": 5,
   "TRIGGERED": 0,
   "OPEN": 1,
-  "CLOSED": 19,
+  "CLOSED": 17,
   "EXPIRED": 8,
   "SKIPPED": 0
  },
@@ -335,7 +335,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.28
+   "unreal_4R": 1.34
   },
   {
    "coin": "BILLUSDT.P",
@@ -463,8 +463,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": 2.1,
-   "unreal_4R": 2.1
+   "unreal": 1.68,
+   "unreal_4R": 1.68
   },
   {
    "coin": "MONADUSDT.P",
@@ -627,52 +627,6 @@
    "stop": 8.703,
    "target_4R": 9.343,
    "status": "EXPIRED (not filled next bar)"
-  },
-  {
-   "coin": "ADAUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 22:15",
-   "anchor1": 0.2006,
-   "anchor2_time": "2026-10-29 08:00",
-   "anchor2": 0.1955,
-   "setup_time": "2026-10-29 10:30",
-   "swing_target": 0.2097,
-   "time": "2026-10-29 16:15",
-   "signal_bar": "2026-10-29 16:00",
-   "entry": 0.2008,
-   "stop": 0.199,
-   "target_4R": 0.208,
-   "status": "CLOSED STOP -1.05%",
-   "fill": 0.2008,
-   "fill_time": "2026-10-29 16:15",
-   "status_4R": "CLOSED TARGET +3.44%",
-   "exit_time": "2026-10-30 01:30",
-   "exit": 0.199,
-   "exit_time_4R": "2026-10-29 21:30",
-   "exit_4R": 0.208
-  },
-  {
-   "coin": "ZECUSDT.P",
-   "side": "BUY",
-   "anchor1_time": "2026-10-28 22:15",
-   "anchor1": 1263.64,
-   "anchor2_time": "2026-10-29 09:00",
-   "anchor2": 1230.54,
-   "setup_time": "2026-10-29 10:45",
-   "swing_target": 1318.71,
-   "time": "2026-10-29 16:15",
-   "signal_bar": "2026-10-29 16:00",
-   "entry": 1267.98,
-   "stop": 1251.38,
-   "target_4R": 1334.38,
-   "status": "CLOSED TARGET +3.85%",
-   "fill": 1267.98,
-   "fill_time": "2026-10-29 16:15",
-   "status_4R": "CLOSED TARGET +5.09%",
-   "exit_time": "2026-10-29 20:30",
-   "exit": 1318.71,
-   "exit_time_4R": "2026-10-29 21:00",
-   "exit_4R": 1334.38
   }
  ]
 }
