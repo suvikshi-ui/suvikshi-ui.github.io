@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anchor Break — Live Running</title>
+<style>body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(160deg,#E6FFFA,#F0FDF4);color:#1E293B}.w{max-width:1000px;margin:auto;padding:18px}h1{color:#0F766E;margin:0 0 4px}a{color:#0F766E}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}@media(max-width:700px){.g{grid-template-columns:1fr}}
+.cube{background:#fff;border:2px solid #B2F5EA;border-radius:14px;padding:16px 18px;box-shadow:0 8px 24px #0d948822;cursor:pointer}.cube.sel{border-color:#0D9488}
+.pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;display:inline-block}.live{background:#DCFCE7;color:#166534}.test{background:#FEF3C7;color:#92400E}.act{background:#16A34A;color:#fff}.flt{background:#DBEAFE;color:#1E40AF}.nf{background:#F3E8FF;color:#6B21A8}.wait{background:#E2E8F0;color:#334155}.new{background:#FFE4E6;color:#9F1239}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;margin-right:5px;animation:p 1.5s infinite}@keyframes p{50%{opacity:.3}}
+.sd{font-size:12px;font-weight:800;padding:1px 6px;border-radius:4px;color:#fff}.BUY{background:#16A34A}.SELL{background:#DC2626}
+.panel{background:#fff;border-radius:14px;padding:14px 18px;margin:0 0 14px;box-shadow:0 8px 24px #0d948822;overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 7px;border-bottom:1px solid #E2E8F0;text-align:left;white-space:nowrap}small{color:#5B6B7F}</style></head>
+<body><div class="w"><a href="../index.html">← Home</a><h1>Anchor Break — Live Running</h1><small>Signal scan only, not financial advice. Click a cube to see its live running list.</small>
+<div class="g"><div class="cube sel" id="c_crypto" onclick="show('crypto')"></div><div class="cube" id="c_nse" onclick="show('nse')"></div></div>
+<div id="view"></div><small id="upd"></small></div>
+<script>
+var A14={},AL={},cur='crypto';
+var M={crypto:{t:'Crypto · 15m · 33 BingX coins',st:'<span class="pill live"><i class="dot"></i>LIVE</span>',win:'Entries after 2:00 PM IST'},nse:{t:'NSE · Nifty 100 · 5m',st:'<span class="pill test">TESTING</span>',win:'Entries 9:30 AM–2:00 PM IST · close all 3:00 PM IST'}};
+function sd(s){return '<span class="sd '+s+'">'+s+'</span>'}
+function vb(v){return '<span class="pill '+(v=='Filter'?'flt':'nf')+'">'+v+'</span>'}
+function cube(k){var a=AL[k]||{},m=M[k],j=k=='crypto'?A14:null,op=0,ls='–';
+ if(j&&j.variants){for(var v in j.variants)op+=j.variants[v].open.length;var all=[];for(var v in j.variants)all=all.concat(j.variants[v].open,j.variants[v].closed);all.sort(function(x,y){return x.entry_time<y.entry_time?1:-1});if(all[0])ls=all[0].side+' '+all[0].symbol+' · '+all[0].entry_time}
+ if(k=='nse')ls='Scanner paused (testing)';
+ var ar=(a.armed||[]).length,ao=(a.a2break_open||[]).length;
+ return '<div style="display:flex;justify-content:space-between;gap:8px"><b>'+m.t+'</b>'+m.st+'</div><small>Last run: '+(k=='crypto'?(A14.updated||'–'):(AL.updated||'–')+' (one-off test run)')+' · data to '+(a.last_closed_candle||'–')+'</small>'+
+ '<div style="margin:6px 0">'+vb('Filter')+' <small>1% stop, 1:2 · <b>active</b></small><br>'+vb('No Filter')+' <small>1:2</small></div><small>'+m.win+'</small>'+
+ '<div style="margin-top:6px">'+(ar?'<span class="pill act">Active</span> <b>'+ar+'</b> live running':'<span class="pill wait">Waiting for anchor 2</span>')+'</div>'+
+ '<div><small>Open trades (After 14): <b>'+(k=='crypto'?op:0)+'</b> · Anchor-2 break open: <b>'+ao+'</b></small></div><div><small>Last signal: '+ls+'</small></div>'}
+function show(k){cur=k;['crypto','nse'].forEach(function(x){document.getElementById('c_'+x).className='cube'+(x==k?' sel':'');document.getElementById('c_'+x).innerHTML=cube(x)});
+ var a=AL[k],h='';
+ if(!a||a.error){document.getElementById('view').innerHTML='<div class="panel"><b>'+M[k].t+'</b><p>'+(k=='nse'?'Testing — not live':'Status unavailable')+'</p></div>';return}
+ var ar=a.armed||[];
+ h+='<div class="panel"><b>'+(k=='crypto'?'Crypto':'NSE')+' Live Running</b> '+(k=='nse'?'<span class="pill test">TESTING</span>':'')+'<br><small>Both anchors confirmed on '+a.timeframe+': BUY = anchor 1 day D last LL, anchor 2 = D+1 first low pivot below it; SELL = mirror (HH). Entry trigger = close back through anchor 1.</small>';
+ h+=ar.length?'<table><tr><th>Symbol</th><th>Side</th><th>Anchor 1</th><th>Anchor 2</th><th>Trigger</th><th>Status</th></tr>'+ar.map(function(r){return '<tr><td><b>'+r.symbol+'</b> <span class="pill act">Active</span></td><td>'+sd(r.side)+'</td><td>'+r.anchor1+'<br><small>'+r.anchor1_time+'</small></td><td>'+r.anchor2+'<br><small>'+r.anchor2_time+'</small></td><td>'+r.trigger+'</td><td>'+r.status+'</td></tr>'}).join('')+'</table>':'<p><span class="pill wait">Waiting for anchor 2</span> no setup armed right now</p>';
+ h+='</div><div class="panel"><b>Open trades (anchor 2 break)</b> <span class="pill new">Anchor-2 break rule (new, untested)</span><br><small>'+(AL.rule_a2||'')+'</small>';
+ var o=a.a2break_open||[];h+=o.length?'<table><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>R now</th><th>Variant</th><th>Break time</th></tr>'+o.map(function(r){return '<tr><td><b>'+r.symbol+'</b></td><td>'+sd(r.side)+'</td><td>'+r.entry+'</td><td>'+r.stop+'</td><td>'+r.target+'</td><td>'+(r.R_now==null?'–':r.R_now)+'</td><td>'+vb(r.variant)+'</td><td>'+r.break_time+'</td></tr>'}).join('')+'</table>':'<p><small>None open.</small></p>';
+ var hs=a.a2break_history||[];h+='<b>History</b> <small>(closed '+hs.length+', total '+(a.closed_R||0)+'R)</small>'+(hs.length?'<table><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Variant</th><th>Break</th><th>Exit</th><th>Result</th><th>R</th></tr>'+hs.map(function(r){return '<tr><td>'+r.symbol+'</td><td>'+sd(r.side)+'</td><td>'+r.entry+'</td><td>'+r.stop+'</td><td>'+r.target+'</td><td>'+vb(r.variant)+'</td><td>'+r.break_time+'</td><td>'+r.exit_time+'</td><td>'+r.status+'</td><td>'+r.R+'</td></tr>'}).join('')+'</table>':'<p><small>None yet.</small></p>');
+ document.getElementById('view').innerHTML=h+'</div>';}
+Promise.all(['after14_live.json','anchor_live.json'].map(function(u){return fetch(u+'?'+Date.now()).then(function(r){return r.json()}).catch(function(){return {}})})).then(function(x){A14=x[0];AL=x[1];document.getElementById('upd').textContent='Page data: '+(AL.updated||'–');show(location.hash=='#nse'?'nse':'crypto')});
+</script></body></html>
