@@ -2,7 +2,7 @@
  "universe": "BingX perps (33)",
  "timeframe": "15m",
  "primary": "B",
- "last_closed_candle": "2026-11-02 04:00",
+ "last_closed_candle": "2026-11-02 04:15",
  "symbols": 33,
  "errors": [],
  "rules": "Anchor Break strict (zigzag 12/5/2): anchor1 = last LL (buy) / HH (sell) of day D (05:30-05:30 IST) with only HH/LL after it; anchor2 = first pivot of day D+1 beyond anchor1; entry = first 15m close back through anchor1 on D+1, entry candle 14:00-05:30 IST. Stop = previous candle low/high; target 1:2; stop+target same candle = stop. Variants: A stop>=0%, B stop>=1.0%",
@@ -45,8 +45,8 @@
      ],
      "status": "OPEN",
      "exit_time": null,
-     "last": 596.48,
-     "R_now": 0.71,
+     "last": 596.61,
+     "R_now": 0.68,
      "id": "XMRUSDT.P|SELL|2026-11-01 21:45"
     }
    ],
@@ -68,7 +68,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-11-01 15:30",
-     "last": 55.13,
+     "last": 55.11,
      "R_now": -1.0,
      "id": "LTCUSDT.P|SELL|2026-11-01 15:15"
     },
@@ -90,7 +90,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-31 07:00",
-     "last": 0.6234,
+     "last": 0.6231,
      "R_now": -1.0,
      "id": "APTUSDT.P|BUY|2026-10-31 03:30"
     },
@@ -112,7 +112,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-31 00:00",
-     "last": 0.09677,
+     "last": 0.09683,
      "R_now": -1.0,
      "id": "CCUSDT.P|BUY|2026-10-30 16:15"
     },
@@ -133,7 +133,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-30 01:00",
-     "last": 596.48,
+     "last": 596.61,
      "R_now": -1.0,
      "id": "XMRUSDT.P|SELL|2026-10-30 00:45"
     },
@@ -155,7 +155,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:00",
-     "last": 4.251,
+     "last": 4.254,
      "R_now": -1.0,
      "id": "NEARUSDT.P|BUY|2026-10-29 20:30"
     },
@@ -176,7 +176,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 22:00",
-     "last": 1.2441,
+     "last": 1.2453,
      "R_now": -1.0,
      "id": "XRPUSDT.P|BUY|2026-10-29 20:30"
     },
@@ -198,7 +198,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:15",
-     "last": 0.005296,
+     "last": 0.005305,
      "R_now": -1.0,
      "id": "BILLUSDT.P|BUY|2026-10-29 20:00"
     },
@@ -220,7 +220,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:00",
-     "last": 0.07109,
+     "last": 0.071,
      "R_now": -1.0,
      "id": "HBARUSDT.P|BUY|2026-10-29 20:00"
     },
@@ -242,7 +242,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-29 21:15",
-     "last": 0.6234,
+     "last": 0.6231,
      "R_now": 2.0,
      "id": "APTUSDT.P|BUY|2026-10-29 18:00"
     },
@@ -264,7 +264,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-29 21:15",
-     "last": 8.616,
+     "last": 8.624,
      "R_now": 2.0,
      "id": "AVAXUSDT.P|BUY|2026-10-29 16:15"
     },
@@ -285,7 +285,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-29 20:00",
-     "last": 0.1913,
+     "last": 0.1916,
      "R_now": 2.0,
      "id": "ADAUSDT.P|BUY|2026-10-29 16:00"
     },
@@ -306,7 +306,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 17:30",
-     "last": 0.9466,
+     "last": 0.9467,
      "R_now": -1.0,
      "id": "DOTUSDT.P|BUY|2026-10-29 15:15"
     },
@@ -328,7 +328,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-30 23:00",
-     "last": 0.8359,
+     "last": 0.8356,
      "R_now": 2.0,
      "id": "MUSDT.P|SELL|2026-10-29 00:00"
     },
@@ -349,7 +349,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-28 15:45",
-     "last": 596.48,
+     "last": 596.61,
      "R_now": 2.0,
      "id": "XMRUSDT.P|SELL|2026-10-28 15:30"
     },
@@ -370,7 +370,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-27 22:15",
-     "last": 0.07765,
+     "last": 0.07762,
      "R_now": -1.0,
      "id": "PIUSDT.P|BUY|2026-10-27 18:00"
     }
@@ -398,7 +398,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-31 07:00",
-     "last": 0.6234,
+     "last": 0.6231,
      "R_now": -1.0,
      "id": "APTUSDT.P|BUY|2026-10-31 03:30"
     },
@@ -420,7 +420,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-31 00:00",
-     "last": 0.09677,
+     "last": 0.09683,
      "R_now": -1.0,
      "id": "CCUSDT.P|BUY|2026-10-30 16:15"
     },
@@ -442,7 +442,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:00",
-     "last": 4.251,
+     "last": 4.254,
      "R_now": -1.0,
      "id": "NEARUSDT.P|BUY|2026-10-29 20:30"
     },
@@ -464,7 +464,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:15",
-     "last": 0.005296,
+     "last": 0.005305,
      "R_now": -1.0,
      "id": "BILLUSDT.P|BUY|2026-10-29 20:00"
     },
@@ -486,7 +486,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-29 23:00",
-     "last": 0.07109,
+     "last": 0.071,
      "R_now": -1.0,
      "id": "HBARUSDT.P|BUY|2026-10-29 20:00"
     },
@@ -508,7 +508,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-29 21:15",
-     "last": 0.6234,
+     "last": 0.6231,
      "R_now": 2.0,
      "id": "APTUSDT.P|BUY|2026-10-29 18:00"
     },
@@ -530,7 +530,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-29 21:15",
-     "last": 8.616,
+     "last": 8.624,
      "R_now": 2.0,
      "id": "AVAXUSDT.P|BUY|2026-10-29 16:15"
     },
@@ -552,7 +552,7 @@
      ],
      "status": "TARGET",
      "exit_time": "2026-10-30 23:00",
-     "last": 0.8359,
+     "last": 0.8356,
      "R_now": 2.0,
      "id": "MUSDT.P|SELL|2026-10-29 00:00"
     }
@@ -562,5 +562,5 @@
  },
  "live_chart": "XMRUSDT.P|SELL|2026-11-01 21:45",
  "armed": [],
- "updated": "2026-11-02 04:23 IST"
+ "updated": "2026-11-02 04:38 IST"
 }
