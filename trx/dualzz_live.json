@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-01 14:35 IST",
- "last_closed_candle": "2026-11-01 14:30",
+ "updated": "2026-11-01 14:47 IST",
+ "last_closed_candle": "2026-11-01 14:45",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -187,8 +187,8 @@
    "time": "2026-11-01 01:45",
    "signal_bar": "2026-11-01 01:30",
    "entry": 0.0003613,
-   "stop": 0.0003633,
-   "target_4R": 0.0003533,
+   "stop": 0.0003634,
+   "target_4R": 0.0003529,
    "status": "EXPIRED (not filled next bar)"
   },
   {
@@ -334,7 +334,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.04
+   "unreal_4R": 1.15
   },
   {
    "coin": "BILLUSDT.P",
@@ -462,8 +462,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": 1.82,
-   "unreal_4R": 1.82
+   "unreal": 1.4,
+   "unreal_4R": 1.4
   },
   {
    "coin": "MONADUSDT.P",
