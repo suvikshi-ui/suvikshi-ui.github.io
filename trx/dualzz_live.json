@@ -1,14 +1,14 @@
 {
- "updated": "2026-11-02 00:24 IST",
- "last_closed_candle": "2026-11-02 00:15",
+ "updated": "2026-11-02 00:41 IST",
+ "last_closed_candle": "2026-11-02 00:30",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
  "rules": "Day-pair strict close-confirmed Dual Zigzag Breakout (zigzag 12/5/2). Signals only, no trades.",
  "counts": {
   "ACTIVE": 4,
-  "TRIGGERED": 1,
-  "OPEN": 1,
+  "TRIGGERED": 0,
+  "OPEN": 2,
   "CLOSED": 16,
   "EXPIRED": 5,
   "SKIPPED": 0
@@ -28,7 +28,12 @@
    "entry": 0.4025,
    "stop": 0.4042,
    "target_4R": 0.3957,
-   "status": "TRIGGERED (stop order pending)"
+   "status": "OPEN",
+   "fill": 0.4025,
+   "fill_time": "2026-11-02 00:15",
+   "status_4R": "OPEN",
+   "unreal": 0.12,
+   "unreal_4R": 0.12
   },
   {
    "coin": "AAVEUSDT.P",
@@ -336,7 +341,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-10-31 19:45",
    "exit": 0.9509,
-   "unreal_4R": 1.02
+   "unreal_4R": 1.56
   },
   {
    "coin": "BILLUSDT.P",
@@ -464,8 +469,8 @@
    "fill": 4.315,
    "fill_time": "2026-10-30 12:00",
    "status_4R": "OPEN",
-   "unreal": -0.91,
-   "unreal_4R": -0.91
+   "unreal": -1.36,
+   "unreal_4R": -1.36
   },
   {
    "coin": "MONADUSDT.P",
