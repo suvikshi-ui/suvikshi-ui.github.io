@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-02 01:55 IST",
- "last_closed_candle": "2026-11-02 01:45",
+ "updated": "2026-11-02 02:11 IST",
+ "last_closed_candle": "2026-11-02 02:00",
  "timeframe": "15m",
  "coins": 33,
  "errors": [],
@@ -149,8 +149,8 @@
    "target_4R": 700.42,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": -0.1,
-   "unreal_4R": -0.1
+   "unreal": -0.08,
+   "unreal_4R": -0.08
   },
   {
    "pivots": [
@@ -207,8 +207,8 @@
    "target_4R": 6.94,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": 0.59,
-   "unreal_4R": 0.59
+   "unreal": 0.14,
+   "unreal_4R": 0.14
   },
   {
    "pivots": [
@@ -332,7 +332,7 @@
    "status_4R": "OPEN",
    "exit_time": "2026-11-02 00:45",
    "exit": 592.9,
-   "unreal_4R": 0.84
+   "unreal_4R": 0.96
   },
   {
    "pivots": [
@@ -3485,7 +3485,7 @@
    "target_4R": 11.565,
    "status": "OPEN",
    "status_4R": "CLOSED TARGET +2.33%",
-   "unreal": 0.57,
+   "unreal": 0.67,
    "exit_time_4R": "2026-10-31 05:45",
    "exit_4R": 11.565
   },
@@ -5908,8 +5908,8 @@
    "target_4R": 0.0671,
    "status": "OPEN",
    "status_4R": "OPEN",
-   "unreal": 0.71,
-   "unreal_4R": 0.71
+   "unreal": 0.5,
+   "unreal_4R": 0.5
   },
   {
    "pivots": [
