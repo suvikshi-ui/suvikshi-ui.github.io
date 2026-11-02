@@ -149,8 +149,8 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_17">
-    <path d="M 153.256313 195.751046 
-L 157.874122 195.751046 
+    <path d="M 153.256313 198.565667 
+L 157.874122 198.565667 
 L 157.874122 181.677942 
 L 153.256313 181.677942 
 z
@@ -213,18 +213,18 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_25">
-    <path d="M 214.827096 235.155739 
+    <path d="M 214.827096 237.970359 
+L 219.444904 237.970359 
 L 219.444904 235.155739 
-L 219.444904 232.341118 
-L 214.827096 232.341118 
+L 214.827096 235.155739 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #26a69a"/>
    </g>
    <g id="patch_26">
     <path d="M 222.523443 249.228843 
 L 227.141252 249.228843 
-L 227.141252 235.155739 
-L 222.523443 235.155739 
+L 227.141252 237.970359 
+L 222.523443 237.970359 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
@@ -247,14 +247,14 @@ z
    <g id="patch_29">
     <path d="M 245.612487 353.369815 
 L 250.230296 353.369815 
-L 250.230296 311.150502 
-L 245.612487 311.150502 
+L 250.230296 313.965123 
+L 245.612487 313.965123 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_30">
-    <path d="M 253.308835 356.184436 
-L 257.926643 356.184436 
+    <path d="M 253.308835 353.369815 
+L 257.926643 353.369815 
 L 257.926643 344.925952 
 L 253.308835 344.925952 
 z
@@ -469,16 +469,16 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_57">
-    <path d="M 461.110226 161.975596 
-L 465.728035 161.975596 
+    <path d="M 461.110226 159.160975 
+L 465.728035 159.160975 
 L 465.728035 150.717113 
 L 461.110226 150.717113 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #26a69a"/>
    </g>
    <g id="patch_58">
-    <path d="M 468.806574 150.717113 
-L 473.424383 150.717113 
+    <path d="M 468.806574 147.902492 
+L 473.424383 147.902492 
 L 473.424383 100.053937 
 L 468.806574 100.053937 
 z
@@ -509,8 +509,8 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #26a69a"/>
    </g>
    <g id="patch_62">
-    <path d="M 499.591965 122.570904 
-L 504.209774 122.570904 
+    <path d="M 499.591965 125.385525 
+L 504.209774 125.385525 
 L 504.209774 83.166212 
 L 499.591965 83.166212 
 z
@@ -629,8 +629,8 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_77">
-    <path d="M 615.037183 353.369815 
-L 619.654991 353.369815 
+    <path d="M 615.037183 350.555194 
+L 619.654991 350.555194 
 L 619.654991 344.925952 
 L 615.037183 344.925952 
 z
@@ -639,8 +639,8 @@ z
    <g id="patch_78">
     <path d="M 622.73353 356.184436 
 L 627.351339 356.184436 
-L 627.351339 344.925952 
-L 622.73353 344.925952 
+L 627.351339 347.740573 
+L 622.73353 347.740573 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
@@ -663,8 +663,8 @@ z
    <g id="patch_81">
     <path d="M 645.822574 392.774507 
 L 650.440383 392.774507 
-L 650.440383 373.072161 
-L 645.822574 373.072161 
+L 650.440383 370.25754 
+L 645.822574 370.25754 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
@@ -693,8 +693,8 @@ z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
    <g id="patch_85">
-    <path d="M 676.607965 342.111331 
-L 681.225774 342.111331 
+    <path d="M 676.607965 344.925952 
+L 681.225774 344.925952 
 L 681.225774 313.965123 
 L 676.607965 313.965123 
 z
@@ -735,8 +735,8 @@ z
    <g id="patch_90">
     <path d="M 715.089704 412.476853 
 L 719.707513 412.476853 
-L 719.707513 389.959886 
-L 715.089704 389.959886 
+L 719.707513 387.145265 
+L 715.089704 387.145265 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
@@ -751,8 +751,8 @@ z
    <g id="patch_92">
     <path d="M 730.4824 423.735336 
 L 735.100209 423.735336 
-L 735.100209 406.847611 
-L 730.4824 406.847611 
+L 735.100209 409.662232 
+L 730.4824 409.662232 
 z
 " clip-path="url(#pee9a85156d)" style="fill: #ef5350"/>
    </g>
@@ -1503,9 +1503,9 @@ L 925.2 384.330644
 " clip-path="url(#pee9a85156d)" style="fill: none; stroke-dasharray: 1.8,2.97; stroke-dashoffset: 0; stroke: #6a1b9a; stroke-width: 1.8"/>
    </g>
    <g id="line2d_39">
-    <path d="M 228.680522 448.504 
-L 228.680522 27.436719 
-" clip-path="url(#pee9a85156d)" style="fill: none; stroke-dasharray: 0.9,1.485; stroke-dashoffset: 0; stroke: #616161; stroke-width: 0.9"/>
+    <path d="M 398.000174 448.504 
+L 398.000174 27.436719 
+" clip-path="url(#pee9a85156d)" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #455a64; stroke-width: 1.3"/>
    </g>
    <g id="patch_93">
     <path d="M 40.12 448.504 
@@ -1582,6 +1582,9 @@ z
     <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="732.791304" y="490.496066" transform="rotate(-0 732.791304 490.496066)">▲ BUY (waiting)</text>
    </g>
    <g id="text_25">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(395.838065 117.235984) rotate(-90)"> day · 05:30 IST</text>
+   </g>
+   <g id="text_26">
     <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="482.66" y="21.436719" transform="rotate(-0 482.66 21.436719)">LTCUSDT.P 15m · BUY · running · data to 2026-11-02 16:15 IST</text>
    </g>
    <g id="legend_1">
@@ -1604,7 +1607,7 @@ L 59.12 40.535156
 L 69.12 40.535156 
 " style="fill: none; stroke: #2962ff; stroke-width: 1.6; stroke-linecap: square"/>
     </g>
-    <g id="text_26">
+    <g id="text_27">
      <text style="font-size: 10px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="77.12" y="44.035156" transform="rotate(-0 77.12 44.035156)">ZigZag++ 12/5/2</text>
     </g>
    </g>
