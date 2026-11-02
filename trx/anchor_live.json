@@ -646,8 +646,19 @@
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-02 10:15",
+  "last_closed_candle": "2026-11-02 10:25",
   "armed": [
+   {
+    "symbol": "JSWSTEEL",
+    "side": "SELL",
+    "anchor1": 1263.6,
+    "anchor1_time": "2026-10-30 11:05",
+    "anchor2": 1268.5,
+    "anchor2_time": "2026-11-02 10:20",
+    "anchor2_confirmed": "2026-11-02 10:20",
+    "trigger": 1263.6,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "KOTAKBANK",
     "side": "SELL",
@@ -1442,8 +1453,8 @@
    }
   ],
   "closed_R": -6.49,
-  "run": "2026-11-02 10:32 IST"
+  "run": "2026-11-02 10:42 IST"
  },
- "updated": "2026-11-02 10:37 IST",
+ "updated": "2026-11-02 10:42 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
