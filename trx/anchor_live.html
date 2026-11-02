@@ -6,12 +6,12 @@
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;margin-right:5px;animation:p 1.5s infinite}@keyframes p{50%{opacity:.3}}
 .sd{font-size:12px;font-weight:800;padding:1px 6px;border-radius:4px;color:#fff}.BUY{background:#16A34A}.SELL{background:#DC2626}
 .panel{background:#fff;border-radius:14px;padding:14px 18px;margin:0 0 14px;box-shadow:0 8px 24px #0d948822;overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 7px;border-bottom:1px solid #E2E8F0;text-align:left;white-space:nowrap}small{color:#5B6B7F}</style></head>
-<body><div class="w"><a href="../index.html">← Home</a><h1>Anchor Break — Running</h1><small>Signal scan only, not financial advice. Click a cube to see its Running and Open Trades lists.</small>
+<body><div class="w"><a href="../index.html">← Home</a><h1>Anchor Break — Running</h1><small>Signal scan only, not financial advice. Click a cube to see its Running and Activated lists.</small>
 <div class="g"><div class="cube sel" id="c_crypto" onclick="show('crypto')"></div><div class="cube" id="c_nse" onclick="show('nse')"></div></div>
 <div id="view"></div><small id="upd"></small></div>
 <script>
 var A14={},AL={},cur='crypto',VF={crypto:'No Filter',nse:'No Filter'};
-var M={crypto:{t:'Crypto · 15m · 33 BingX coins',win:'Entries after 2:00 PM IST'},nse:{t:'NSE · Nifty 100 · 5m',win:'Entries 9:30 AM–2:00 PM IST · close all 3:00 PM IST'}};
+var M={crypto:{t:'Crypto · 15m · 33 BingX coins',win:'Entries any time from 5:30 AM IST · unfilled Running force-closed next 5:30 AM'},nse:{t:'NSE · Nifty 100 · 5m',win:'Entries 9:30 AM–2:00 PM IST · close all 3:00 PM IST'}};
 function sd(s){return '<span class="sd '+s+'">'+s+'</span>'}
 function vb(v){return '<span class="pill '+(v=='Filter'?'flt':'nf')+'">'+v+'</span>'}
 function vbs(r){return vb('No Filter')+(r.variant=='Filter'?' '+vb('Filter'):'')}
@@ -23,25 +23,32 @@ function cube(k){var a=AL[k]||{},m=M[k],op=pick(k,a.a1break_open).length,hs=pick
  return '<div style="display:flex;justify-content:space-between;gap:8px"><b>'+m.t+'</b><span class="pill live"><i class="dot"></i>LIVE</span></div><small>Last run: '+(a.run||AL.updated||'–')+' · data to '+(a.last_closed_candle||'–')+'</small>'+
  '<div style="margin:6px 0">'+tg(k)+'</div><small>'+m.win+'</small>'+
  '<div style="margin-top:6px">'+(ar?'<span class="pill act">Active</span> <b>'+ar+'</b> running':'<span class="pill wait">Waiting for anchor 2</span>')+'</div>'+
- '<div><small>Open trades: <b>'+op+'</b> · Last signal: '+ls+'</small></div>'}
+ '<div><small>Activated: <b>'+op+'</b> · Last signal: '+ls+'</small></div>'}
 function show(k){cur=k;['crypto','nse'].forEach(function(x){var c=document.getElementById('c_'+x);c.className='cube'+(x==k?' sel':'');c.innerHTML=cube(x)});
  var a=AL[k],h='';
  if(!a||a.error){document.getElementById('view').innerHTML='<div class="panel"><b>'+M[k].t+'</b><p>Status unavailable</p></div>';return}
  var ar=a.armed||[];
- h+='<div class="panel"><b>'+(k=='crypto'?'Crypto':'NSE')+' Running</b> <span class="pill live">LIVE</span> '+vb(VF[k])+'<br><small>Both anchors formed on '+a.timeframe+' (SELL: anchor 1 = day D last HH, a lower low after it is fine but a higher low or lower high confirmed that day or anywhere before anchor 2 rejects it; anchor 2 = a complete D+1 candle entirely above anchor 1 (high and low above it); only after that, a close below anchor 1 is a SELL. BUY mirror: day D last LL, a lower high or higher high confirmed after it, up to anchor 2, rejects; anchor 2 = a complete D+1 candle entirely below anchor 1, then a close above it). Anchor 1 not yet broken — strategy has a chance to start. Moves to Open Trades on the first close past anchor 1. Variant is known only at entry (stop size).</small>';
+ h+='<div class="panel"><b>'+(k=='crypto'?'Crypto':'NSE')+' Running</b> <span class="pill live">LIVE</span> '+vb(VF[k])+'<br><small>Both anchors formed on '+a.timeframe+' (ZigZag pivots only; SELL: A1 = previous day last ZigZag HH, a ZigZag lower high before A2 rejects, LL/HL allowed; A2 = first complete candle today fully above A1. BUY mirror: ZigZag HH rejects). Pattern confirmed, entry not yet triggered. Moves to Activated on the first close past anchor 1. Variant is known only at entry (stop size).</small>';
  h+=ar.length?'<table><tr><th>Symbol</th><th>Side</th><th>Anchor 1</th><th>Anchor 2</th><th>Trigger</th><th>Status</th></tr>'+ar.map(function(r){return '<tr><td><b>'+r.symbol+'</b> <span class="pill act">Active</span></td><td>'+sd(r.side)+'</td><td>'+r.anchor1+'<br><small>'+r.anchor1_time+'</small></td><td>'+r.anchor2+'<br><small>'+r.anchor2_time+'</small></td><td>'+r.trigger+'</td><td>'+r.status+'</td></tr>'}).join('')+'</table>':'<p><span class="pill wait">Waiting for anchor 2</span> no coin waiting for anchor 1 close</p>';
- h+='</div><div class="panel"><b>Open Trades</b> <small>(anchor 1 broken)</small> '+vb(VF[k])+'<br><small>'+(AL.rule_a1||'')+'</small>';
+ h+='</div><div class="panel"><b>'+(k=='crypto'?'Crypto':'NSE')+' Activated</b> <small>(entry triggered &mdash; anchor 1 broken)</small> '+vb(VF[k])+'<br><small>'+(AL.rule_a1||'')+'</small>';
  var o=pick(k,a.a1break_open);h+=o.length?'<table><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>R now</th><th>Variant</th><th>Entry time</th></tr>'+o.map(function(r){return '<tr><td><b>'+r.symbol+'</b></td><td>'+sd(r.side)+'</td><td>'+r.entry+'</td><td>'+r.stop+'</td><td>'+r.target+'</td><td>'+(r.R_now==null?'–':r.R_now)+'</td><td>'+vbs(r)+'</td><td>'+r.entry_time+'</td></tr>'}).join('')+'</table>':'<p><small>None open.</small></p>';
  var hs=pick(k,a.a1break_history),tot=hs.reduce(function(s,r){return s+r.R},0),w=hs.filter(function(r){return r.R>0}).length;
  h+='<b>History</b> <small>('+hs.length+' closed · '+(hs.length?Math.round(w/hs.length*100):0)+'% win · total '+tot.toFixed(2)+'R)</small>'+(hs.length?'<table><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Variant</th><th>Entry time</th><th>Exit</th><th>Result</th><th>R</th></tr>'+hs.map(function(r){return '<tr><td>'+r.symbol+'</td><td>'+sd(r.side)+'</td><td>'+r.entry+'</td><td>'+r.stop+'</td><td>'+r.target+'</td><td>'+vbs(r)+'</td><td>'+r.entry_time+'</td><td>'+r.exit_time+'</td><td>'+r.status+'</td><td>'+r.R+'</td></tr>'}).join('')+'</table>':'<p><small>None yet.</small></p>');
  h+='</div><div class="panel"><b>Chart</b> <small>'+(k=='crypto'?'15m':'5m')+' · ZigZag++ labels, anchors, entry/stop/target</small><br><img style="width:100%;max-width:1300px" alt="chart" src="anchor_charts/'+k+'.svg?t='+encodeURIComponent(AL.updated||'')+'" onerror="this.replaceWith(document.createTextNode(\'Chart not available yet\'))">';document.getElementById('view').innerHTML=h+'</div>';}
 fetch('anchor_live.json?'+Date.now()).then(function(r){return r.json()}).catch(function(){return {}}).then(function(x){AL=x;document.getElementById('upd').textContent='Page data: '+(AL.updated||'–');show(location.hash=='#nse'?'nse':'crypto')});
 setInterval(function(){fetch('anchor_live.json?'+Date.now()).then(function(r){return r.json()}).then(function(x){AL=x;show(cur)}).catch(function(){})},60000);
-</script><div class="panel" id="strat-rules" style="margin:12px"><b>Anchor Break &mdash; current strategy rules (2 Nov 2026, updated 14:20 IST)</b><ol style="font-size:13px"><li>Anchor 1 (A1): SELL = the last ZigZag++ (12/5/2) Higher High of the previous day; BUY = the last Lower Low of the previous day.</li>
+</script><div class="panel" id="strat-rules" style="margin:12px"><b>Anchor Break &mdash; full strategy (updated 2 Nov 2026, 16:35 IST)</b><ol style="font-size:13px">
+<li>Pivots: ZigZag++ (12/5/2) on TradingView data. ZigZag pivots are final; raw candle swings that ZigZag did not mark are ignored.</li>
+<li>Anchor 1 (A1): SELL = the last ZigZag Higher High (HH) of the previous day; BUY = the last ZigZag Lower Low (LL) of the previous day.</li>
 <li>Anchor 2 (A2): the first complete candle of the current day fully beyond A1 (SELL: low above A1; BUY: high below A1). A2 only confirms the pattern; it is not the entry.</li>
-<li>Between A1 and A2 (ZigZag++ pivots as shown on TradingView are final; raw candle swings that ZigZag did not mark are ignored): SELL &mdash; a ZigZag lower high (LH) confirmed after A1, up to and including the A2 candle, rejects the setup entirely (never shown as Running); lower lows (LL) and higher lows (HL) are allowed. BUY mirror &mdash; a ZigZag higher high (HH) rejects; higher lows (HL) and lower highs (LH) are allowed.</li>
-<li>Entry: after A2, the first candle close that breaks A1 (SELL: close below A1; BUY: close above A1). Stop: previous candle's high (SELL) / low (BUY). Target 1:2.</li>
-<li>Days: A1 on the last day, A2 on the current day (day one); a setup is Running only while A2 is today. Day starts: crypto 05:30 IST, NSE 09:15 IST.</li>
-<li>NSE session 09:15&ndash;15:30 IST (entries 09:30&ndash;14:00, force-close 15:00). Crypto: entries from 14:00 IST.</li>
-<li>Level expiry: crypto chart levels are valid only on the trade's 05:30 IST session day and are not drawn on later sessions. This expiry does not apply to NSE.</li></ol></div>
+<li>Days: A1 on the last day, A2 on the current day. Running only while A2 is today. Day starts: crypto 05:30 IST, NSE 09:15 IST (session 09:15&ndash;15:30).</li>
+<li>Between A1 and A2 (ZigZag pivots only): SELL &mdash; a ZigZag lower high (LH) rejects the setup entirely (never shown in Running or any list); raw unmarked lower highs are ignored; lower lows (LL) and higher lows (HL) are allowed. BUY mirror &mdash; a ZigZag higher high (HH) rejects entirely; HL and LH allowed.</li>
+<li><b>Running</b> = pattern confirmed (A1 + A2), entry not yet triggered. <b>Activated</b> = entry triggered (open trade).</li>
+<li>Entry: the first candle close through A1 at/after A2 (SELL: close below A1; BUY: close above A1).</li>
+<li>Entry windows: NSE 09:30&ndash;14:00 IST. Crypto: any time from the 05:30 IST day start, no cutoff (no 11:00 or evening close).</li>
+<li>Stop: previous candle's high (SELL) / low (BUY). Target 1:2. A candle touching both stop and target counts as stop.</li>
+<li>Closes: NSE open trades force-close at 15:00 IST. Crypto: a setup still Running (not filled) at the next 05:30 IST day start is force-closed and does not carry over; filled crypto trades run to stop / target.</li>
+<li>Level expiry: crypto chart levels only on the trade's own 05:30 IST session day; NSE no expiry.</li>
+<li>Variants: No Filter and Filter (stop &ge; 1% of entry). Live signals carry no cost.</li>
+<li>Alerts: phone notification (ntfy, with email backup) when a setup newly becomes Running and when it becomes Activated.</li></ol></div>
 </body></html>

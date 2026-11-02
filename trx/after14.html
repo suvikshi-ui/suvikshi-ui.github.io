@@ -33,7 +33,7 @@ th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;white
 <div class="kv"><b>Last run</b><span id="crun">…</span>
 <b>Universe</b><span id="cuni">Crypto · 33 coins (BingX)</span>
 <b>Timeframe</b><span id="ctf">15m</span>
-<b>Entry window</b><span>After 14:00 IST (to 05:30 day end)</span>
+<b>Entry window</b><span>Any time 05:30 → 05:30 IST (no cutoff)</span>
 <b>Close-all</b><span>None</span>
 <b>Variants</b><span><span class="vt F">Filter</span>stop ≥1%, 1:2 <span class="act">● Active setup</span><br><span class="vt N">No Filter</span>1:2</span>
 <b>Open trades</b><span id="copen">…</span>
@@ -77,7 +77,7 @@ document.getElementById('otb').innerHTML=rows.join('')||'<tr><td colspan="9"><sm
 }).catch(e=>{document.getElementById('cst').textContent='NO DATA';document.getElementById('cst').className='st off';document.getElementById('cdot').className='dot off'});
 </script>
 <section id="live"><h2>Live signals · Crypto · 15m</h2>
-<p><small>Live scan of 33 BingX perps on 15m (TradingView data), entries 14:00 IST → 05:30 day end, target 1:2. Signals only, no trades.</small></p>
+<p><small>Live scan of 33 BingX perps on 15m (TradingView data), entries any time 05:30 → 05:30 IST (no cutoff), target 1:2. Signals only, no trades.</small></p>
 <p><small id="lu">Loading…</small></p><div class="vs" id="lv"></div></section>
 <script>
 fetch('after14_live.json?'+Date.now()).then(r=>r.json()).then(j=>{
@@ -90,16 +90,23 @@ return `<div class="v${k=='B'?' best':''}" style="grid-column:1/-1"><h3>${nm[k]|
 </script>
 <p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
 <section><h2>Rules</h2><div class="rules">
-<div class="rule rb" id="strat-rules"><h3>Anchor Break &mdash; current strategy rules (2 Nov 2026, updated 14:20 IST)</h3><ol><li>Anchor 1 (A1): SELL = the last ZigZag++ (12/5/2) Higher High of the previous day; BUY = the last Lower Low of the previous day.</li>
+<div class="rule rb" id="strat-rules"><h3>Anchor Break &mdash; full strategy (updated 2 Nov 2026, 16:35 IST)</h3><ol style="font-size:13px">
+<li>Pivots: ZigZag++ (12/5/2) on TradingView data. ZigZag pivots are final; raw candle swings that ZigZag did not mark are ignored.</li>
+<li>Anchor 1 (A1): SELL = the last ZigZag Higher High (HH) of the previous day; BUY = the last ZigZag Lower Low (LL) of the previous day.</li>
 <li>Anchor 2 (A2): the first complete candle of the current day fully beyond A1 (SELL: low above A1; BUY: high below A1). A2 only confirms the pattern; it is not the entry.</li>
-<li>Between A1 and A2 (ZigZag++ pivots as shown on TradingView are final; raw candle swings that ZigZag did not mark are ignored): SELL &mdash; a ZigZag lower high (LH) confirmed after A1, up to and including the A2 candle, rejects the setup entirely (never shown as Running); lower lows (LL) and higher lows (HL) are allowed. BUY mirror &mdash; a ZigZag higher high (HH) rejects; higher lows (HL) and lower highs (LH) are allowed.</li>
-<li>Entry: after A2, the first candle close that breaks A1 (SELL: close below A1; BUY: close above A1). Stop: previous candle's high (SELL) / low (BUY). Target 1:2.</li>
-<li>Days: A1 on the last day, A2 on the current day (day one); a setup is Running only while A2 is today. Day starts: crypto 05:30 IST, NSE 09:15 IST.</li>
-<li>NSE session 09:15&ndash;15:30 IST (entries 09:30&ndash;14:00, force-close 15:00). Crypto: entries from 14:00 IST.</li>
-<li>Level expiry: crypto chart levels are valid only on the trade's 05:30 IST session day and are not drawn on later sessions. This expiry does not apply to NSE.</li></ol></div>
+<li>Days: A1 on the last day, A2 on the current day. Running only while A2 is today. Day starts: crypto 05:30 IST, NSE 09:15 IST (session 09:15&ndash;15:30).</li>
+<li>Between A1 and A2 (ZigZag pivots only): SELL &mdash; a ZigZag lower high (LH) rejects the setup entirely (never shown in Running or any list); raw unmarked lower highs are ignored; lower lows (LL) and higher lows (HL) are allowed. BUY mirror &mdash; a ZigZag higher high (HH) rejects entirely; HL and LH allowed.</li>
+<li><b>Running</b> = pattern confirmed (A1 + A2), entry not yet triggered. <b>Activated</b> = entry triggered (open trade).</li>
+<li>Entry: the first candle close through A1 at/after A2 (SELL: close below A1; BUY: close above A1).</li>
+<li>Entry windows: NSE 09:30&ndash;14:00 IST. Crypto: any time from the 05:30 IST day start, no cutoff (no 11:00 or evening close).</li>
+<li>Stop: previous candle's high (SELL) / low (BUY). Target 1:2. A candle touching both stop and target counts as stop.</li>
+<li>Closes: NSE open trades force-close at 15:00 IST. Crypto: a setup still Running (not filled) at the next 05:30 IST day start is force-closed and does not carry over; filled crypto trades run to stop / target.</li>
+<li>Level expiry: crypto chart levels only on the trade's own 05:30 IST session day; NSE no expiry.</li>
+<li>Variants: No Filter and Filter (stop &ge; 1% of entry). Live signals carry no cost.</li>
+<li>Alerts: phone notification (ntfy, with email backup) when a setup newly becomes Running and when it becomes Activated.</li></ol></div>
 <div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Any pivot except a Lower High (LH) or Higher High (HH) may form after it that day; an LH or HH confirmed that day or anywhere before Anchor 2 rejects the anchor.</li><li>Anchor 2: a complete candle on the next day sits entirely below Anchor 1 (high and low below it). Required first.</li><li>Entry is the first 15m close above Anchor 1 after that candle.</li><li>Stop is the previous candle's low.</li></ol></div>
 <div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH; a lower low after it is fine, a higher low (HL) or lower high (LH) confirmed that day or anywhere before Anchor 2 rejects it; Anchor 2: a higher high that holds — a complete candle on the next day entirely above Anchor 1 (high and low above it). Only after that does a break below Anchor 1 count; a break alone is not a sell.</li><li>Entry is the first 15m close below Anchor 1 after that candle.</li><li>Stop is the previous candle's high.</li></ol></div>
-<div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle at or after 14:00 IST (through to 05:30).</li></ol></div>
+<div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle any time in the 05:30–05:30 IST crypto day; unfilled setups are force-closed at the next 05:30.</li></ol></div>
 </div></section>
 <section><h2>Variants</h2><div class="vs">
 <div class="v"><h3>1 · No filter</h3><p><small>Entries after 14:00 IST.</small></p><div class="tw"><table><thead><tr><th>Target</th><th>Trades</th><th>Win</th><th>Total</th></tr></thead><tbody><tr><td>1:1</td><td>122</td><td>52.5%</td><td>+10.0%</td></tr><tr><td>1:2</td><td>122</td><td>40.2%</td><td>+32.9%</td></tr></tbody></table></div></div>
