@@ -749,8 +749,8 @@ z
 " clip-path="url(#pb3e058cdd5)" style="fill: #26a69a"/>
    </g>
    <g id="patch_92">
-    <path d="M 731.2744 115.330684 
-L 735.873426 115.330684 
+    <path d="M 731.2744 117.594048 
+L 735.873426 117.594048 
 L 735.873426 107.031683 
 L 731.2744 107.031683 
 z
@@ -1441,7 +1441,7 @@ L 725.90887 104.768319
 " clip-path="url(#pb3e058cdd5)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_90">
-    <path d="M 733.573913 115.330684 
+    <path d="M 733.573913 124.38414 
 L 733.573913 107.031683 
 " clip-path="url(#pb3e058cdd5)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
