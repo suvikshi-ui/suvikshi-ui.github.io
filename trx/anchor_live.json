@@ -2,20 +2,8 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-02 10:45",
-  "armed": [
-   {
-    "symbol": "CCUSDT.P",
-    "side": "BUY",
-    "anchor1": 0.09636,
-    "anchor1_time": "2026-11-02 03:45",
-    "anchor2": 0.09584,
-    "anchor2_time": "2026-11-02 10:30",
-    "anchor2_confirmed": "2026-11-02 10:30",
-    "trigger": 0.09636,
-    "status": "waiting entry (anchor 1 close)"
-   }
-  ],
+  "last_closed_candle": "2026-11-02 11:15",
+  "armed": [],
   "a1break_open": [
    {
     "symbol": "LINKUSDT.P",
@@ -641,12 +629,12 @@
    }
   ],
   "closed_R": 6.0,
-  "run": "2026-11-02 11:06 IST"
+  "run": "2026-11-02 11:39 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-02 11:15",
+  "last_closed_candle": "2026-11-02 11:20",
   "armed": [
    {
     "symbol": "JSWSTEEL",
@@ -693,28 +681,6 @@
     "status": "waiting entry (anchor 1 close)"
    },
    {
-    "symbol": "APOLLOHOSP",
-    "side": "SELL",
-    "anchor1": 8348.0,
-    "anchor1_time": "2026-10-30 14:35",
-    "anchor2": 8381.0,
-    "anchor2_time": "2026-11-02 09:50",
-    "anchor2_confirmed": "2026-11-02 09:50",
-    "trigger": 8348.0,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "TCS",
-    "side": "SELL",
-    "anchor1": 2527.7,
-    "anchor1_time": "2026-10-30 14:15",
-    "anchor2": 2544.0,
-    "anchor2_time": "2026-11-02 09:45",
-    "anchor2_confirmed": "2026-11-02 09:45",
-    "trigger": 2527.7,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
     "symbol": "COALINDIA",
     "side": "SELL",
     "anchor1": 398.05,
@@ -723,17 +689,6 @@
     "anchor2_time": "2026-11-02 09:35",
     "anchor2_confirmed": "2026-11-02 09:35",
     "trigger": 398.05,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "ASIANPAINT",
-    "side": "SELL",
-    "anchor1": 2348.0,
-    "anchor1_time": "2026-10-30 14:25",
-    "anchor2": 2356.4,
-    "anchor2_time": "2026-11-02 09:30",
-    "anchor2_confirmed": "2026-11-02 09:30",
-    "trigger": 2348.0,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -759,17 +714,6 @@
     "status": "waiting entry (anchor 1 close)"
    },
    {
-    "symbol": "HINDUNILVR",
-    "side": "SELL",
-    "anchor1": 1865.5,
-    "anchor1_time": "2026-10-30 13:30",
-    "anchor2": 1887.3,
-    "anchor2_time": "2026-11-02 09:20",
-    "anchor2_confirmed": "2026-11-02 09:20",
-    "trigger": 1865.5,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
     "symbol": "BEL",
     "side": "SELL",
     "anchor1": 371.15,
@@ -778,28 +722,6 @@
     "anchor2_time": "2026-11-02 09:20",
     "anchor2_confirmed": "2026-11-02 09:20",
     "trigger": 371.15,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "PIDILITIND",
-    "side": "SELL",
-    "anchor1": 1456.9,
-    "anchor1_time": "2026-10-30 14:30",
-    "anchor2": 1467.3,
-    "anchor2_time": "2026-11-02 09:20",
-    "anchor2_confirmed": "2026-11-02 09:20",
-    "trigger": 1456.9,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "TATAPOWER",
-    "side": "SELL",
-    "anchor1": 348.2,
-    "anchor1_time": "2026-10-30 12:35",
-    "anchor2": 353.65,
-    "anchor2_time": "2026-11-02 09:20",
-    "anchor2_confirmed": "2026-11-02 09:20",
-    "trigger": 348.2,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -1451,8 +1373,8 @@
    }
   ],
   "closed_R": -7.49,
-  "run": "2026-11-02 11:34 IST"
+  "run": "2026-11-02 11:38 IST"
  },
- "updated": "2026-11-02 11:34 IST",
+ "updated": "2026-11-02 11:39 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
