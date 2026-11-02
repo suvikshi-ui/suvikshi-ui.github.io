@@ -1021,8 +1021,8 @@
    }
   ],
   "closed_R": 5.26,
-  "run": "2026-11-02 09:55 IST"
+  "run": "2026-11-02 09:58 IST"
  },
- "updated": "2026-11-02 09:55 IST",
+ "updated": "2026-11-02 09:58 IST",
  "rule_a1": "Anchor 1 break (After 14 rule): after anchor 2 is confirmed, entry = first candle close past anchor 1 on D+1 (BUY above, SELL below) inside the entry window; stop = prior candle low/high; target 1:2; same candle stop+target = stop; NSE force close 15:00 IST. Filter = stop >= 1% of entry."
 }
