@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-02 12:45",
+  "last_closed_candle": "2026-11-02 13:00",
   "armed": [],
   "a1break_open": [],
   "a1break_history": [
@@ -610,7 +610,7 @@
    }
   ],
   "closed_R": 3.56,
-  "run": "2026-11-02 13:10 IST"
+  "run": "2026-11-02 13:25 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
