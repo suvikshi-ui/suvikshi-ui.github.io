@@ -638,7 +638,7 @@
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-02 14:30",
+  "last_closed_candle": "2026-11-02 14:35",
   "armed": [
    {
     "symbol": "BAJFINANCE",
@@ -857,8 +857,8 @@
     "stop_pct": 0.366,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 4228.5,
-    "R_now": 0.52
+    "last": 4231.3,
+    "R_now": 0.34
    },
    {
     "symbol": "POWERGRID",
@@ -877,8 +877,8 @@
     "stop_pct": 0.618,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 265.9,
-    "R_now": 0.64
+    "last": 266.1,
+    "R_now": 0.52
    },
    {
     "symbol": "HAL",
@@ -897,8 +897,8 @@
     "stop_pct": 0.834,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 4831.4,
-    "R_now": 0.58
+    "last": 4823.1,
+    "R_now": 0.79
    }
   ],
   "a1break_history": [
@@ -1504,8 +1504,8 @@
    }
   ],
   "closed_R": -6.71,
-  "run": "2026-11-02 14:47 IST"
+  "run": "2026-11-02 14:52 IST"
  },
- "updated": "2026-11-02 14:47 IST",
+ "updated": "2026-11-02 14:52 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
