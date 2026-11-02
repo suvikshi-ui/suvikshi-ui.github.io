@@ -1664,7 +1664,7 @@ L 925.2 174.44025
    <g id="line2d_38">
     <path d="M 260.646719 450.685771 
 L 260.646719 27.436719 
-" clip-path="url(#pb3e058cdd5)" style="fill: none; stroke-dasharray: 0.9,1.485; stroke-dashoffset: 0; stroke: #616161; stroke-width: 0.9"/>
+" clip-path="url(#pb3e058cdd5)" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #455a64; stroke-width: 1.3"/>
    </g>
    <g id="patch_106">
     <path d="M 43.72 450.685771 
@@ -1757,6 +1757,9 @@ z
     <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="753.035938" y="104.261272" transform="rotate(-0 753.035938 104.261272)">▼ SELL (waiting)</text>
    </g>
    <g id="text_25">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(258.484609 117.335156) rotate(-90)"> day · 15:30 IST</text>
+   </g>
+   <g id="text_26">
     <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="484.46" y="21.436719" transform="rotate(-0 484.46 21.436719)">HINDUNILVR 5m · SELL · running · data to 2026-11-02 15:10 IST</text>
    </g>
    <g id="legend_1">
@@ -1779,7 +1782,7 @@ L 62.72 40.535156
 L 72.72 40.535156 
 " style="fill: none; stroke: #2962ff; stroke-width: 1.6; stroke-linecap: square"/>
     </g>
-    <g id="text_26">
+    <g id="text_27">
      <text style="font-size: 10px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="80.72" y="44.035156" transform="rotate(-0 80.72 44.035156)">ZigZag++ 12/5/2</text>
     </g>
    </g>
