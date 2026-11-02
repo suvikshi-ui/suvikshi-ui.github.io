@@ -646,7 +646,7 @@
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-02 10:40",
+  "last_closed_candle": "2026-11-02 10:50",
   "armed": [
    {
     "symbol": "JSWSTEEL",
@@ -1421,6 +1421,26 @@
     "R": 1.16
    },
    {
+    "symbol": "SIEMENS",
+    "side": "SELL",
+    "anchor1": 3705.2,
+    "anchor1_time": "2026-10-12 12:35",
+    "anchor2": 3710.0,
+    "anchor2_time": "2026-10-13 14:35",
+    "anchor2_confirmed": "2026-10-13 14:35",
+    "trigger": 3705.2,
+    "id": "SIEMENS|SELL|2026-10-13 14:40",
+    "entry": 3703.2,
+    "stop": 3710.0,
+    "target": 3689.6,
+    "entry_time": "2026-10-13 14:40",
+    "stop_pct": 0.184,
+    "variant": "No Filter",
+    "status": "STOP",
+    "exit_time": "2026-10-13 14:45",
+    "R": -1.0
+   },
+   {
     "symbol": "HDFCLIFE",
     "side": "BUY",
     "anchor1": 556.0,
@@ -1441,9 +1461,9 @@
     "R": 0.86
    }
   ],
-  "closed_R": -6.49,
-  "run": "2026-11-02 10:57 IST"
+  "closed_R": -7.49,
+  "run": "2026-11-02 11:05 IST"
  },
- "updated": "2026-11-02 10:57 IST",
+ "updated": "2026-11-02 11:05 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
