@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-02 11:15",
+  "last_closed_candle": "2026-11-02 11:45",
   "armed": [],
   "a1break_open": [],
   "a1break_history": [
@@ -610,13 +610,113 @@
    }
   ],
   "closed_R": 3.56,
-  "run": "2026-11-02 11:44 IST"
+  "run": "2026-11-02 12:12 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": null,
-  "armed": [],
+  "last_closed_candle": "2026-11-02 11:55",
+  "armed": [
+   {
+    "symbol": "ABB",
+    "side": "SELL",
+    "anchor1": 6467.0,
+    "anchor1_time": "2026-10-30 13:10",
+    "anchor2": 6510.5,
+    "anchor2_time": "2026-11-02 10:00",
+    "anchor2_confirmed": "2026-11-02 10:00",
+    "trigger": 6467.0,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "TATACONSUM",
+    "side": "SELL",
+    "anchor1": 1028.9,
+    "anchor1_time": "2026-10-30 09:15",
+    "anchor2": 1033.6,
+    "anchor2_time": "2026-11-02 09:55",
+    "anchor2_confirmed": "2026-11-02 09:55",
+    "trigger": 1028.9,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "COALINDIA",
+    "side": "SELL",
+    "anchor1": 398.05,
+    "anchor1_time": "2026-10-30 09:15",
+    "anchor2": 399.75,
+    "anchor2_time": "2026-11-02 09:35",
+    "anchor2_confirmed": "2026-11-02 09:35",
+    "trigger": 398.05,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "SIEMENS",
+    "side": "SELL",
+    "anchor1": 3316.0,
+    "anchor1_time": "2026-10-30 12:35",
+    "anchor2": 3333.0,
+    "anchor2_time": "2026-11-02 09:30",
+    "anchor2_confirmed": "2026-11-02 09:30",
+    "trigger": 3316.0,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "BEL",
+    "side": "SELL",
+    "anchor1": 371.15,
+    "anchor1_time": "2026-10-30 12:55",
+    "anchor2": 377.0,
+    "anchor2_time": "2026-11-02 09:20",
+    "anchor2_confirmed": "2026-11-02 09:20",
+    "trigger": 371.15,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "ENRIN",
+    "side": "SELL",
+    "anchor1": 2781.5,
+    "anchor1_time": "2026-10-30 12:50",
+    "anchor2": 2874.9,
+    "anchor2_time": "2026-11-02 09:20",
+    "anchor2_confirmed": "2026-11-02 09:20",
+    "trigger": 2781.5,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "SUNPHARMA",
+    "side": "BUY",
+    "anchor1": 1774.4,
+    "anchor1_time": "2026-10-30 14:15",
+    "anchor2": 1722.0,
+    "anchor2_time": "2026-11-02 09:15",
+    "anchor2_confirmed": "2026-11-02 09:15",
+    "trigger": 1774.4,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "MARUTI",
+    "side": "SELL",
+    "anchor1": 11471.0,
+    "anchor1_time": "2026-10-30 12:35",
+    "anchor2": 11769.0,
+    "anchor2_time": "2026-11-02 09:15",
+    "anchor2_confirmed": "2026-11-02 09:15",
+    "trigger": 11471.0,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "GRASIM",
+    "side": "SELL",
+    "anchor1": 2973.6,
+    "anchor1_time": "2026-10-30 14:20",
+    "anchor2": 3009.0,
+    "anchor2_time": "2026-11-02 09:15",
+    "anchor2_confirmed": "2026-11-02 09:15",
+    "trigger": 2973.6,
+    "status": "waiting entry (anchor 1 close)"
+   }
+  ],
   "a1break_open": [],
   "a1break_history": [
    {
@@ -1221,8 +1321,8 @@
    }
   ],
   "closed_R": -7.49,
-  "run": "2026-11-02 12:05 IST"
+  "run": "2026-11-02 12:12 IST"
  },
- "updated": "2026-11-02 12:05 IST",
+ "updated": "2026-11-02 12:12 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
