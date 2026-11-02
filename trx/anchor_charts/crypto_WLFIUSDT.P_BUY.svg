@@ -925,8 +925,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_114">
-    <path d="M 641.308344 382.741879 
-L 644.468031 382.741879 
+    <path d="M 641.308344 380.306614 
+L 644.468031 380.306614 
 L 644.468031 377.871349 
 L 641.308344 377.871349 
 z
@@ -991,8 +991,8 @@ z
    <g id="patch_122">
     <path d="M 683.4375 407.094528 
 L 686.597187 407.094528 
-L 686.597187 387.612409 
-L 683.4375 387.612409 
+L 686.597187 385.177144 
+L 683.4375 385.177144 
 z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
@@ -1085,12 +1085,12 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_134">
-    <path d="M 746.631235 377.871349 
+    <path d="M 746.631235 387.612409 
+L 749.790921 387.612409 
 L 749.790921 377.871349 
-L 749.790921 373.000819 
-L 746.631235 373.000819 
+L 746.631235 377.871349 
 z
-" clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
+" clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_135">
     <path d="M 751.897379 377.871349 
@@ -2071,9 +2071,9 @@ L 742.944934 368.130289
 " clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_132">
-    <path d="M 748.211078 385.177144 
+    <path d="M 748.211078 387.612409 
 L 748.211078 363.259759 
-" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
+" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_133">
     <path d="M 753.477223 385.177144 
@@ -2285,7 +2285,7 @@ z
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(511.705537 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
    <g id="text_35">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-02 18:15 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-02 18:30 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_149">
