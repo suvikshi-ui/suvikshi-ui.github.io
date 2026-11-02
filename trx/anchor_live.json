@@ -658,7 +658,7 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-02 21:45 IST"
+  "run": "2026-11-02 21:54 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1474,8 +1474,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-02 21:48 IST"
+  "run": "2026-11-02 21:56 IST"
  },
- "updated": "2026-11-02 21:48 IST",
+ "updated": "2026-11-02 21:56 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
