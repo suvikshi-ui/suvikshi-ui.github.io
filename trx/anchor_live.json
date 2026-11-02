@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-02 05:45",
+  "last_closed_candle": "2026-11-02 06:00",
   "armed": [],
   "a1break_open": [
    {
@@ -22,8 +22,8 @@
     "stop_pct": 0.714,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 600.54,
-    "R_now": -0.24
+    "last": 600.74,
+    "R_now": -0.29
    }
   ],
   "a1break_history": [
@@ -389,7 +389,7 @@
    }
   ],
   "closed_R": 3.0,
-  "run": "2026-11-02 06:12 IST"
+  "run": "2026-11-02 06:22 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1058,6 +1058,6 @@
   "closed_R": 5.26,
   "run": "2026-11-02 03:43 IST"
  },
- "updated": "2026-11-02 06:12 IST",
+ "updated": "2026-11-02 06:22 IST",
  "rule_a1": "Anchor 1 break (After 14 rule): after anchor 2 is confirmed, entry = first candle close past anchor 1 on D+1 (BUY above, SELL below) inside the entry window; stop = prior candle low/high; target 1:2; same candle stop+target = stop; NSE force close 15:00 IST. Filter = stop >= 1% of entry."
 }
