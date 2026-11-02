@@ -2325,12 +2325,12 @@ L 893.714078 174.301662
    <g id="line2d_38">
     <path d="M 87.4801 450.685771 
 L 87.4801 45.909043 
-" clip-path="url(#p8da9f94b9f)" style="fill: none; stroke-dasharray: 0.9,1.485; stroke-dashoffset: 0; stroke: #616161; stroke-width: 0.9"/>
+" clip-path="url(#p8da9f94b9f)" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #455a64; stroke-width: 1.3"/>
    </g>
    <g id="line2d_39">
     <path d="M 431.983639 450.685771 
 L 431.983639 45.909043 
-" clip-path="url(#p8da9f94b9f)" style="fill: none; stroke-dasharray: 0.9,1.485; stroke-dashoffset: 0; stroke: #616161; stroke-width: 0.9"/>
+" clip-path="url(#p8da9f94b9f)" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #455a64; stroke-width: 1.3"/>
    </g>
    <g id="patch_157">
     <path d="M 37.24 450.685771 
@@ -2417,6 +2417,12 @@ z
     <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="774.094794" y="25.345262" transform="rotate(-0 774.094794 25.345262)">▼ SELL (waiting)</text>
    </g>
    <g id="text_23">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(85.31799 134.967829) rotate(-90)"> day · 15:30 IST</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(429.82153 134.967829) rotate(-90)"> day · 15:30 IST</text>
+   </g>
+   <g id="text_25">
     <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="465.477039" y="39.909043" transform="rotate(-0 465.477039 39.909043)">COALINDIA 5m · SELL · running · data to 2026-11-02 15:10 IST</text>
    </g>
    <g id="legend_1">
@@ -2439,7 +2445,7 @@ L 56.24 59.007481
 L 66.24 59.007481 
 " style="fill: none; stroke: #2962ff; stroke-width: 1.6; stroke-linecap: square"/>
     </g>
-    <g id="text_24">
+    <g id="text_26">
      <text style="font-size: 10px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="74.24" y="62.507481" transform="rotate(-0 74.24 62.507481)">ZigZag++ 12/5/2</text>
     </g>
    </g>
