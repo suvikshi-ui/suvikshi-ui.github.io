@@ -4,7 +4,8 @@
   "timeframe": "15m",
   "last_closed_candle": "2026-11-02 11:15",
   "armed": [],
-  "a1break_open": [
+  "a1break_open": [],
+  "a1break_history": [
    {
     "symbol": "LINKUSDT.P",
     "side": "BUY",
@@ -21,12 +22,12 @@
     "entry_time": "2026-11-02 04:30",
     "stop_pct": 1.15,
     "variant": "Filter",
-    "status": "OPEN",
-    "last": 11.374,
-    "R_now": -0.15
-   }
-  ],
-  "a1break_history": [
+    "status": "MANUAL CLOSE (rule invalidation)",
+    "exit_time": "2026-11-02 11:30",
+    "exit_price": 11.337,
+    "R": -0.44,
+    "close_reason": "Closed at caller request 2 Nov 11:49 IST: HL/LH between anchors rule, setup would not form"
+   },
    {
     "symbol": "HYPEUSDT.P",
     "side": "BUY",
@@ -606,35 +607,15 @@
     "status": "STOP",
     "exit_time": "2026-10-29 01:15",
     "R": -1.0
-   },
-   {
-    "symbol": "ETHUSDT.P",
-    "side": "SELL",
-    "anchor1": 2363.21,
-    "anchor1_time": "2026-10-28 03:00",
-    "anchor2": 2378.19,
-    "anchor2_time": "2026-10-28 13:45",
-    "anchor2_confirmed": "2026-10-28 13:45",
-    "trigger": 2363.21,
-    "id": "ETHUSDT.P|SELL|2026-10-28 16:30",
-    "entry": 2360.92,
-    "stop": 2371.23,
-    "target": 2340.3,
-    "entry_time": "2026-10-28 16:30",
-    "stop_pct": 0.437,
-    "variant": "No Filter",
-    "status": "TARGET",
-    "exit_time": "2026-10-28 18:00",
-    "R": 2.0
    }
   ],
-  "closed_R": 6.0,
+  "closed_R": 3.56,
   "run": "2026-11-02 11:44 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-02 11:30",
+  "last_closed_candle": "2026-11-02 11:35",
   "armed": [
    {
     "symbol": "KOTAKBANK",
@@ -1351,8 +1332,8 @@
    }
   ],
   "closed_R": -7.49,
-  "run": "2026-11-02 11:46 IST"
+  "run": "2026-11-02 11:51 IST"
  },
- "updated": "2026-11-02 11:46 IST",
+ "updated": "2026-11-02 11:51 IST",
  "rule_a1": "Anchor rule (updated 2 Nov 2026): SELL = anchor 1 is the previous day's last HH pivot (a lower low or lower high after it that day is fine; a higher low after it that day rejects the anchor); anchor 2 = a complete candle today entirely above anchor 1 (high and low above it) - required first; entry = the first candle close below anchor 1 after that candle (a break alone is not enough); a higher low today does not invalidate. BUY mirror: anchor 1 = previous day's last LL (a lower high after it that day rejects); anchor 2 = a complete candle today entirely below anchor 1; entry = first close above anchor 1. Stop = prior candle high/low; target 1:2; same candle stop+target = stop; entry window 09:30-14:00 IST, NSE force close 15:00 IST. Filter = stop >= 1% of entry; No Filter is default."
 }
