@@ -157,8 +157,8 @@ z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_18">
-    <path d="M 119.477699 359.671328 
-L 122.262834 359.671328 
+    <path d="M 119.477699 361.194423 
+L 122.262834 361.194423 
 L 122.262834 350.723145 
 L 119.477699 350.723145 
 z
@@ -287,14 +287,14 @@ z
    <g id="patch_34">
     <path d="M 193.747966 303.887975 
 L 196.533101 303.887975 
-L 196.533101 290.941667 
-L 193.747966 290.941667 
+L 196.533101 290.75128 
+L 193.747966 290.75128 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_35">
-    <path d="M 198.389858 304.078361 
-L 201.174993 304.078361 
+    <path d="M 198.389858 303.887975 
+L 201.174993 303.887975 
 L 201.174993 213.644598 
 L 198.389858 213.644598 
 z
@@ -311,8 +311,8 @@ z
    <g id="patch_37">
     <path d="M 207.673641 230.208256 
 L 210.458776 230.208256 
-L 210.458776 217.452335 
-L 207.673641 217.452335 
+L 210.458776 219.927365 
+L 207.673641 219.927365 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -343,8 +343,8 @@ z
    <g id="patch_41">
     <path d="M 226.241208 290.370507 
 L 229.026343 290.370507 
-L 229.026343 273.235688 
-L 226.241208 273.235688 
+L 229.026343 273.045302 
+L 226.241208 273.045302 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -477,8 +477,8 @@ z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_58">
-    <path d="M 305.153367 133.110951 
-L 307.938502 133.110951 
+    <path d="M 305.153367 134.253273 
+L 307.938502 134.253273 
 L 307.938502 110.454914 
 L 305.153367 110.454914 
 z
@@ -735,8 +735,8 @@ z
    <g id="patch_90">
     <path d="M 453.6939 159.765113 
 L 456.479035 159.765113 
-L 456.479035 148.913062 
-L 453.6939 148.913062 
+L 456.479035 148.722675 
+L 453.6939 148.722675 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -767,8 +767,8 @@ z
    <g id="patch_94">
     <path d="M 472.261467 153.101573 
 L 475.046602 153.101573 
-L 475.046602 151.959252 
-L 472.261467 151.959252 
+L 475.046602 152.149639 
+L 472.261467 152.149639 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -799,8 +799,8 @@ z
    <g id="patch_98">
     <path d="M 490.829034 157.099697 
 L 493.614169 157.099697 
-L 493.614169 146.057259 
-L 490.829034 146.057259 
+L 493.614169 151.388091 
+L 490.829034 151.388091 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -869,12 +869,12 @@ z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_107">
-    <path d="M 532.606059 221.45046 
-L 535.391194 221.45046 
+    <path d="M 532.606059 213.263824 
 L 535.391194 213.263824 
-L 532.606059 213.263824 
+L 535.391194 211.359955 
+L 532.606059 211.359955 
 z
-" clip-path="url(#p2351291e5f)" style="fill: #26a69a"/>
+" clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_108">
     <path d="M 537.247951 222.212007 
@@ -927,8 +927,8 @@ z
    <g id="patch_114">
     <path d="M 565.099301 229.256321 
 L 567.884436 229.256321 
-L 567.884436 196.129006 
-L 565.099301 196.129006 
+L 567.884436 201.079064 
+L 565.099301 201.079064 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -957,8 +957,8 @@ z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
    <g id="patch_118">
-    <path d="M 583.666867 304.839909 
-L 586.452002 304.839909 
+    <path d="M 583.666867 305.030296 
+L 586.452002 305.030296 
 L 586.452002 286.753156 
 L 583.666867 286.753156 
 z
@@ -1023,8 +1023,8 @@ z
    <g id="patch_126">
     <path d="M 620.802001 380.23311 
 L 623.587136 380.23311 
-L 623.587136 336.824903 
-L 620.802001 336.824903 
+L 623.587136 345.011539 
+L 620.802001 345.011539 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #ef5350"/>
    </g>
@@ -1277,16 +1277,16 @@ z
 " clip-path="url(#p2351291e5f)" style="fill: #26a69a"/>
    </g>
    <g id="patch_158">
-    <path d="M 769.342535 213.454211 
-L 772.12767 213.454211 
+    <path d="M 769.342535 216.119627 
+L 772.12767 216.119627 
 L 772.12767 188.703918 
 L 769.342535 188.703918 
 z
 " clip-path="url(#p2351291e5f)" style="fill: #26a69a"/>
    </g>
    <g id="patch_159">
-    <path d="M 773.984426 192.130881 
-L 776.769561 192.130881 
+    <path d="M 773.984426 188.703918 
+L 776.769561 188.703918 
 L 776.769561 185.467341 
 L 773.984426 185.467341 
 z
@@ -2127,9 +2127,9 @@ L 529.356735 187.94237
 " clip-path="url(#p2351291e5f)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_105">
-    <path d="M 533.998626 221.45046 
+    <path d="M 533.998626 217.261948 
 L 533.998626 194.225137 
-" clip-path="url(#p2351291e5f)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
+" clip-path="url(#p2351291e5f)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_106">
     <path d="M 538.640518 230.398642 
@@ -2182,7 +2182,7 @@ L 580.417543 278.376134
 " clip-path="url(#p2351291e5f)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_116">
-    <path d="M 585.059435 304.839909 
+    <path d="M 585.059435 305.030296 
 L 585.059435 270.379885 
 " clip-path="url(#p2351291e5f)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
@@ -2592,7 +2592,7 @@ z
     <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="571.13376" y="180.373265" transform="rotate(-0 571.13376 180.373265)">▼ SELL</text>
    </g>
    <g id="text_36">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="469.012143" y="21.436719" transform="rotate(-0 469.012143 21.436719)">XMRUSDT.P 15m · SELL · latest closed · data to 2026-11-02 08:45 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="469.012143" y="21.436719" transform="rotate(-0 469.012143 21.436719)">XMRUSDT.P 15m · SELL · latest closed · data to 2026-11-02 09:00 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_171">
