@@ -90,8 +90,8 @@ return `<div class="v${k=='B'?' best':''}" style="grid-column:1/-1"><h3>${nm[k]|
 </script>
 <p><a href="../index.html">← Home</a> · <a href="anchor_break.html">Anchor Break</a></p><header><span class="tag">BingX perps · 15m · TradingView data · 33 coins · Backtest 1 Sep – 2 Nov 2026</span><h1>After 14</h1><p>Anchor Break crypto setup. Signals only, no trades. Not financial advice.</p></header>
 <section><h2>Rules</h2><div class="rules">
-<div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Only Higher Highs (HH) may form for the rest of that day.</li><li>Anchor 2 is the next day's first low pivot, an LL below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
-<div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH, only LL for the rest of that day, Anchor 2 the next day's first high pivot above Anchor 1.</li><li>Entry is the first 15m close below Anchor 1.</li><li>Stop is the previous candle's high.</li></ol></div>
+<div class="rule rb"><h3>Anchor Break BUY</h3><ol><li>Anchor 1 is the previous day's last ZigZag++ (12/5/2) Lower Low (LL).</li><li>Any pivot except a Lower High (LH) may form after it that day; an LH that day rejects the anchor.</li><li>Anchor 2 is the next day trading below Anchor 1.</li><li>Entry is the first 15m close above Anchor 1.</li><li>Stop is the previous candle's low.</li></ol></div>
+<div class="rule rs"><h3>SELL</h3><ol><li>Mirror of BUY using Higher Highs (HH): Anchor 1 is the previous day's last HH; a lower low or lower high after it is fine, a higher low (HL) that day rejects it; Anchor 2 is the next day trading above Anchor 1.</li><li>Entry is the first 15m close below Anchor 1.</li><li>Stop is the previous candle's high.</li></ol></div>
 <div class="rule rb"><h3>Day &amp; time filter</h3><ol><li>The day runs 05:30–05:30 IST.</li><li>Entry candle at or after 14:00 IST (through to 05:30).</li></ol></div>
 </div></section>
 <section><h2>Variants</h2><div class="vs">
