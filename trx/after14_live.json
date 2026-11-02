@@ -2,7 +2,7 @@
  "universe": "BingX perps (33)",
  "timeframe": "15m",
  "primary": "B",
- "last_closed_candle": "2026-11-02 13:15",
+ "last_closed_candle": "2026-11-02 13:30",
  "symbols": 33,
  "errors": [],
  "rules": "Anchor Break strict (zigzag 12/5/2): anchor1 = last LL (buy) / HH (sell) of day D (05:30-05:30 IST) with only HH/LL after it; anchor2 = first pivot of day D+1 beyond anchor1; entry = first 15m close back through anchor1 on D+1, entry candle 14:00-05:30 IST. Stop = previous candle low/high; target 1:2; stop+target same candle = stop. Variants: A stop>=0%, B stop>=1.0%",
@@ -46,7 +46,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-11-02 06:45",
-     "last": 605.56,
+     "last": 605.27,
      "R_now": -1.0,
      "id": "XMRUSDT.P|SELL|2026-11-01 21:45"
     },
@@ -68,7 +68,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-30 02:00",
-     "last": 605.56,
+     "last": 605.27,
      "R_now": -1.0,
      "id": "XMRUSDT.P|SELL|2026-10-29 22:45"
     }
@@ -96,7 +96,7 @@
      ],
      "status": "STOP",
      "exit_time": "2026-10-30 02:00",
-     "last": 605.56,
+     "last": 605.27,
      "R_now": -1.0,
      "id": "XMRUSDT.P|SELL|2026-10-29 22:45"
     }
@@ -106,5 +106,5 @@
  },
  "live_chart": "XMRUSDT.P|SELL|2026-11-01 21:45",
  "armed": [],
- "updated": "2026-11-02 13:44 IST"
+ "updated": "2026-11-02 13:58 IST"
 }
