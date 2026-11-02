@@ -55,8 +55,8 @@ z
    <g id="patch_5">
     <path d="M 67.29859 334.036579 
 L 70.458277 334.036579 
-L 70.458277 326.730784 
-L 67.29859 326.730784 
+L 70.458277 329.166049 
+L 67.29859 329.166049 
 z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
@@ -117,8 +117,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_13">
-    <path d="M 109.427746 314.554459 
-L 112.587433 314.554459 
+    <path d="M 109.427746 312.119194 
+L 112.587433 312.119194 
 L 112.587433 302.378134 
 L 109.427746 302.378134 
 z
@@ -149,8 +149,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_17">
-    <path d="M 130.492325 307.248664 
-L 133.652011 307.248664 
+    <path d="M 130.492325 304.813399 
+L 133.652011 304.813399 
 L 133.652011 302.378134 
 L 130.492325 302.378134 
 z
@@ -375,8 +375,8 @@ z
    <g id="patch_45">
     <path d="M 277.944371 239.061245 
 L 281.104058 239.061245 
-L 281.104058 214.708595 
-L 277.944371 214.708595 
+L 281.104058 207.4028 
+L 277.944371 207.4028 
 z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
@@ -471,8 +471,8 @@ z
    <g id="patch_57">
     <path d="M 341.138106 183.050151 
 L 344.297793 183.050151 
-L 344.297793 161.132766 
-L 341.138106 161.132766 
+L 344.297793 168.438561 
+L 341.138106 168.438561 
 z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
@@ -597,8 +597,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_73">
-    <path d="M 425.396418 341.342374 
-L 428.556105 341.342374 
+    <path d="M 425.396418 343.777639 
+L 428.556105 343.777639 
 L 428.556105 338.907109 
 L 425.396418 338.907109 
 z
@@ -629,8 +629,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_77">
-    <path d="M 446.460996 343.777639 
-L 449.620683 343.777639 
+    <path d="M 446.460996 341.342374 
+L 449.620683 341.342374 
 L 449.620683 321.860254 
 L 446.460996 321.860254 
 z
@@ -661,8 +661,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_81">
-    <path d="M 467.525575 324.295519 
-L 470.685261 324.295519 
+    <path d="M 467.525575 326.730784 
+L 470.685261 326.730784 
 L 470.685261 314.554459 
 L 467.525575 314.554459 
 z
@@ -898,7 +898,7 @@ L 623.403453 377.871349
 L 623.403453 375.436084 
 L 620.243766 375.436084 
 z
-" clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
+" clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_111">
     <path d="M 625.509911 409.529793 
@@ -925,8 +925,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_114">
-    <path d="M 641.308344 380.306614 
-L 644.468031 380.306614 
+    <path d="M 641.308344 382.741879 
+L 644.468031 382.741879 
 L 644.468031 377.871349 
 L 641.308344 377.871349 
 z
@@ -991,14 +991,14 @@ z
    <g id="patch_122">
     <path d="M 683.4375 407.094528 
 L 686.597187 407.094528 
-L 686.597187 387.612409 
-L 683.4375 387.612409 
+L 686.597187 385.177144 
+L 683.4375 385.177144 
 z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_123">
-    <path d="M 688.703645 399.788733 
-L 691.863332 399.788733 
+    <path d="M 688.703645 407.094528 
+L 691.863332 407.094528 
 L 691.863332 390.047673 
 L 688.703645 390.047673 
 z
@@ -1053,8 +1053,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_130">
-    <path d="M 725.566657 399.788733 
-L 728.726343 399.788733 
+    <path d="M 725.566657 404.659263 
+L 728.726343 404.659263 
 L 728.726343 380.306614 
 L 725.566657 380.306614 
 z
@@ -1085,12 +1085,12 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_134">
-    <path d="M 746.631235 387.612409 
-L 749.790921 387.612409 
+    <path d="M 746.631235 377.871349 
 L 749.790921 377.871349 
-L 746.631235 377.871349 
+L 749.790921 373.000819 
+L 746.631235 373.000819 
 z
-" clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
+" clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_135">
     <path d="M 751.897379 377.871349 
@@ -1953,7 +1953,7 @@ L 616.557465 360.824494
    <g id="LineCollection_108">
     <path d="M 621.823609 385.177144 
 L 621.823609 370.565554 
-" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
+" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_109">
     <path d="M 627.089754 424.141383 
@@ -2071,9 +2071,9 @@ L 742.944934 368.130289
 " clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_132">
-    <path d="M 748.211078 387.612409 
+    <path d="M 748.211078 385.177144 
 L 748.211078 363.259759 
-" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
+" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_133">
     <path d="M 753.477223 385.177144 
@@ -2285,7 +2285,7 @@ z
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(511.705537 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
    <g id="text_35">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-02 22:15 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-02 22:30 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_149">
