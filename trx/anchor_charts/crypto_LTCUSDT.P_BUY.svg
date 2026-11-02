@@ -189,18 +189,18 @@ z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
    <g id="patch_22">
-    <path d="M 191.738052 233.484841 
+    <path d="M 191.738052 236.273043 
+L 196.355861 236.273043 
 L 196.355861 233.484841 
-L 196.355861 230.696639 
-L 191.738052 230.696639 
+L 191.738052 233.484841 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #26a69a"/>
    </g>
    <g id="patch_23">
     <path d="M 199.4344 247.425851 
 L 204.052209 247.425851 
-L 204.052209 233.484841 
-L 199.4344 233.484841 
+L 204.052209 236.273043 
+L 199.4344 236.273043 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
@@ -445,16 +445,16 @@ z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
    <g id="patch_54">
-    <path d="M 438.021183 160.991591 
-L 442.638991 160.991591 
+    <path d="M 438.021183 158.203389 
+L 442.638991 158.203389 
 L 442.638991 149.838783 
 L 438.021183 149.838783 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #26a69a"/>
    </g>
    <g id="patch_55">
-    <path d="M 445.71753 149.838783 
-L 450.335339 149.838783 
+    <path d="M 445.71753 147.050581 
+L 450.335339 147.050581 
 L 450.335339 99.651149 
 L 445.71753 99.651149 
 z
@@ -485,8 +485,8 @@ z
 " clip-path="url(#pb22e6ec271)" style="fill: #26a69a"/>
    </g>
    <g id="patch_59">
-    <path d="M 476.502922 121.956764 
-L 481.12073 121.956764 
+    <path d="M 476.502922 124.744966 
+L 481.12073 124.744966 
 L 481.12073 82.921937 
 L 476.502922 82.921937 
 z
@@ -511,8 +511,8 @@ z
    <g id="patch_62">
     <path d="M 499.591965 119.168562 
 L 504.209774 119.168562 
-L 504.209774 88.498341 
-L 499.591965 88.498341 
+L 504.209774 85.710139 
+L 499.591965 85.710139 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
@@ -543,8 +543,8 @@ z
    <g id="patch_66">
     <path d="M 530.377357 191.661812 
 L 534.995165 191.661812 
-L 534.995165 138.685976 
-L 530.377357 138.685976 
+L 534.995165 135.897774 
+L 530.377357 135.897774 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
@@ -639,8 +639,8 @@ z
    <g id="patch_78">
     <path d="M 622.73353 389.624149 
 L 627.351339 389.624149 
-L 627.351339 370.106736 
-L 622.73353 370.106736 
+L 627.351339 367.318534 
+L 622.73353 367.318534 
 z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
@@ -669,8 +669,8 @@ z
 " clip-path="url(#pb22e6ec271)" style="fill: #ef5350"/>
    </g>
    <g id="patch_82">
-    <path d="M 653.518922 342.224716 
-L 658.13673 342.224716 
+    <path d="M 653.518922 339.436514 
+L 658.13673 339.436514 
 L 658.13673 311.554495 
 L 653.518922 311.554495 
 z
@@ -1503,6 +1503,11 @@ L 925.2 381.259543
 " clip-path="url(#pb22e6ec271)" style="fill: none; stroke-dasharray: 1.8,2.97; stroke-dashoffset: 0; stroke: #6a1b9a; stroke-width: 1.8"/>
    </g>
    <g id="line2d_39">
+    <path d="M 40.12 414.717966 
+L 925.2 414.717966 
+" clip-path="url(#pb22e6ec271)" style="fill: none; stroke-dasharray: 1.8,2.97; stroke-dashoffset: 0; stroke: #ef6c00; stroke-width: 1.8"/>
+   </g>
+   <g id="line2d_40">
     <path d="M 374.91113 450.685771 
 L 374.91113 27.436719 
 " clip-path="url(#pb22e6ec271)" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #455a64; stroke-width: 1.3"/>
@@ -1555,7 +1560,23 @@ z
     </g>
     <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start; fill: #ffffff" x="744.335826" y="384.376731" transform="rotate(-0 744.335826 384.376731)"> ANCHOR 1 54.98</text>
    </g>
-   <g id="patch_98">
+   <g id="text_24">
+    <g id="patch_98">
+     <path d="M 744.335826 423.717966 
+L 860.793951 423.717966 
+Q 863.793951 423.717966 863.793951 420.717966 
+L 863.793951 408.717966 
+Q 863.793951 405.717966 860.793951 405.717966 
+L 744.335826 405.717966 
+Q 741.335826 405.717966 741.335826 408.717966 
+L 741.335826 420.717966 
+Q 741.335826 423.717966 744.335826 423.717966 
+z
+" style="fill: #ef6c00"/>
+    </g>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start; fill: #ffffff" x="744.335826" y="417.835154" transform="rotate(-0 744.335826 417.835154)"> ANCHOR 2 54.86</text>
+   </g>
+   <g id="patch_99">
     <path d="M 732.791304 452.894449 
 Q 732.791304 434.805824 732.791304 420.071301 
 " style="fill: none; stroke: #00a152; stroke-width: 3; stroke-linecap: round"/>
@@ -1565,8 +1586,8 @@ L 737.791304 430.071301
 z
 " style="fill: #00a152; stroke: #00a152; stroke-width: 3; stroke-linecap: round"/>
    </g>
-   <g id="text_24">
-    <g id="patch_99">
+   <g id="text_25">
+    <g id="patch_100">
      <path d="M 644.114742 486.892153 
 L 821.467867 486.892153 
 Q 827.467867 486.892153 827.467867 480.892153 
@@ -1581,14 +1602,14 @@ z
     </g>
     <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="732.791304" y="476.087465" transform="rotate(-0 732.791304 476.087465)">▲ BUY (waiting)</text>
    </g>
-   <g id="text_25">
+   <g id="text_26">
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(372.749021 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
-   <g id="text_26">
+   <g id="text_27">
     <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="482.66" y="21.436719" transform="rotate(-0 482.66 21.436719)">LTCUSDT.P 15m · BUY · running · data to 2026-11-02 17:00 IST</text>
    </g>
    <g id="legend_1">
-    <g id="patch_100">
+    <g id="patch_101">
      <path d="M 47.12 50.4375 
 L 166.548125 50.4375 
 Q 168.548125 50.4375 168.548125 48.4375 
@@ -1601,13 +1622,13 @@ Q 45.12 50.4375 47.12 50.4375
 z
 " style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
-    <g id="line2d_40">
+    <g id="line2d_41">
      <path d="M 49.12 40.535156 
 L 59.12 40.535156 
 L 69.12 40.535156 
 " style="fill: none; stroke: #2962ff; stroke-width: 1.6; stroke-linecap: square"/>
     </g>
-    <g id="text_27">
+    <g id="text_28">
      <text style="font-size: 10px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="77.12" y="44.035156" transform="rotate(-0 77.12 44.035156)">ZigZag++ 12/5/2</text>
     </g>
    </g>
