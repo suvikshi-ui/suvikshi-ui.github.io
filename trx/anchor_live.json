@@ -2,8 +2,19 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-02 18:15",
+  "last_closed_candle": "2026-11-02 18:30",
   "armed": [
+   {
+    "symbol": "BNBUSDT.P",
+    "side": "BUY",
+    "anchor1": 704.78,
+    "anchor1_time": "2026-11-02 03:45",
+    "anchor2": 703.8,
+    "anchor2_time": "2026-11-02 18:30",
+    "anchor2_confirmed": "2026-11-02 18:30",
+    "trigger": 704.78,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "NOTUSDT.P",
     "side": "BUY",
@@ -45,8 +56,8 @@
     "stop_pct": 0.46,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 0.05002,
-    "R_now": 0.3
+    "last": 0.04993,
+    "R_now": -0.09
    }
   ],
   "a1break_history": [
@@ -656,7 +667,7 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-02 18:37 IST"
+  "run": "2026-11-02 18:50 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1472,8 +1483,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-02 18:39 IST"
+  "run": "2026-11-02 18:52 IST"
  },
- "updated": "2026-11-02 18:39 IST",
+ "updated": "2026-11-02 18:53 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
