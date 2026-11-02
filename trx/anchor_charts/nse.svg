@@ -749,12 +749,12 @@ z
 " clip-path="url(#p9fbb035f97)" style="fill: #ef5350"/>
    </g>
    <g id="patch_92">
-    <path d="M 729.8488 184.433141 
-L 734.481635 184.433141 
+    <path d="M 729.8488 182.058006 
 L 734.481635 182.058006 
-L 729.8488 182.058006 
+L 734.481635 160.681791 
+L 729.8488 160.681791 
 z
-" clip-path="url(#p9fbb035f97)" style="fill: #ef5350"/>
+" clip-path="url(#p9fbb035f97)" style="fill: #26a69a"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -1501,9 +1501,9 @@ L 724.443826 106.053686
 " clip-path="url(#p9fbb035f97)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_90">
-    <path d="M 732.165217 184.433141 
-L 732.165217 182.058006 
-" clip-path="url(#p9fbb035f97)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
+    <path d="M 732.165217 196.308816 
+L 732.165217 160.681791 
+" clip-path="url(#p9fbb035f97)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="line2d_39">
     <path d="M 153.06087 407.695828 
@@ -1588,30 +1588,30 @@ z
     <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start; fill: #ffffff" x="743.747304" y="154.298438" transform="rotate(-0 743.747304 154.298438)"> ANCHOR 2 463.75</text>
    </g>
    <g id="patch_99">
-    <path d="M 732.165217 143.881523 
-Q 732.165217 161.970148 732.165217 176.704671 
+    <path d="M 732.165217 122.505308 
+Q 732.165217 140.593933 732.165217 155.328457 
 " style="fill: none; stroke: #d50000; stroke-width: 3; stroke-linecap: round"/>
-    <path d="M 737.165217 166.704671 
-L 732.165217 176.704671 
-L 727.165217 166.704671 
+    <path d="M 737.165217 145.328457 
+L 732.165217 155.328457 
+L 727.165217 145.328457 
 z
 " style="fill: #d50000; stroke: #d50000; stroke-width: 3; stroke-linecap: round"/>
    </g>
    <g id="text_25">
     <g id="patch_100">
-     <path d="M 639.694905 141.885382 
-L 824.63553 141.885382 
-Q 830.63553 141.885382 830.63553 135.885382 
-L 830.63553 115.883819 
-Q 830.63553 109.883819 824.63553 109.883819 
-L 639.694905 109.883819 
-Q 633.694905 109.883819 633.694905 115.883819 
-L 633.694905 135.885382 
-Q 633.694905 141.885382 639.694905 141.885382 
+     <path d="M 639.694905 120.509167 
+L 824.63553 120.509167 
+Q 830.63553 120.509167 830.63553 114.509167 
+L 830.63553 94.507604 
+Q 830.63553 88.507604 824.63553 88.507604 
+L 639.694905 88.507604 
+Q 633.694905 88.507604 633.694905 94.507604 
+L 633.694905 114.509167 
+Q 633.694905 120.509167 639.694905 120.509167 
 z
 " style="fill: #d50000"/>
     </g>
-    <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="732.165217" y="131.080694" transform="rotate(-0 732.165217 131.080694)">▼ SELL (waiting)</text>
+    <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle; fill: #ffffff" x="732.165217" y="109.704479" transform="rotate(-0 732.165217 109.704479)">▼ SELL (waiting)</text>
    </g>
    <g id="text_26">
     <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="481.22" y="21.436719" transform="rotate(-0 481.22 21.436719)">KOTAKBANK 5m · SELL · running · data to 2026-11-02 11:35 IST</text>
