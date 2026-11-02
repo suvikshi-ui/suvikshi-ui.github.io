@@ -898,7 +898,7 @@ L 623.403453 377.871349
 L 623.403453 375.436084 
 L 620.243766 375.436084 
 z
-" clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
+" clip-path="url(#pfb2171e427)" style="fill: #26a69a"/>
    </g>
    <g id="patch_111">
     <path d="M 625.509911 409.529793 
@@ -1053,8 +1053,8 @@ z
 " clip-path="url(#pfb2171e427)" style="fill: #ef5350"/>
    </g>
    <g id="patch_130">
-    <path d="M 725.566657 404.659263 
-L 728.726343 404.659263 
+    <path d="M 725.566657 399.788733 
+L 728.726343 399.788733 
 L 728.726343 380.306614 
 L 725.566657 380.306614 
 z
@@ -1953,7 +1953,7 @@ L 616.557465 360.824494
    <g id="LineCollection_108">
     <path d="M 621.823609 385.177144 
 L 621.823609 370.565554 
-" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
+" clip-path="url(#pfb2171e427)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_109">
     <path d="M 627.089754 424.141383 
@@ -2285,7 +2285,7 @@ z
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(511.705537 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
    <g id="text_35">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 04:45 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.371562" y="21.436719" transform="rotate(-0 474.371562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 05:00 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_149">
