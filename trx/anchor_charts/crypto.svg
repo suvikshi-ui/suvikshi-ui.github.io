@@ -55,8 +55,8 @@ z
    <g id="patch_5">
     <path d="M 67.31074 334.036579 
 L 70.473127 334.036579 
-L 70.473127 329.166049 
-L 67.31074 329.166049 
+L 70.473127 326.730784 
+L 67.31074 326.730784 
 z
 " clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
    </g>
@@ -213,8 +213,8 @@ z
 " clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
    </g>
    <g id="patch_25">
-    <path d="M 172.723631 348.648169 
-L 175.886018 348.648169 
+    <path d="M 172.723631 343.777639 
+L 175.886018 343.777639 
 L 175.886018 341.342374 
 L 172.723631 341.342374 
 z
@@ -407,8 +407,8 @@ z
    <g id="patch_49">
     <path d="M 299.2191 231.75545 
 L 302.381486 231.75545 
-L 302.381486 217.14386 
-L 299.2191 217.14386 
+L 302.381486 214.708595 
+L 299.2191 214.708595 
 z
 " clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
    </g>
@@ -869,8 +869,8 @@ z
 " clip-path="url(#pa76c7bd465)" style="fill: #26a69a"/>
    </g>
    <g id="patch_107">
-    <path d="M 604.916482 377.871349 
-L 608.078869 377.871349 
+    <path d="M 604.916482 380.306614 
+L 608.078869 380.306614 
 L 608.078869 375.436084 
 L 604.916482 375.436084 
 z
@@ -991,22 +991,22 @@ z
    <g id="patch_122">
     <path d="M 683.97615 407.094528 
 L 687.138537 407.094528 
-L 687.138537 385.177144 
-L 683.97615 385.177144 
+L 687.138537 387.612409 
+L 683.97615 387.612409 
 z
 " clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
    </g>
    <g id="patch_123">
-    <path d="M 689.246795 407.094528 
-L 692.409182 407.094528 
+    <path d="M 689.246795 399.788733 
+L 692.409182 399.788733 
 L 692.409182 390.047673 
 L 689.246795 390.047673 
 z
 " clip-path="url(#pa76c7bd465)" style="fill: #26a69a"/>
    </g>
    <g id="patch_124">
-    <path d="M 694.517439 390.047673 
-L 697.679826 390.047673 
+    <path d="M 694.517439 387.612409 
+L 697.679826 387.612409 
 L 697.679826 377.871349 
 L 694.517439 377.871349 
 z
@@ -1085,12 +1085,12 @@ z
 " clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
    </g>
    <g id="patch_134">
-    <path d="M 747.223885 377.871349 
+    <path d="M 747.223885 387.612409 
+L 750.386271 387.612409 
 L 750.386271 377.871349 
-L 750.386271 373.000819 
-L 747.223885 373.000819 
+L 747.223885 377.871349 
 z
-" clip-path="url(#pa76c7bd465)" style="fill: #ef5350"/>
+" clip-path="url(#pa76c7bd465)" style="fill: #26a69a"/>
    </g>
    <g id="patch_135">
     <path d="M 752.494529 377.871349 
@@ -1526,7 +1526,7 @@ L 169.03418 336.471844
 " clip-path="url(#pa76c7bd465)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_23">
-    <path d="M 174.304824 348.648169 
+    <path d="M 174.304824 346.212904 
 L 174.304824 336.471844 
 " clip-path="url(#pa76c7bd465)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
@@ -2071,9 +2071,9 @@ L 743.534434 368.130289
 " clip-path="url(#pa76c7bd465)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_132">
-    <path d="M 748.805078 385.177144 
+    <path d="M 748.805078 387.612409 
 L 748.805078 363.259759 
-" clip-path="url(#pa76c7bd465)" style="fill: none; stroke: #ef5350; stroke-width: 0.8"/>
+" clip-path="url(#pa76c7bd465)" style="fill: none; stroke: #26a69a; stroke-width: 0.8"/>
    </g>
    <g id="LineCollection_133">
     <path d="M 754.075723 385.177144 
@@ -2243,7 +2243,7 @@ z
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(512.099287 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
    <g id="text_33">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.731562" y="21.436719" transform="rotate(-0 474.731562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 01:15 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="474.731562" y="21.436719" transform="rotate(-0 474.731562 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 01:30 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_147">
