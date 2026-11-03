@@ -720,28 +720,17 @@
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-03 09:35",
+  "last_closed_candle": "2026-11-03 09:40",
   "armed": [
    {
     "symbol": "VEDL",
     "side": "SELL",
     "anchor1": 245.69,
     "anchor1_time": "2026-11-02 14:10",
-    "anchor2": 247.17,
+    "anchor2": 247.35,
     "anchor2_time": "2026-11-03 09:35",
     "anchor2_confirmed": "2026-11-03 09:35",
     "trigger": 245.69,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "POWERGRID",
-    "side": "BUY",
-    "anchor1": 265.3,
-    "anchor1_time": "2026-11-02 13:55",
-    "anchor2": 264.6,
-    "anchor2_time": "2026-11-03 09:30",
-    "anchor2_confirmed": "2026-11-03 09:30",
-    "trigger": 265.3,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -775,17 +764,6 @@
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 1377.9,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "ABB",
-    "side": "SELL",
-    "anchor1": 6585.0,
-    "anchor1_time": "2026-11-02 12:15",
-    "anchor2": 6629.0,
-    "anchor2_time": "2026-11-03 09:25",
-    "anchor2_confirmed": "2026-11-03 09:25",
-    "trigger": 6585.0,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -896,17 +874,6 @@
     "anchor2_time": "2026-11-03 09:20",
     "anchor2_confirmed": "2026-11-03 09:20",
     "trigger": 4513.2,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "POWERINDIA",
-    "side": "BUY",
-    "anchor1": 27655.0,
-    "anchor1_time": "2026-11-02 13:10",
-    "anchor2": 27420.0,
-    "anchor2_time": "2026-11-03 09:20",
-    "anchor2_confirmed": "2026-11-03 09:20",
-    "trigger": 27655.0,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -1053,7 +1020,68 @@
     "status": "waiting entry (anchor 1 close)"
    }
   ],
-  "a1break_open": [],
+  "a1break_open": [
+   {
+    "symbol": "POWERGRID",
+    "side": "BUY",
+    "anchor1": 265.3,
+    "anchor1_time": "2026-11-02 13:55",
+    "anchor2": 264.6,
+    "anchor2_time": "2026-11-03 09:30",
+    "anchor2_confirmed": "2026-11-03 09:30",
+    "trigger": 265.3,
+    "id": "POWERGRID|BUY|2026-11-03 09:35",
+    "entry": 265.35,
+    "stop": 264.6,
+    "target": 266.85,
+    "entry_time": "2026-11-03 09:35",
+    "stop_pct": 0.283,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 265.05,
+    "R_now": -0.4
+   },
+   {
+    "symbol": "ABB",
+    "side": "SELL",
+    "anchor1": 6585.0,
+    "anchor1_time": "2026-11-02 12:15",
+    "anchor2": 6629.0,
+    "anchor2_time": "2026-11-03 09:25",
+    "anchor2_confirmed": "2026-11-03 09:25",
+    "trigger": 6585.0,
+    "id": "ABB|SELL|2026-11-03 09:35",
+    "entry": 6582.5,
+    "stop": 6622.5,
+    "target": 6502.5,
+    "entry_time": "2026-11-03 09:35",
+    "stop_pct": 0.608,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 6582.5,
+    "R_now": -0.0
+   },
+   {
+    "symbol": "POWERINDIA",
+    "side": "BUY",
+    "anchor1": 27655.0,
+    "anchor1_time": "2026-11-02 13:10",
+    "anchor2": 27420.0,
+    "anchor2_time": "2026-11-03 09:20",
+    "anchor2_confirmed": "2026-11-03 09:20",
+    "trigger": 27655.0,
+    "id": "POWERINDIA|BUY|2026-11-03 09:35",
+    "entry": 27700.0,
+    "stop": 27510.0,
+    "target": 28080.0,
+    "entry_time": "2026-11-03 09:35",
+    "stop_pct": 0.686,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 27580.0,
+    "R_now": -0.63
+   }
+  ],
   "a1break_history": [
    {
     "symbol": "LTM",
@@ -1663,8 +1691,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-03 09:51 IST"
+  "run": "2026-11-03 09:57 IST"
  },
- "updated": "2026-11-03 09:53 IST",
+ "updated": "2026-11-03 09:57 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
