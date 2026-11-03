@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-03 09:00",
+  "last_closed_candle": "2026-11-03 09:15",
   "armed": [
    {
     "symbol": "NOTUSDT.P",
@@ -100,8 +100,8 @@
     "stop_pct": 0.46,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 0.05011,
-    "R_now": 0.7
+    "last": 0.0502,
+    "R_now": 1.09
    }
   ],
   "a1break_history": [
@@ -715,19 +715,52 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-03 09:24 IST"
+  "run": "2026-11-03 09:43 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-03 09:25",
+  "last_closed_candle": "2026-11-03 09:35",
   "armed": [
+   {
+    "symbol": "VEDL",
+    "side": "SELL",
+    "anchor1": 245.69,
+    "anchor1_time": "2026-11-02 14:10",
+    "anchor2": 247.17,
+    "anchor2_time": "2026-11-03 09:35",
+    "anchor2_confirmed": "2026-11-03 09:35",
+    "trigger": 245.69,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "POWERGRID",
+    "side": "BUY",
+    "anchor1": 265.3,
+    "anchor1_time": "2026-11-02 13:55",
+    "anchor2": 264.6,
+    "anchor2_time": "2026-11-03 09:30",
+    "anchor2_confirmed": "2026-11-03 09:30",
+    "trigger": 265.3,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "MOTHERSON",
+    "side": "SELL",
+    "anchor1": 158.79,
+    "anchor1_time": "2026-11-02 12:15",
+    "anchor2": 160.27,
+    "anchor2_time": "2026-11-03 09:30",
+    "anchor2_confirmed": "2026-11-03 09:30",
+    "trigger": 158.79,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "TVSMOTOR",
     "side": "SELL",
     "anchor1": 4240.0,
     "anchor1_time": "2026-11-02 14:05",
-    "anchor2": 4247.1,
+    "anchor2": 4270.0,
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 4240.0,
@@ -738,7 +771,7 @@
     "side": "SELL",
     "anchor1": 1377.9,
     "anchor1_time": "2026-11-02 09:45",
-    "anchor2": 1385.0,
+    "anchor2": 1389.9,
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 1377.9,
@@ -749,7 +782,7 @@
     "side": "SELL",
     "anchor1": 6585.0,
     "anchor1_time": "2026-11-02 12:15",
-    "anchor2": 6607.0,
+    "anchor2": 6629.0,
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 6585.0,
@@ -760,7 +793,7 @@
     "side": "SELL",
     "anchor1": 3398.8,
     "anchor1_time": "2026-11-02 12:15",
-    "anchor2": 3423.7,
+    "anchor2": 3428.6,
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 3398.8,
@@ -771,21 +804,10 @@
     "side": "SELL",
     "anchor1": 76.51,
     "anchor1_time": "2026-11-02 12:10",
-    "anchor2": 77.03,
+    "anchor2": 77.15,
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 76.51,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "VEDL",
-    "side": "SELL",
-    "anchor1": 245.69,
-    "anchor1_time": "2026-11-02 14:10",
-    "anchor2": 246.53,
-    "anchor2_time": "2026-11-03 09:25",
-    "anchor2_confirmed": "2026-11-03 09:25",
-    "trigger": 245.69,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -1641,8 +1663,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-03 09:41 IST"
+  "run": "2026-11-03 09:51 IST"
  },
- "updated": "2026-11-03 09:41 IST",
+ "updated": "2026-11-03 09:51 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
