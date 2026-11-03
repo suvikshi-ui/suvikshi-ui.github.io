@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-03 09:45",
+  "last_closed_candle": "2026-11-03 10:00",
   "armed": [
    {
     "symbol": "CFGUSDT.P",
@@ -78,8 +78,8 @@
     "stop_pct": 0.94,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 0.0003403,
-    "R_now": 0.0
+    "last": 0.0003395,
+    "R_now": -0.25
    },
    {
     "symbol": "UNIUSDT.P",
@@ -98,8 +98,8 @@
     "stop_pct": 1.429,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 7.0,
-    "R_now": 0.0
+    "last": 7.002,
+    "R_now": 0.02
    }
   ],
   "a1break_history": [
@@ -715,24 +715,13 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-03 10:06 IST"
+  "run": "2026-11-03 10:25 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-03 10:05",
+  "last_closed_candle": "2026-11-03 10:10",
   "armed": [
-   {
-    "symbol": "KOTAKBANK",
-    "side": "BUY",
-    "anchor1": 456.95,
-    "anchor1_time": "2026-11-02 13:35",
-    "anchor2": 456.8,
-    "anchor2_time": "2026-11-03 10:05",
-    "anchor2_confirmed": "2026-11-03 10:05",
-    "trigger": 456.95,
-    "status": "waiting entry (anchor 1 close)"
-   },
    {
     "symbol": "INFY",
     "side": "BUY",
@@ -808,17 +797,6 @@
     "anchor2_time": "2026-11-03 09:25",
     "anchor2_confirmed": "2026-11-03 09:25",
     "trigger": 3398.8,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "ADANIPOWER",
-    "side": "SELL",
-    "anchor1": 195.98,
-    "anchor1_time": "2026-11-02 12:40",
-    "anchor2": 196.97,
-    "anchor2_time": "2026-11-03 09:20",
-    "anchor2_confirmed": "2026-11-03 09:20",
-    "trigger": 195.98,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -1049,7 +1027,27 @@
     "stop_pct": 0.249,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 2615.5,
+    "last": 2617.0,
+    "R_now": 0.02
+   },
+   {
+    "symbol": "ADANIPOWER",
+    "side": "SELL",
+    "anchor1": 195.98,
+    "anchor1_time": "2026-11-02 12:40",
+    "anchor2": 196.97,
+    "anchor2_time": "2026-11-03 09:20",
+    "anchor2_confirmed": "2026-11-03 09:20",
+    "trigger": 195.98,
+    "id": "ADANIPOWER|SELL|2026-11-03 10:05",
+    "entry": 195.9,
+    "stop": 196.35,
+    "target": 195.0,
+    "entry_time": "2026-11-03 10:05",
+    "stop_pct": 0.23,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 195.9,
     "R_now": -0.0
    },
    {
@@ -1069,8 +1067,8 @@
     "stop_pct": 0.353,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 76.4,
-    "R_now": -0.1
+    "last": 76.51,
+    "R_now": -0.45
    },
    {
     "symbol": "ABB",
@@ -1089,8 +1087,8 @@
     "stop_pct": 0.608,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 6588.0,
-    "R_now": -0.14
+    "last": 6585.0,
+    "R_now": -0.06
    }
   ],
   "a1break_history": [
@@ -1706,8 +1704,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-03 10:22 IST"
+  "run": "2026-11-03 10:27 IST"
  },
- "updated": "2026-11-03 10:22 IST",
+ "updated": "2026-11-03 10:27 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
