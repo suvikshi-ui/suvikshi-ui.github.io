@@ -2,8 +2,19 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-03 08:00",
+  "last_closed_candle": "2026-11-03 08:15",
   "armed": [
+   {
+    "symbol": "NOTUSDT.P",
+    "side": "BUY",
+    "anchor1": 0.0003389,
+    "anchor1_time": "2026-11-03 01:00",
+    "anchor2": 0.0003367,
+    "anchor2_time": "2026-11-03 08:15",
+    "anchor2_confirmed": "2026-11-03 08:15",
+    "trigger": 0.0003389,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "CFGUSDT.P",
     "side": "BUY",
@@ -89,8 +100,8 @@
     "stop_pct": 1.869,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 0.01761,
-    "R_now": -0.15
+    "last": 0.01739,
+    "R_now": -0.82
    },
    {
     "symbol": "WLFIUSDT.P",
@@ -109,8 +120,8 @@
     "stop_pct": 0.46,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 0.04989,
-    "R_now": -0.26
+    "last": 0.04983,
+    "R_now": -0.52
    }
   ],
   "a1break_history": [
@@ -722,7 +733,7 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-03 08:22 IST"
+  "run": "2026-11-03 08:40 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1538,8 +1549,8 @@
    }
   ],
   "closed_R": -3.8,
-  "run": "2026-11-03 08:24 IST"
+  "run": "2026-11-03 08:42 IST"
  },
- "updated": "2026-11-03 08:24 IST",
+ "updated": "2026-11-03 08:43 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
