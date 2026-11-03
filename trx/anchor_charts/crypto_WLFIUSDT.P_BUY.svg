@@ -869,8 +869,8 @@ z
 " clip-path="url(#pce2aaef2b9)" style="fill: #26a69a"/>
    </g>
    <g id="patch_107">
-    <path d="M 623.773525 380.306614 
-L 627.043975 380.306614 
+    <path d="M 623.773525 377.871349 
+L 627.043975 377.871349 
 L 627.043975 375.436084 
 L 623.773525 375.436084 
 z
@@ -991,22 +991,22 @@ z
    <g id="patch_122">
     <path d="M 705.534775 407.094528 
 L 708.805225 407.094528 
-L 708.805225 387.612409 
-L 705.534775 387.612409 
+L 708.805225 385.177144 
+L 705.534775 385.177144 
 z
 " clip-path="url(#pce2aaef2b9)" style="fill: #ef5350"/>
    </g>
    <g id="patch_123">
-    <path d="M 710.985525 399.788733 
-L 714.255975 399.788733 
+    <path d="M 710.985525 407.094528 
+L 714.255975 407.094528 
 L 714.255975 390.047673 
 L 710.985525 390.047673 
 z
 " clip-path="url(#pce2aaef2b9)" style="fill: #26a69a"/>
    </g>
    <g id="patch_124">
-    <path d="M 716.436275 387.612409 
-L 719.706725 387.612409 
+    <path d="M 716.436275 390.047673 
+L 719.706725 390.047673 
 L 719.706725 377.871349 
 L 716.436275 377.871349 
 z
@@ -2180,7 +2180,7 @@ z
     <text style="font-size: 9px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; fill: #455a64" transform="translate(527.858516 117.335156) rotate(-90)"> day · 05:30 IST</text>
    </g>
    <g id="text_30">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="489.14" y="21.436719" transform="rotate(-0 489.14 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 07:15 IST</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="489.14" y="21.436719" transform="rotate(-0 489.14 21.436719)">WLFIUSDT.P 15m · BUY · open trade · data to 2026-11-03 07:30 IST</text>
    </g>
    <g id="legend_1">
     <g id="patch_144">
