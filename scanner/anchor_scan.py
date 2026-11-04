@@ -1,7 +1,7 @@
 """Anchor Break live scanner -> trx/anchor_live.json (schema consumed unchanged by trx/anchor_live.html).
 Data: TradingView public chart feed only (same websocket protocol/helpers as scanner/tv_source.py).
 Rules: see scanner/ANCHOR_README.md (reconstructed from the page's own rule text, rule_a1 2 Nov 2026 16:35 IST)."""
-import json, os, re, sys, time
+import json, os, random, re, sys, time
 from datetime import datetime, timezone, timedelta
 from concurrent.futures import ThreadPoolExecutor
 import websocket
@@ -110,6 +110,8 @@ def label(piv):
         out.append((i, lab, v))
     return out
 
+FETCH_WORKERS = 4                                 # parallel websocket fetches (first pass and retry pass)
+RETRY_BACKOFF_429 = (20, 40, 60)                  # seconds (+0-5s jitter) when a failed fetch was HTTP 429
 RETRY_BACKOFF = (2, 4, 6)                         # seconds before retry pass 1/2/3 for failed symbol fetches
 def ts(): return datetime.now(IST).strftime("[%Y-%m-%d %H:%M:%S IST]")
 
@@ -171,14 +173,16 @@ def scan(sym, market, now):
 
 def run_market(market, prev, now):
     syms = CRYPTO if market == "crypto" else NSE
-    with ThreadPoolExecutor(8) as ex: results = list(ex.map(lambda s: scan(s, market, now), syms))
+    with ThreadPoolExecutor(FETCH_WORKERS) as ex: results = list(ex.map(lambda s: scan(s, market, now), syms))
     results = dict(zip(syms, results))
     failed = [s for s in syms if not results[s][0]]
     first_failed, recovered = list(failed), []
     for k, delay in enumerate(RETRY_BACKOFF, 1):      # second pass at end of run: fresh websocket per attempt
         if not failed: break
+        if any("429" in str(results[s_][1]) for s_ in failed):   # rate-limited -> longer wait with jitter
+            delay = RETRY_BACKOFF_429[k - 1] + random.uniform(0, 5)
         time.sleep(delay)
-        with ThreadPoolExecutor(8) as ex: again = list(ex.map(lambda s: scan(s, market, now), failed))
+        with ThreadPoolExecutor(FETCH_WORKERS) as ex: again = list(ex.map(lambda s: scan(s, market, now), failed))
         for s_, r in zip(failed, again):
             results[s_] = r
             if r[0]: recovered.append(s_)
