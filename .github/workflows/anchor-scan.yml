@@ -1,0 +1,34 @@
+name: Anchor Break live scan
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: anchor-scan
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install websocket-client==1.8.0 matplotlib==3.9.2 requests
+      - name: Anchor Break scan (crypto 15m + NSE 5m, TradingView feed)
+        run: python scanner/anchor_scan.py trx/anchor_live.json
+      - name: Commit anchor outputs only
+        run: |
+          set -e
+          git config user.name "anchor-scan-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add trx/anchor_live.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "Anchor Live update $(TZ=Asia/Kolkata date '+%Y-%m-%d %H:%M') IST"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && exit 0; sleep $((i*5)); done
+          exit 1
