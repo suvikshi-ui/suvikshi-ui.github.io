@@ -220,8 +220,12 @@ if sellEntry
     alert(payload("sell", sE, sS, sTg), alert.freq_once_per_bar_close)
 if buyEntry
     alert(payload("buy", bE, bS, bTg), alert.freq_once_per_bar_close)
-alertcondition(sellEntry, "Anchor SELL", '{"secret":"{{SECRET}}","source":"anchor","symbol":"{{ticker}}","coin":"{{ticker}}","side":"sell","entry":{{close}},"time":{{timenow}}}')
-alertcondition(buyEntry, "Anchor BUY", '{"secret":"{{SECRET}}","source":"anchor","symbol":"{{ticker}}","coin":"{{ticker}}","side":"buy","entry":{{close}},"time":{{timenow}}}')
+// Readable alerts (choose these instead of "Any alert() function call" for app/popup/sound notifications)
+plot(sellEntry ? sE : buyEntry ? bE : na, "Entry", display = display.data_window)
+plot(sellEntry ? sS : buyEntry ? bS : na, "SL", display = display.data_window)
+plot(sellEntry ? sTg : buyEntry ? bTg : na, "TP", display = display.data_window)
+alertcondition(sellEntry, "Anchor SELL", 'Anchor Break SELL {{ticker}} ({{interval}}) | Entry {{plot("Entry")}} | SL {{plot("SL")}} | TP {{plot("TP")}}')
+alertcondition(buyEntry, "Anchor BUY", 'Anchor Break BUY {{ticker}} ({{interval}}) | Entry {{plot("Entry")}} | SL {{plot("SL")}} | TP {{plot("TP")}}')
 
 plotshape(sellEntry, "Sell entry", shape.triangledown, location.abovebar, color.red, size = size.small)
 plotshape(buyEntry, "Buy entry", shape.triangleup, location.belowbar, color.green, size = size.small)
