@@ -22,7 +22,7 @@ NSE = [c["tv_ticker"] for c in json.load(open(os.path.join(HERE, "nifty100.json"
 
 def bars(ticker, res, n):
     """TradingView OHLC bars [t, o, h, l, c, v] + mintick."""
-    for attempt in range(3):
+    for attempt in range(1):   # single attempt here; retries (fresh websocket each) happen in run_market's second pass
         try:
             ws = websocket.create_connection("wss://data.tradingview.com/socket.io/websocket?from=chart%2F&type=chart",
                                              header=["Origin: https://www.tradingview.com"], timeout=30)
@@ -49,7 +49,7 @@ def bars(ticker, res, n):
             if out: return [out[k] for k in sorted(out)], tick or 1e-8, None
             if err: return [], None, err
         except Exception as e:
-            err = str(e); time.sleep(2 + attempt * 3)
+            err = str(e)
     return [], None, err or "no data"
 
 def zigzag(H, L, tick, with_live=False):
@@ -110,6 +110,9 @@ def label(piv):
         out.append((i, lab, v))
     return out
 
+RETRY_BACKOFF = (2, 4, 6)                         # seconds before retry pass 1/2/3 for failed symbol fetches
+def ts(): return datetime.now(IST).strftime("[%Y-%m-%d %H:%M:%S IST]")
+
 def rnd(v): return float(f"{v:.6g}")
 
 def scan(sym, market, now):
@@ -169,9 +172,21 @@ def scan(sym, market, now):
 def run_market(market, prev, now):
     syms = CRYPTO if market == "crypto" else NSE
     with ThreadPoolExecutor(8) as ex: results = list(ex.map(lambda s: scan(s, market, now), syms))
-    ok = [r for r, e in results if r]
-    errs = [s for s, (r, e) in zip(syms, results) if not r]
-    if errs: print(market, "errors:", len(errs), errs[:10], file=sys.stderr)
+    results = dict(zip(syms, results))
+    failed = [s for s in syms if not results[s][0]]
+    first_failed, recovered = list(failed), []
+    for k, delay in enumerate(RETRY_BACKOFF, 1):      # second pass at end of run: fresh websocket per attempt
+        if not failed: break
+        time.sleep(delay)
+        with ThreadPoolExecutor(8) as ex: again = list(ex.map(lambda s: scan(s, market, now), failed))
+        for s_, r in zip(failed, again):
+            results[s_] = r
+            if r[0]: recovered.append(s_)
+        failed = [s_ for s_ in failed if not results[s_][0]]
+    for s_ in failed: print(f"{ts()} [retry-failed] {s_}: {str(results[s_][1]).split(" -+-+- ")[0][:160]}", file=sys.stderr)
+    print(f"{ts()} {market} fetch summary: {len(syms)} symbols, {len(first_failed)} failed first pass, "
+          f"{len(recovered)} recovered {recovered}, {len(failed)} skipped {failed}", file=sys.stderr)
+    ok = [results[s_][0] for s_ in syms if results[s_][0]]
     if not ok: return prev
     armed = [a for r in ok for a in r["armed"]]
     trades = [t for r in ok for t in r["trades"]]
@@ -188,7 +203,8 @@ def run_market(market, prev, now):
             "run": now.strftime("%Y-%m-%d %H:%M IST")}
 
 def main():
-    now = datetime.now(IST)
+    now = datetime.now(IST); t_start = time.time()
+    print(f"{ts()} run start", flush=True)
     try: data = json.load(open(OUT))
     except Exception: data = {}
     nse_open = now.weekday() < 5 and "09:15" <= now.strftime("%H:%M") <= "15:35"
@@ -202,5 +218,7 @@ def main():
     for k in ("crypto", "nse"):
         d = data.get(k) or {}
         print(k, "armed", len(d.get("armed", [])), "open", len(d.get("a1break_open", [])), "hist", len(d.get("a1break_history", [])), "data to", d.get("last_closed_candle"))
+
+    print(f"{ts()} run end ({time.time() - t_start:.0f}s)", flush=True)
 
 if __name__ == "__main__": main()
