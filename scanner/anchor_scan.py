@@ -13,7 +13,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else
 IST = timezone(timedelta(hours=5, minutes=30))
 DEPTH, DEV_TICKS, BACKSTEP = 12, 5, 2          # ZigZag++ 12/5/2
 HIST_KEEP = 30
-RULE = ("Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; "
+RULE = ("Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; "
         "a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. "
         "BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. "
         "Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30.")
@@ -52,43 +52,59 @@ def bars(ticker, res, n):
             err = str(e); time.sleep(2 + attempt * 3)
     return [], None, err or "no data"
 
-def zigzag(H, L, tick):
-    """MT4-style ZigZag (depth/deviation/backstep) as used by ZigZag++. Returns [(index, 'H'|'L', price)] alternating.
-    The last pivot is still forming (repaints) and is dropped -> remaining pivots are final."""
-    n, dev = len(H), DEV_TICKS * tick
-    hb, lb = [0.0] * n, [0.0] * n; lastlow = lasthigh = None
-    for i in range(DEPTH, n):
-        v = min(L[i - DEPTH + 1:i + 1])
-        if v == lastlow: v = 0.0
-        else:
-            lastlow = v
-            if L[i] - v > dev: v = 0.0
-            else:
-                for b in range(1, BACKSTEP + 1):
-                    if lb[i - b] and lb[i - b] > v: lb[i - b] = 0.0
-        lb[i] = v if L[i] == v else 0.0
-        v = max(H[i - DEPTH + 1:i + 1])
-        if v == lasthigh: v = 0.0
-        else:
-            lasthigh = v
-            if v - H[i] > dev: v = 0.0
-            else:
-                for b in range(1, BACKSTEP + 1):
-                    if hb[i - b] and hb[i - b] < v: hb[i - b] = 0.0
-        hb[i] = v if H[i] == v else 0.0
-    piv = []
+def zigzag(H, L, tick, with_live=False):
+    """Exact port of DevLucem ZigZag++ / ZigLib (MT4-style), identical to live-scanner strategy.js zigzagPP().
+    p_lw=-lowestbars(Depth), p_hg=-highestbars(Depth); lowing = lw==p_lw or low-low[p_lw] > Dev*mintick (highing mirror);
+    lh=barssince(not highing[1]), ll=barssince(not lowing[1]); down = barssince(not(lh>ll)) >= Backstep;
+    if lw!=p_lw and (not down[1] or lower): lw = p_lw<hg ? p_lw : 0 ; if hg!=p_hg and (down[1] or higher): hg = p_hg<lw ? p_hg : 0.
+    down flips true -> swing HIGH confirmed at bar-hg; flips false -> swing LOW at bar-lw.
+    Returns confirmed pivots [(index, 'H'|'L', price, confirm_index)]; the repainting live leg end is excluded
+    (returned separately when with_live=True)."""
+    n, D = len(H), DEV_TICKS * tick
+    def low_off(i):
+        o = 0
+        for j in range(1, DEPTH):
+            if i - j < 0: break
+            if L[i - j] < L[i - o]: o = j
+        return o
+    def high_off(i):
+        o = 0
+        for j in range(1, DEPTH):
+            if i - j < 0: break
+            if H[i - j] > H[i - o]: o = j
+        return o
+    nan = float("nan")
+    lowat = lambda i, o: L[i - o] if i - o >= 0 else nan
+    highat = lambda i, o: H[i - o] if i - o >= 0 else nan
+    lw = hg = 1
+    lowing, highing, down, piv = [False] * n, [False] * n, [False] * n, []
+    nh = nl = nd = None
     for i in range(n):
-        for typ, val in (("H", hb[i]), ("L", lb[i])):
-            if not val: continue
-            if piv and piv[-1][1] == typ:
-                if (typ == "H" and val >= piv[-1][2]) or (typ == "L" and val <= piv[-1][2]): piv[-1] = (i, typ, val)
-            else: piv.append((i, typ, val))
-    return piv[:-1]
+        lw += 1; hg += 1
+        pl, ph = low_off(i), high_off(i)
+        lowing[i] = lw == pl or L[i] - lowat(i, pl) > D
+        highing[i] = hg == ph or highat(i, ph) - H[i] > D
+        if i > 0 and not highing[i - 1]: nh = i
+        if i > 0 and not lowing[i - 1]: nl = i
+        lh = nan if nh is None else i - nh
+        ll = nan if nl is None else i - nl
+        if not (lh > ll): nd = i
+        down[i] = nd is not None and i - nd >= BACKSTEP
+        pd = down[i - 1] if i > 0 else False
+        lower, higher = lowat(i, lw) > lowat(i, pl), highat(i, hg) < highat(i, ph)
+        if lw != pl and (not pd or lower): lw = pl if pl < hg else 0
+        if hg != ph and (pd or higher): hg = ph if ph < lw else 0
+        if i > 0 and down[i] != pd and i - (hg if down[i] else lw) >= 0:
+            if down[i]: piv.append((i - hg, "H", H[i - hg], i))
+            else: piv.append((i - lw, "L", L[i - lw], i))
+    if not with_live: return piv
+    x = lw if down[-1] else hg
+    return piv, (n - 1 - x, "L" if down[-1] else "H", (L if down[-1] else H)[n - 1 - x], None)
 
 def label(piv):
     """HH/LH for highs, LL/HL for lows (vs previous pivot of the same kind)."""
     out, ph, pl = [], None, None
-    for i, t, v in piv:
+    for i, t, v, *_ in piv:
         if t == "H": lab = "HH" if ph is None or v > ph else "LH"; ph = v
         else: lab = "LL" if pl is None or v < pl else "HL"; pl = v
         out.append((i, lab, v))
