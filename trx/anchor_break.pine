@@ -1,0 +1,256 @@
+//@version=5
+// Anchor Break — Pine port of scanner/anchor_scan.py. Swings = ZigZag++ [LD] by DevLucem (imports DevLucem/ZigLib/1), 12/5/2, final pivots only.
+// SELL: A1 = previous day's last final ZigZag HH. A ZigZag LH between A1 and A2 rejects (LL/HL allowed).
+//       A2 = first complete candle today with low > A1. Entry = first close < A1 (after A2).
+//       Stop = prior candle high, target 1:2, both touched on one bar = stop.   BUY = mirror (an HH rejects).
+// NSE: entries only 09:30-14:00 IST (bar open time), force-close 15:00. Crypto: day starts 05:30 IST, no cutoff.
+// No repaint: state is updated on confirmed bars only; the still-forming ZigZag pivot is ignored.
+// Alert: ONE alert, condition "Any alert() function call", webhook https://trading.hotelstatusresidency.com/webhook
+import DevLucem/ZigLib/1 as ZigZag
+indicator("Anchor Break", overlay = true, max_lines_count = 50, max_labels_count = 100)
+
+mode      = input.string("Auto", "Market", options = ["Auto", "NSE", "Crypto"])
+depth     = input.int(12, "ZigZag depth", minval = 1)
+devTicks  = input.int(5, "ZigZag deviation (ticks)", minval = 1)
+backstep  = input.int(2, "ZigZag backstep", minval = 2)
+nseStart  = input.int(930, "NSE entry from (HHMM IST)")
+nseEnd    = input.int(1400, "NSE entry until (HHMM IST, inclusive)")
+nseEod    = input.int(1500, "NSE force-close (HHMM IST)")
+secret    = input.string("{{SECRET}}", "Webhook secret (set in alert copy only, never commit)")
+showLines = input.bool(true, "Draw current setup")
+
+TZ = "Asia/Kolkata"
+isNse = mode == "NSE" or (mode == "Auto" and (syminfo.prefix == "NSE" or syminfo.type == "stock" or syminfo.type == "index"))
+// crypto day = 05:30 IST -> 05:30 IST = UTC calendar day
+dayKey(t) => isNse ? year(t, TZ) * 10000 + month(t, TZ) * 100 + dayofmonth(t, TZ) : year(t, "UTC") * 10000 + month(t, "UTC") * 100 + dayofmonth(t, "UTC")
+hhmm(t) => hour(t, TZ) * 100 + minute(t, TZ)
+
+// ---------- ZigZag++ [LD] by DevLucem, exact: same library call + same non-repaint HH/LH/HL/LL labelling ----------
+[direction, z1, z2] = ZigZag.zigzag(low, high, depth, devTicks, backstep)
+var float lastPoint = z1.price[1]
+if bool(ta.change(direction))
+    lastPoint := z1.price[1]
+zzFlip = direction != direction[1]
+// when direction flips, the previous leg end z2[1] is a final pivot (ZigZag++ "Repaint Levels" OFF branch)
+zzLab = zzFlip ? (direction[1] < 0 ? (z2.price[1] < lastPoint[1] ? "LL" : "HL") : (z2.price[1] > lastPoint[1] ? "HH" : "LH")) : ""
+zzPrice = z2.price[1]
+zzTime = z2.time[1]
+// final pivots
+var fIdx = array.new_int()
+var fLab = array.new_string()
+// per-day trackers of last final HH / LL
+var int curKey = na
+var int prevKey = na
+var float hhCur = na
+var int hhCurI = na
+var float llCur = na
+var int llCurI = na
+var float hhPrev = na
+var int hhPrevI = na
+var float llPrev = na
+var int llPrevI = na
+// today's bars
+var tH = array.new_float()
+var tL = array.new_float()
+var tC = array.new_float()
+var tI = array.new_int()
+var tT = array.new_int()
+var tM = array.new_int()
+var float prevLastH = na
+var float prevLastL = na
+
+// ---------- setup evaluation (recomputed from scratch each closed bar, like the Python) ----------
+// returns [status, a2pos, entryPos, entry, stop, target, exitPos]
+// status: 0 none/rejected, 1 waiting entry, 2 OPEN, 3 STOP, 4 TARGET, 5 EOD
+evalSide(bool sell, float a1, int a1i) =>
+    int st = 0
+    int p2 = na
+    int pe = na
+    float e = na
+    float s = na
+    float tg = na
+    int px = na
+    n = array.size(tH)
+    if not na(a1) and n > 0
+        for k = 0 to n - 1
+            if (sell and array.get(tL, k) > a1) or (not sell and array.get(tH, k) < a1)
+                p2 := k
+                break
+        if not na(p2)
+            i2 = array.get(tI, p2)
+            bad = sell ? "LH" : "HH"
+            rej = false
+            m = array.size(fIdx)
+            if m > 0
+                for j = m - 1 to 0
+                    fi = array.get(fIdx, j)
+                    if fi <= a1i
+                        break
+                    if fi <= i2 and array.get(fLab, j) == bad
+                        rej := true
+                        break
+            if not rej
+                st := 1
+                for k = p2 to n - 1
+                    hm = array.get(tM, k)
+                    if isNse and (hm < nseStart or hm > nseEnd)
+                        continue
+                    c = array.get(tC, k)
+                    if (sell and c < a1) or (not sell and c > a1)
+                        pe := k
+                        break
+                if not na(pe)
+                    e := array.get(tC, pe)
+                    s := pe > 0 ? (sell ? array.get(tH, pe - 1) : array.get(tL, pe - 1)) : (sell ? prevLastH : prevLastL)
+                    risk = sell ? s - e : e - s
+                    if na(risk) or risk <= 0
+                        st := 0
+                    else
+                        tg := sell ? e - 2 * risk : e + 2 * risk
+                        st := 2
+                        if pe < n - 1
+                            for k = pe + 1 to n - 1
+                                hs = sell ? array.get(tH, k) >= s : array.get(tL, k) <= s
+                                ht = sell ? array.get(tL, k) <= tg : array.get(tH, k) >= tg
+                                if hs
+                                    st := 3
+                                    px := k
+                                    break
+                                if ht
+                                    st := 4
+                                    px := k
+                                    break
+                                if isNse and array.get(tM, k) >= nseEod
+                                    st := 5
+                                    px := k
+                                    break
+    [st, p2, pe, e, s, tg, px]
+
+var int sSt = 0
+var int sP2 = na
+var int sPe = na
+var float sE = na
+var float sS = na
+var float sTg = na
+var int bSt = 0
+var int bP2 = na
+var int bPe = na
+var float bE = na
+var float bS = na
+var float bTg = na
+bool sellEntry = false
+bool buyEntry = false
+
+if barstate.isconfirmed
+    // day roll
+    dk = dayKey(time)
+    if na(curKey) or dk != curKey
+        if not na(curKey)
+            prevKey := curKey
+            hhPrev := hhCur
+            hhPrevI := hhCurI
+
+            llPrev := llCur
+            llPrevI := llCurI
+
+            prevLastH := high[1]
+            prevLastL := low[1]
+        curKey := dk
+        hhCur := na
+        hhCurI := na
+        llCur := na
+        llCurI := na
+        array.clear(tH)
+        array.clear(tL)
+        array.clear(tC)
+        array.clear(tI)
+        array.clear(tT)
+        array.clear(tM)
+    if zzFlip and not na(zzTime)
+        // a ZigZag++ pivot became final; pivots are keyed by bar time
+        array.push(fIdx, zzTime)
+        array.push(fLab, zzLab)
+        pk = dayKey(zzTime)
+        if zzLab == "HH"
+            if pk == curKey
+                hhCur := zzPrice
+                hhCurI := zzTime
+            else if pk == prevKey
+                hhPrev := zzPrice
+                hhPrevI := zzTime
+        if zzLab == "LL"
+            if pk == curKey
+                llCur := zzPrice
+                llCurI := zzTime
+            else if pk == prevKey
+                llPrev := zzPrice
+                llPrevI := zzTime
+        if array.size(fIdx) > 500
+            array.shift(fIdx)
+            array.shift(fLab)
+    // store today's bar
+    array.push(tH, high)
+    array.push(tL, low)
+    array.push(tC, close)
+    array.push(tI, time)
+    array.push(tT, time)
+    array.push(tM, hhmm(time))
+    // evaluate
+    [a, b2, c, d, e2, f, g] = evalSide(true, hhPrev, hhPrevI)
+    [a_, b_, c_, d_, e_, f_, g_] = evalSide(false, llPrev, llPrevI)
+    last = array.size(tH) - 1
+    sellEntry := a == 2 and c == last
+    buyEntry := a_ == 2 and c_ == last
+    sSt := a
+    sP2 := b2
+    sPe := c
+    sE := d
+    sS := e2
+    sTg := f
+    bSt := a_
+    bP2 := b_
+    bPe := c_
+    bE := d_
+    bS := e_
+    bTg := f_
+
+// ---------- alerts (payload field names = src/webhook.js: coin, side, entry, stop, target, time) ----------
+payload(side, e, st, tg) => '{"secret":"' + secret + '","source":"anchor","symbol":"' + syminfo.ticker + '","coin":"' + syminfo.ticker + '","market":"' + (isNse ? "nse" : "crypto") + '","side":"' + side + '","entry":' + str.tostring(e) + ',"stop":' + str.tostring(st) + ',"target":' + str.tostring(tg) + ',"time":' + str.tostring(time) + '}'
+if sellEntry
+    alert(payload("sell", sE, sS, sTg), alert.freq_once_per_bar_close)
+if buyEntry
+    alert(payload("buy", bE, bS, bTg), alert.freq_once_per_bar_close)
+alertcondition(sellEntry, "Anchor SELL", '{"secret":"{{SECRET}}","source":"anchor","symbol":"{{ticker}}","coin":"{{ticker}}","side":"sell","entry":{{close}},"time":{{timenow}}}')
+alertcondition(buyEntry, "Anchor BUY", '{"secret":"{{SECRET}}","source":"anchor","symbol":"{{ticker}}","coin":"{{ticker}}","side":"buy","entry":{{close}},"time":{{timenow}}}')
+
+plotshape(sellEntry, "Sell entry", shape.triangledown, location.abovebar, color.red, size = size.small)
+plotshape(buyEntry, "Buy entry", shape.triangleup, location.belowbar, color.green, size = size.small)
+
+// ---------- drawings for the current setups ----------
+var line[] drw = array.new_line()
+var label[] lbs = array.new_label()
+stName(s) => s == 1 ? "waiting" : s == 2 ? "OPEN" : s == 3 ? "STOP" : s == 4 ? "TARGET" : s == 5 ? "EOD" : ""
+drawSide(bool sell, int st, float a1, int a1t, int p2, int pe, float e, float s, float tg) =>
+    col = sell ? color.red : color.green
+    if st > 0 and not na(a1)
+        array.push(drw, line.new(a1t, a1, time, a1, xloc.xloc_bar_time, extend.right, col, line.style_solid, 2))
+        array.push(lbs, label.new(a1t, a1, (sell ? "SELL A1 " : "BUY A1 ") + str.tostring(a1, format.mintick), xloc.xloc_bar_time, yloc.price, col, sell ? label.style_label_down : label.style_label_up, color.white, size.small))
+        if not na(p2)
+            t2 = array.get(tT, p2)
+            y2 = sell ? array.get(tH, p2) : array.get(tL, p2)
+            array.push(lbs, label.new(t2, y2, "A2", xloc.xloc_bar_time, yloc.price, color.orange, sell ? label.style_label_down : label.style_label_up, color.black, size.tiny))
+        if not na(pe)
+            te = array.get(tT, pe)
+            array.push(drw, line.new(te, e, time, e, xloc.xloc_bar_time, extend.right, color.blue))
+            array.push(drw, line.new(te, s, time, s, xloc.xloc_bar_time, extend.right, color.red, line.style_dashed))
+            array.push(drw, line.new(te, tg, time, tg, xloc.xloc_bar_time, extend.right, color.green, line.style_dashed))
+            array.push(lbs, label.new(te, e, (sell ? "SELL " : "BUY ") + stName(st) + "\nE " + str.tostring(e, format.mintick) + "  SL " + str.tostring(s, format.mintick) + "  TP " + str.tostring(tg, format.mintick), xloc.xloc_bar_time, yloc.price, color.new(col, 20), label.style_label_left, color.white, size.small))
+if barstate.islast and showLines
+    for l in drw
+        line.delete(l)
+    for b in lbs
+        label.delete(b)
+    array.clear(drw)
+    array.clear(lbs)
+    drawSide(true, sSt, hhPrev, hhPrevI, sP2, sPe, sE, sS, sTg)
+    drawSide(false, bSt, llPrev, llPrevI, bP2, bPe, bE, bS, bTg)
