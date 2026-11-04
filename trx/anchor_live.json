@@ -634,24 +634,13 @@
    }
   ],
   "closed_R": -2.44,
-  "run": "2026-11-04 10:19 IST"
+  "run": "2026-11-04 10:28 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-04 10:05",
+  "last_closed_candle": "2026-11-04 10:10",
   "armed": [
-   {
-    "symbol": "CUMMINSIND",
-    "side": "SELL",
-    "anchor1": 4632.0,
-    "anchor1_time": "2026-11-03 13:15",
-    "anchor2": 4676.1,
-    "anchor2_time": "2026-11-04 09:55",
-    "anchor2_confirmed": "2026-11-04 09:55",
-    "trigger": 4632.0,
-    "status": "waiting entry (anchor 1 close)"
-   },
    {
     "symbol": "IRFC",
     "side": "SELL",
@@ -708,17 +697,6 @@
     "status": "waiting entry (anchor 1 close)"
    },
    {
-    "symbol": "ADANIGREEN",
-    "side": "SELL",
-    "anchor1": 1343.8,
-    "anchor1_time": "2026-11-03 14:40",
-    "anchor2": 1363.6,
-    "anchor2_time": "2026-11-04 09:25",
-    "anchor2_confirmed": "2026-11-04 09:25",
-    "trigger": 1343.8,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
     "symbol": "LTM",
     "side": "SELL",
     "anchor1": 4225.0,
@@ -727,17 +705,6 @@
     "anchor2_time": "2026-11-04 09:25",
     "anchor2_confirmed": "2026-11-04 09:25",
     "trigger": 4225.0,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "HDFCBANK",
-    "side": "SELL",
-    "anchor1": 725.8,
-    "anchor1_time": "2026-11-03 14:50",
-    "anchor2": 736.7,
-    "anchor2_time": "2026-11-04 09:20",
-    "anchor2_confirmed": "2026-11-04 09:20",
-    "trigger": 725.8,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -895,17 +862,6 @@
     "status": "waiting entry (anchor 1 close)"
    },
    {
-    "symbol": "CGPOWER",
-    "side": "BUY",
-    "anchor1": 813.05,
-    "anchor1_time": "2026-11-03 12:15",
-    "anchor2": 788.8,
-    "anchor2_time": "2026-11-04 09:15",
-    "anchor2_confirmed": "2026-11-04 09:15",
-    "trigger": 813.05,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
     "symbol": "BRITANNIA",
     "side": "SELL",
     "anchor1": 4798.9,
@@ -957,28 +913,8 @@
     "stop_pct": 0.336,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 1428.5,
-    "R_now": 0.21
-   },
-   {
-    "symbol": "SUNPHARMA",
-    "side": "SELL",
-    "anchor1": 1784.9,
-    "anchor1_time": "2026-11-03 12:10",
-    "anchor2": 1796.6,
-    "anchor2_time": "2026-11-04 09:25",
-    "anchor2_confirmed": "2026-11-04 09:25",
-    "trigger": 1784.9,
-    "id": "SUNPHARMA|SELL|2026-11-04 09:50",
-    "entry": 1783.7,
-    "stop": 1789.6,
-    "target": 1771.9,
-    "entry_time": "2026-11-04 09:50",
-    "stop_pct": 0.331,
-    "variant": "No Filter",
-    "status": "OPEN",
-    "last": 1786.8,
-    "R_now": -0.53
+    "last": 1427.4,
+    "R_now": 0.44
    },
    {
     "symbol": "M&M",
@@ -989,16 +925,16 @@
     "anchor2_time": "2026-11-04 09:20",
     "anchor2_confirmed": "2026-11-04 09:20",
     "trigger": 2911.0,
-    "id": "M&M|SELL|2026-11-04 10:00",
-    "entry": 2910.3,
-    "stop": 2912.9,
-    "target": 2905.1,
-    "entry_time": "2026-11-04 10:00",
-    "stop_pct": 0.089,
+    "id": "M&M|SELL|2026-11-04 10:05",
+    "entry": 2908.9,
+    "stop": 2915.0,
+    "target": 2896.7,
+    "entry_time": "2026-11-04 10:05",
+    "stop_pct": 0.21,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 2910.3,
-    "R_now": 0.0
+    "last": 2910.1,
+    "R_now": -0.2
    },
    {
     "symbol": "DIVISLAB",
@@ -1017,8 +953,8 @@
     "stop_pct": 0.631,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 10004.0,
-    "R_now": -0.32
+    "last": 9958.5,
+    "R_now": 0.4
    },
    {
     "symbol": "HINDALCO",
@@ -1037,8 +973,8 @@
     "stop_pct": 0.565,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 908.5,
-    "R_now": 0.55
+    "last": 909.2,
+    "R_now": 0.42
    },
    {
     "symbol": "ABB",
@@ -1057,8 +993,28 @@
     "stop_pct": 1.513,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 6675.0,
-    "R_now": 0.65
+    "last": 6700.0,
+    "R_now": 0.9
+   },
+   {
+    "symbol": "CGPOWER",
+    "side": "BUY",
+    "anchor1": 813.05,
+    "anchor1_time": "2026-11-03 12:15",
+    "anchor2": 788.8,
+    "anchor2_time": "2026-11-04 09:15",
+    "anchor2_confirmed": "2026-11-04 09:15",
+    "trigger": 813.05,
+    "id": "CGPOWER|BUY|2026-11-04 10:10",
+    "entry": 814.05,
+    "stop": 809.7,
+    "target": 822.75,
+    "entry_time": "2026-11-04 10:10",
+    "stop_pct": 0.534,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 814.05,
+    "R_now": 0.0
    },
    {
     "symbol": "POWERINDIA",
@@ -1077,8 +1033,8 @@
     "stop_pct": 2.062,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 27950.0,
-    "R_now": 0.54
+    "last": 28315.0,
+    "R_now": 1.18
    },
    {
     "symbol": "CANBK",
@@ -1097,8 +1053,8 @@
     "stop_pct": 0.397,
     "variant": "No Filter",
     "status": "OPEN",
-    "last": 118.19,
-    "R_now": -0.32
+    "last": 118.32,
+    "R_now": -0.04
    },
    {
     "symbol": "ENRIN",
@@ -1117,11 +1073,33 @@
     "stop_pct": 1.122,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 2887.9,
-    "R_now": 1.16
+    "last": 2900.8,
+    "R_now": 1.56
    }
   ],
   "a1break_history": [
+   {
+    "symbol": "SUNPHARMA",
+    "side": "SELL",
+    "anchor1": 1784.9,
+    "anchor1_time": "2026-11-03 12:10",
+    "anchor2": 1796.6,
+    "anchor2_time": "2026-11-04 09:25",
+    "anchor2_confirmed": "2026-11-04 09:25",
+    "trigger": 1784.9,
+    "id": "SUNPHARMA|SELL|2026-11-04 09:50",
+    "entry": 1783.7,
+    "stop": 1789.6,
+    "target": 1771.9,
+    "entry_time": "2026-11-04 09:50",
+    "stop_pct": 0.331,
+    "variant": "No Filter",
+    "status": "STOP",
+    "exit_time": "2026-11-04 10:05",
+    "R": -1.0,
+    "last": 1792.8,
+    "R_now": -1.54
+   },
    {
     "symbol": "CIPLA",
     "side": "SELL",
@@ -1717,31 +1695,11 @@
     "status": "STOP",
     "exit_time": "2026-10-30 13:50",
     "R": -1.0
-   },
-   {
-    "symbol": "TATACONSUM",
-    "side": "SELL",
-    "anchor1": 1017.55,
-    "anchor1_time": "2026-10-29 12:15",
-    "anchor2": 1020.95,
-    "anchor2_time": "2026-10-30 12:25",
-    "anchor2_confirmed": "2026-10-30 12:25",
-    "trigger": 1017.55,
-    "id": "TATACONSUM|SELL|2026-10-30 12:35",
-    "entry": 1017.05,
-    "stop": 1018.85,
-    "target": 1013.45,
-    "entry_time": "2026-10-30 12:35",
-    "stop_pct": 0.177,
-    "variant": "No Filter",
-    "status": "STOP",
-    "exit_time": "2026-10-30 12:50",
-    "R": -1.0
    }
   ],
   "closed_R": -0.8,
-  "run": "2026-11-04 10:19 IST"
+  "run": "2026-11-04 10:28 IST"
  },
- "updated": "2026-11-04 10:19 IST",
+ "updated": "2026-11-04 10:28 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots final, raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
