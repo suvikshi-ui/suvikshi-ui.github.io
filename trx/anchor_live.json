@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-07 23:30",
+  "last_closed_candle": "2026-11-08 03:00",
   "armed": [
    {
     "symbol": "BILLUSDT.P",
@@ -691,7 +691,7 @@
    }
   ],
   "closed_R": -6.0,
-  "run": "2026-11-07 23:46 IST"
+  "run": "2026-11-08 03:22 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1645,6 +1645,6 @@
   "closed_R": -3.09,
   "run": "2026-11-06 14:01 IST"
  },
- "updated": "2026-11-07 23:46 IST",
+ "updated": "2026-11-08 03:22 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
