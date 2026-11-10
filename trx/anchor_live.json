@@ -2,19 +2,8 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-10 22:15",
+  "last_closed_candle": "2026-11-11 03:30",
   "armed": [
-   {
-    "symbol": "HYPEUSDT.P",
-    "side": "BUY",
-    "anchor1": 72.44,
-    "anchor1_time": "2026-11-09 13:15",
-    "anchor2": 71.35,
-    "anchor2_time": "2026-11-10 21:15",
-    "anchor2_confirmed": "2026-11-10 21:15",
-    "trigger": 72.44,
-    "status": "waiting entry (anchor 1 close)"
-   },
    {
     "symbol": "PIUSDT.P",
     "side": "SELL",
@@ -38,7 +27,28 @@
     "status": "waiting entry (anchor 1 close)"
    }
   ],
-  "a1break_open": [],
+  "a1break_open": [
+   {
+    "symbol": "HYPEUSDT.P",
+    "side": "BUY",
+    "anchor1": 72.44,
+    "anchor1_time": "2026-11-09 13:15",
+    "anchor2": 71.35,
+    "anchor2_time": "2026-11-10 21:15",
+    "anchor2_confirmed": "2026-11-10 21:15",
+    "trigger": 72.44,
+    "id": "HYPEUSDT.P|BUY|2026-11-11 02:45",
+    "entry": 72.521,
+    "stop": 72.247,
+    "target": 73.069,
+    "entry_time": "2026-11-11 02:45",
+    "stop_pct": 0.378,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 72.895,
+    "R_now": 1.36
+   }
+  ],
   "a1break_history": [
    {
     "symbol": "LTCUSDT.P",
@@ -702,7 +712,7 @@
    }
   ],
   "closed_R": -12.0,
-  "run": "2026-11-10 22:34 IST"
+  "run": "2026-11-11 03:46 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1453,6 +1463,6 @@
   "closed_R": -13.99,
   "run": "2026-11-10 14:47 IST"
  },
- "updated": "2026-11-10 22:34 IST",
+ "updated": "2026-11-11 03:46 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
