@@ -2,8 +2,19 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-10 07:00",
+  "last_closed_candle": "2026-11-10 14:30",
   "armed": [
+   {
+    "symbol": "PIUSDT.P",
+    "side": "SELL",
+    "anchor1": 0.06768,
+    "anchor1_time": "2026-11-10 01:45",
+    "anchor2": 0.06897,
+    "anchor2_time": "2026-11-10 10:30",
+    "anchor2_confirmed": "2026-11-10 10:30",
+    "trigger": 0.06768,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "XMRUSDT.P",
     "side": "BUY",
@@ -16,7 +27,28 @@
     "status": "waiting entry (anchor 1 close)"
    }
   ],
-  "a1break_open": [],
+  "a1break_open": [
+   {
+    "symbol": "LTCUSDT.P",
+    "side": "BUY",
+    "anchor1": 51.22,
+    "anchor1_time": "2026-11-10 05:00",
+    "anchor2": 50.95,
+    "anchor2_time": "2026-11-10 09:00",
+    "anchor2_confirmed": "2026-11-10 09:00",
+    "trigger": 51.22,
+    "id": "LTCUSDT.P|BUY|2026-11-10 09:45",
+    "entry": 51.4,
+    "stop": 50.98,
+    "target": 52.24,
+    "entry_time": "2026-11-10 09:45",
+    "stop_pct": 0.817,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 51.21,
+    "R_now": -0.45
+   }
+  ],
   "a1break_history": [
    {
     "symbol": "CFGUSDT.P",
@@ -680,13 +712,24 @@
    }
   ],
   "closed_R": -12.0,
-  "run": "2026-11-10 07:29 IST"
+  "run": "2026-11-10 14:47 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
   "timeframe": "5m",
-  "last_closed_candle": "2026-11-09 13:55",
+  "last_closed_candle": "2026-11-09 15:25",
   "armed": [
+   {
+    "symbol": "SOLARINDS",
+    "side": "SELL",
+    "anchor1": 18750.0,
+    "anchor1_time": "2026-11-08 14:20",
+    "anchor2": 18829.0,
+    "anchor2_time": "2026-11-09 14:00",
+    "anchor2_confirmed": "2026-11-09 14:00",
+    "trigger": 18750.0,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "ADANIGREEN",
     "side": "SELL",
@@ -754,7 +797,8 @@
     "status": "waiting entry (anchor 1 close)"
    }
   ],
-  "a1break_open": [
+  "a1break_open": [],
+  "a1break_history": [
    {
     "symbol": "MARUTI",
     "side": "SELL",
@@ -771,9 +815,11 @@
     "entry_time": "2026-11-09 11:55",
     "stop_pct": 0.256,
     "variant": "No Filter",
-    "status": "OPEN",
-    "last": 12866.0,
-    "R_now": 0.45
+    "status": "STOP",
+    "exit_time": "2026-11-09 15:00",
+    "R": -1.0,
+    "last": 12908.0,
+    "R_now": -0.82
    },
    {
     "symbol": "NESTLEIND",
@@ -791,9 +837,11 @@
     "entry_time": "2026-11-09 13:50",
     "stop_pct": 0.521,
     "variant": "No Filter",
-    "status": "OPEN",
-    "last": 1283.9,
-    "R_now": 0.13
+    "status": "EOD",
+    "exit_time": "2026-11-09 15:00",
+    "R": 0.01,
+    "last": 1284.7,
+    "R_now": 0.01
    },
    {
     "symbol": "TRENT",
@@ -811,12 +859,12 @@
     "entry_time": "2026-11-09 13:15",
     "stop_pct": 0.486,
     "variant": "No Filter",
-    "status": "OPEN",
-    "last": 3090.0,
-    "R_now": -0.24
-   }
-  ],
-  "a1break_history": [
+    "status": "STOP",
+    "exit_time": "2026-11-09 14:10",
+    "R": -1.0,
+    "last": 3101.6,
+    "R_now": -1.01
+   },
    {
     "symbol": "ZYDUSLIFE",
     "side": "SELL",
@@ -836,8 +884,8 @@
     "status": "STOP",
     "exit_time": "2026-11-09 13:55",
     "R": -1.0,
-    "last": 1212.0,
-    "R_now": -1.04
+    "last": 1212.2,
+    "R_now": -1.08
    },
    {
     "symbol": "DRREDDY",
@@ -1410,77 +1458,11 @@
     "R_now": -0.87,
     "exit_time": "2026-11-03 09:55",
     "R": -1.0
-   },
-   {
-    "symbol": "POWERINDIA",
-    "side": "BUY",
-    "anchor1": 27655.0,
-    "anchor1_time": "2026-11-02 13:10",
-    "anchor2": 27420.0,
-    "anchor2_time": "2026-11-03 09:20",
-    "anchor2_confirmed": "2026-11-03 09:20",
-    "trigger": 27655.0,
-    "id": "POWERINDIA|BUY|2026-11-03 09:35",
-    "entry": 27700.0,
-    "stop": 27510.0,
-    "target": 28080.0,
-    "entry_time": "2026-11-03 09:35",
-    "stop_pct": 0.686,
-    "variant": "No Filter",
-    "status": "STOP",
-    "last": 27580.0,
-    "R_now": -0.63,
-    "exit_time": "2026-11-03 09:40",
-    "R": -1.0
-   },
-   {
-    "symbol": "LTM",
-    "side": "SELL",
-    "anchor1": 4244.8,
-    "anchor1_time": "2026-10-30 12:10",
-    "anchor2": 4310.0,
-    "anchor2_time": "2026-11-02 09:15",
-    "anchor2_confirmed": "2026-11-02 09:15",
-    "trigger": 4244.8,
-    "id": "LTM|SELL|2026-11-02 12:30",
-    "entry": 4236.5,
-    "stop": 4252.0,
-    "target": 4205.5,
-    "entry_time": "2026-11-02 12:30",
-    "stop_pct": 0.366,
-    "variant": "No Filter",
-    "status": "EOD 15:00",
-    "last": 4217.6,
-    "R_now": 1.22,
-    "exit_time": "2026-11-02 14:55",
-    "R": 1.41
-   },
-   {
-    "symbol": "POWERGRID",
-    "side": "SELL",
-    "anchor1": 267.3,
-    "anchor1_time": "2026-10-30 12:20",
-    "anchor2": 269.75,
-    "anchor2_time": "2026-11-02 09:20",
-    "anchor2_confirmed": "2026-11-02 09:20",
-    "trigger": 267.3,
-    "id": "POWERGRID|SELL|2026-11-02 10:05",
-    "entry": 266.95,
-    "stop": 268.6,
-    "target": 263.65,
-    "entry_time": "2026-11-02 10:05",
-    "stop_pct": 0.618,
-    "variant": "No Filter",
-    "status": "EOD 15:00",
-    "last": 265.45,
-    "R_now": 0.91,
-    "exit_time": "2026-11-02 14:55",
-    "R": 1.0
    }
   ],
-  "closed_R": -10.59,
-  "run": "2026-11-09 14:11 IST"
+  "closed_R": -13.99,
+  "run": "2026-11-10 14:47 IST"
  },
- "updated": "2026-11-10 07:29 IST",
+ "updated": "2026-11-10 14:47 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
