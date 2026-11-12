@@ -2,8 +2,63 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-12 17:00",
+  "last_closed_candle": "2026-11-13 00:15",
   "armed": [
+   {
+    "symbol": "SOLUSDT.P",
+    "side": "BUY",
+    "anchor1": 82.16,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 81.127,
+    "anchor2_time": "2026-11-12 18:45",
+    "anchor2_confirmed": "2026-11-12 18:45",
+    "trigger": 82.16,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "DOGEUSDT.P",
+    "side": "BUY",
+    "anchor1": 0.06634,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 0.06537,
+    "anchor2_time": "2026-11-12 18:45",
+    "anchor2_confirmed": "2026-11-12 18:45",
+    "trigger": 0.06634,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "ETHUSDT.P",
+    "side": "BUY",
+    "anchor1": 2034.7,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 2012.53,
+    "anchor2_time": "2026-11-12 17:15",
+    "anchor2_confirmed": "2026-11-12 17:15",
+    "trigger": 2034.7,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "SUIUSDT.P",
+    "side": "BUY",
+    "anchor1": 0.8091,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 0.7985,
+    "anchor2_time": "2026-11-12 17:15",
+    "anchor2_confirmed": "2026-11-12 17:15",
+    "trigger": 0.8091,
+    "status": "waiting entry (anchor 1 close)"
+   },
+   {
+    "symbol": "TAOUSDT.P",
+    "side": "BUY",
+    "anchor1": 212.5,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 210.09,
+    "anchor2_time": "2026-11-12 17:15",
+    "anchor2_confirmed": "2026-11-12 17:15",
+    "trigger": 212.5,
+    "status": "waiting entry (anchor 1 close)"
+   },
    {
     "symbol": "NEARUSDT.P",
     "side": "BUY",
@@ -29,6 +84,70 @@
   ],
   "a1break_open": [
    {
+    "symbol": "HYPEUSDT.P",
+    "side": "BUY",
+    "anchor1": 70.58,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 70.193,
+    "anchor2_time": "2026-11-12 18:00",
+    "anchor2_confirmed": "2026-11-12 18:00",
+    "trigger": 70.58,
+    "id": "HYPEUSDT.P|BUY|2026-11-12 20:15",
+    "entry": 70.814,
+    "stop": 69.88,
+    "target": 72.682,
+    "entry_time": "2026-11-12 20:15",
+    "stop_pct": 1.319,
+    "variant": "Filter",
+    "status": "OPEN",
+    "last": 71.217,
+    "R_now": 0.43
+   },
+   {
+    "symbol": "DOTUSDT.P",
+    "side": "BUY",
+    "anchor1": 0.8241,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 0.8174,
+    "anchor2_time": "2026-11-12 20:30",
+    "anchor2_confirmed": "2026-11-12 20:30",
+    "trigger": 0.8241,
+    "id": "DOTUSDT.P|BUY|2026-11-12 21:15",
+    "entry": 0.8265,
+    "stop": 0.8166,
+    "target": 0.8463,
+    "entry_time": "2026-11-12 21:15",
+    "stop_pct": 1.198,
+    "variant": "Filter",
+    "status": "OPEN",
+    "last": 0.8295,
+    "R_now": 0.3
+   }
+  ],
+  "a1break_history": [
+   {
+    "symbol": "XLMUSDT.P",
+    "side": "BUY",
+    "anchor1": 0.14516,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 0.1443,
+    "anchor2_time": "2026-11-12 17:15",
+    "anchor2_confirmed": "2026-11-12 17:15",
+    "trigger": 0.14516,
+    "id": "XLMUSDT.P|BUY|2026-11-12 17:30",
+    "entry": 0.14519,
+    "stop": 0.1443,
+    "target": 0.14697,
+    "entry_time": "2026-11-12 17:30",
+    "stop_pct": 0.613,
+    "variant": "No Filter",
+    "status": "STOP",
+    "exit_time": "2026-11-12 18:30",
+    "R": -1.0,
+    "last": 0.1436,
+    "R_now": -1.79
+   },
+   {
     "symbol": "MUSDT.P",
     "side": "SELL",
     "anchor1": 0.809,
@@ -44,12 +163,12 @@
     "entry_time": "2026-11-12 13:00",
     "stop_pct": 1.201,
     "variant": "Filter",
-    "status": "OPEN",
-    "last": 0.79,
-    "R_now": 1.85
-   }
-  ],
-  "a1break_history": [
+    "status": "TARGET",
+    "exit_time": "2026-11-12 17:15",
+    "R": 2.0,
+    "last": 0.7899,
+    "R_now": 1.86
+   },
    {
     "symbol": "ADAUSDT.P",
     "side": "BUY",
@@ -665,54 +784,10 @@
     "R": 2.0,
     "last": 1.421,
     "R_now": 1.73
-   },
-   {
-    "symbol": "MONADUSDT.P",
-    "side": "BUY",
-    "anchor1": 0.01788,
-    "anchor1_time": "2026-11-05 01:45",
-    "anchor2": 0.01766,
-    "anchor2_time": "2026-11-05 18:00",
-    "anchor2_confirmed": "2026-11-05 18:00",
-    "trigger": 0.01788,
-    "id": "MONADUSDT.P|BUY|2026-11-05 19:45",
-    "entry": 0.0179,
-    "stop": 0.01781,
-    "target": 0.01808,
-    "entry_time": "2026-11-05 19:45",
-    "stop_pct": 0.503,
-    "variant": "No Filter",
-    "status": "STOP",
-    "exit_time": "2026-11-05 20:00",
-    "R": -1.0,
-    "last": 0.01766,
-    "R_now": -2.67
-   },
-   {
-    "symbol": "CCUSDT.P",
-    "side": "SELL",
-    "anchor1": 0.10111,
-    "anchor1_time": "2026-11-04 20:30",
-    "anchor2": 0.10176,
-    "anchor2_time": "2026-11-05 08:45",
-    "anchor2_confirmed": "2026-11-05 08:45",
-    "trigger": 0.10111,
-    "id": "CCUSDT.P|SELL|2026-11-05 16:15",
-    "entry": 0.10106,
-    "stop": 0.10209,
-    "target": 0.099,
-    "entry_time": "2026-11-05 16:15",
-    "stop_pct": 1.019,
-    "variant": "Filter",
-    "status": "TARGET",
-    "exit_time": "2026-11-05 19:45",
-    "R": 2.0,
-    "last": 0.09892,
-    "R_now": 2.08
    }
   ],
   "closed_R": -12.0,
-  "run": "2026-11-12 17:15 IST"
+  "run": "2026-11-13 00:39 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1634,6 +1709,6 @@
   "closed_R": -4.99,
   "run": "2026-11-11 14:10 IST"
  },
- "updated": "2026-11-12 17:15 IST",
+ "updated": "2026-11-13 00:39 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
