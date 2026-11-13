@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-13 20:00",
+  "last_closed_candle": "2026-11-14 02:15",
   "armed": [
    {
     "symbol": "ETHUSDT.P",
@@ -45,28 +45,8 @@
     "stop_pct": 1.427,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 1.0333,
-    "R_now": 0.7
-   },
-   {
-    "symbol": "UNIUSDT.P",
-    "side": "BUY",
-    "anchor1": 5.925,
-    "anchor1_time": "2026-11-12 21:00",
-    "anchor2": 5.851,
-    "anchor2_time": "2026-11-13 08:15",
-    "anchor2_confirmed": "2026-11-13 08:15",
-    "trigger": 5.925,
-    "id": "UNIUSDT.P|BUY|2026-11-13 19:00",
-    "entry": 6.001,
-    "stop": 5.808,
-    "target": 6.387,
-    "entry_time": "2026-11-13 19:00",
-    "stop_pct": 3.216,
-    "variant": "Filter",
-    "status": "OPEN",
-    "last": 5.907,
-    "R_now": -0.49
+    "last": 1.0224,
+    "R_now": -0.05
    },
    {
     "symbol": "MUSDT.P",
@@ -85,8 +65,8 @@
     "stop_pct": 2.001,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 0.8211,
-    "R_now": 0.2
+    "last": 0.8175,
+    "R_now": 0.42
    },
    {
     "symbol": "CCUSDT.P",
@@ -105,8 +85,8 @@
     "stop_pct": 1.614,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 0.08777,
-    "R_now": 0.3
+    "last": 0.08699,
+    "R_now": -0.26
    },
    {
     "symbol": "DOTUSDT.P",
@@ -125,11 +105,33 @@
     "stop_pct": 1.972,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 0.8406,
-    "R_now": 1.19
+    "last": 0.8241,
+    "R_now": 0.17
    }
   ],
   "a1break_history": [
+   {
+    "symbol": "UNIUSDT.P",
+    "side": "BUY",
+    "anchor1": 5.925,
+    "anchor1_time": "2026-11-12 21:00",
+    "anchor2": 5.851,
+    "anchor2_time": "2026-11-13 08:15",
+    "anchor2_confirmed": "2026-11-13 08:15",
+    "trigger": 5.925,
+    "id": "UNIUSDT.P|BUY|2026-11-13 19:00",
+    "entry": 6.001,
+    "stop": 5.808,
+    "target": 6.387,
+    "entry_time": "2026-11-13 19:00",
+    "stop_pct": 3.216,
+    "variant": "Filter",
+    "status": "STOP",
+    "exit_time": "2026-11-13 20:45",
+    "R": -1.0,
+    "last": 5.799,
+    "R_now": -1.05
+   },
    {
     "symbol": "DOGEUSDT.P",
     "side": "BUY",
@@ -767,32 +769,10 @@
     "R": -1.0,
     "last": 698.43,
     "R_now": -1.0
-   },
-   {
-    "symbol": "APTUSDT.P",
-    "side": "BUY",
-    "anchor1": 0.5902,
-    "anchor1_time": "2026-11-08 03:00",
-    "anchor2": 0.5875,
-    "anchor2_time": "2026-11-08 14:45",
-    "anchor2_confirmed": "2026-11-08 14:45",
-    "trigger": 0.5902,
-    "id": "APTUSDT.P|BUY|2026-11-08 15:15",
-    "entry": 0.5903,
-    "stop": 0.5885,
-    "target": 0.5939,
-    "entry_time": "2026-11-08 15:15",
-    "stop_pct": 0.305,
-    "variant": "No Filter",
-    "status": "STOP",
-    "exit_time": "2026-11-08 15:30",
-    "R": -1.0,
-    "last": 0.5887,
-    "R_now": -0.89
    }
   ],
   "closed_R": 6.0,
-  "run": "2026-11-13 20:24 IST"
+  "run": "2026-11-14 02:32 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1912,6 +1892,6 @@
   "closed_R": 4.01,
   "run": "2026-11-13 12:12 IST"
  },
- "updated": "2026-11-13 20:24 IST",
+ "updated": "2026-11-14 02:32 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
