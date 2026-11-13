@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-13 00:15",
+  "last_closed_candle": "2026-11-13 05:15",
   "armed": [
    {
     "symbol": "SOLUSDT.P",
@@ -13,17 +13,6 @@
     "anchor2_time": "2026-11-12 18:45",
     "anchor2_confirmed": "2026-11-12 18:45",
     "trigger": 82.16,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "DOGEUSDT.P",
-    "side": "BUY",
-    "anchor1": 0.06634,
-    "anchor1_time": "2026-11-12 04:30",
-    "anchor2": 0.06537,
-    "anchor2_time": "2026-11-12 18:45",
-    "anchor2_confirmed": "2026-11-12 18:45",
-    "trigger": 0.06634,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -46,17 +35,6 @@
     "anchor2_time": "2026-11-12 17:15",
     "anchor2_confirmed": "2026-11-12 17:15",
     "trigger": 0.8091,
-    "status": "waiting entry (anchor 1 close)"
-   },
-   {
-    "symbol": "TAOUSDT.P",
-    "side": "BUY",
-    "anchor1": 212.5,
-    "anchor1_time": "2026-11-12 04:30",
-    "anchor2": 210.09,
-    "anchor2_time": "2026-11-12 17:15",
-    "anchor2_confirmed": "2026-11-12 17:15",
-    "trigger": 212.5,
     "status": "waiting entry (anchor 1 close)"
    },
    {
@@ -84,24 +62,44 @@
   ],
   "a1break_open": [
    {
-    "symbol": "HYPEUSDT.P",
+    "symbol": "DOGEUSDT.P",
     "side": "BUY",
-    "anchor1": 70.58,
+    "anchor1": 0.06634,
     "anchor1_time": "2026-11-12 04:30",
-    "anchor2": 70.193,
-    "anchor2_time": "2026-11-12 18:00",
-    "anchor2_confirmed": "2026-11-12 18:00",
-    "trigger": 70.58,
-    "id": "HYPEUSDT.P|BUY|2026-11-12 20:15",
-    "entry": 70.814,
-    "stop": 69.88,
-    "target": 72.682,
-    "entry_time": "2026-11-12 20:15",
-    "stop_pct": 1.319,
+    "anchor2": 0.06537,
+    "anchor2_time": "2026-11-12 18:45",
+    "anchor2_confirmed": "2026-11-12 18:45",
+    "trigger": 0.06634,
+    "id": "DOGEUSDT.P|BUY|2026-11-13 02:45",
+    "entry": 0.0664,
+    "stop": 0.06573,
+    "target": 0.06774,
+    "entry_time": "2026-11-13 02:45",
+    "stop_pct": 1.009,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 71.217,
-    "R_now": 0.43
+    "last": 0.06648,
+    "R_now": 0.12
+   },
+   {
+    "symbol": "BCHUSDT.P",
+    "side": "BUY",
+    "anchor1": 224.25,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 223.31,
+    "anchor2_time": "2026-11-13 04:45",
+    "anchor2_confirmed": "2026-11-13 04:45",
+    "trigger": 224.25,
+    "id": "BCHUSDT.P|BUY|2026-11-13 05:15",
+    "entry": 225.17,
+    "stop": 223.31,
+    "target": 228.89,
+    "entry_time": "2026-11-13 05:15",
+    "stop_pct": 0.826,
+    "variant": "No Filter",
+    "status": "OPEN",
+    "last": 225.17,
+    "R_now": 0.0
    },
    {
     "symbol": "DOTUSDT.P",
@@ -120,11 +118,55 @@
     "stop_pct": 1.198,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 0.8295,
-    "R_now": 0.3
+    "last": 0.8338,
+    "R_now": 0.74
    }
   ],
   "a1break_history": [
+   {
+    "symbol": "HYPEUSDT.P",
+    "side": "BUY",
+    "anchor1": 70.58,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 70.193,
+    "anchor2_time": "2026-11-12 18:00",
+    "anchor2_confirmed": "2026-11-12 18:00",
+    "trigger": 70.58,
+    "id": "HYPEUSDT.P|BUY|2026-11-12 20:15",
+    "entry": 70.814,
+    "stop": 69.88,
+    "target": 72.682,
+    "entry_time": "2026-11-12 20:15",
+    "stop_pct": 1.319,
+    "variant": "Filter",
+    "status": "TARGET",
+    "exit_time": "2026-11-13 05:15",
+    "R": 2.0,
+    "last": 72.712,
+    "R_now": 2.03
+   },
+   {
+    "symbol": "TAOUSDT.P",
+    "side": "BUY",
+    "anchor1": 212.5,
+    "anchor1_time": "2026-11-12 04:30",
+    "anchor2": 210.09,
+    "anchor2_time": "2026-11-12 17:15",
+    "anchor2_confirmed": "2026-11-12 17:15",
+    "trigger": 212.5,
+    "id": "TAOUSDT.P|BUY|2026-11-13 04:30",
+    "entry": 212.72,
+    "stop": 211.73,
+    "target": 214.7,
+    "entry_time": "2026-11-13 04:30",
+    "stop_pct": 0.465,
+    "variant": "No Filter",
+    "status": "STOP",
+    "exit_time": "2026-11-13 05:00",
+    "R": -1.0,
+    "last": 212.01,
+    "R_now": -0.72
+   },
    {
     "symbol": "XLMUSDT.P",
     "side": "BUY",
@@ -740,54 +782,10 @@
     "R": -1.0,
     "last": 0.1848,
     "R_now": -1.33
-   },
-   {
-    "symbol": "TRXUSDT.P",
-    "side": "SELL",
-    "anchor1": 0.31869,
-    "anchor1_time": "2026-11-06 03:30",
-    "anchor2": 0.31883,
-    "anchor2_time": "2026-11-06 06:00",
-    "anchor2_confirmed": "2026-11-06 06:00",
-    "trigger": 0.31869,
-    "id": "TRXUSDT.P|SELL|2026-11-06 07:45",
-    "entry": 0.31857,
-    "stop": 0.31881,
-    "target": 0.31809,
-    "entry_time": "2026-11-06 07:45",
-    "stop_pct": 0.075,
-    "variant": "No Filter",
-    "status": "TARGET",
-    "exit_time": "2026-11-06 08:30",
-    "R": 2.0,
-    "last": 0.31818,
-    "R_now": 1.63
-   },
-   {
-    "symbol": "ATOMUSDT.P",
-    "side": "SELL",
-    "anchor1": 1.489,
-    "anchor1_time": "2026-11-04 21:00",
-    "anchor2": 1.499,
-    "anchor2_time": "2026-11-05 08:15",
-    "anchor2_confirmed": "2026-11-05 08:15",
-    "trigger": 1.489,
-    "id": "ATOMUSDT.P|SELL|2026-11-05 20:00",
-    "entry": 1.478,
-    "stop": 1.511,
-    "target": 1.412,
-    "entry_time": "2026-11-05 20:00",
-    "stop_pct": 2.233,
-    "variant": "Filter",
-    "status": "TARGET",
-    "exit_time": "2026-11-05 21:15",
-    "R": 2.0,
-    "last": 1.421,
-    "R_now": 1.73
    }
   ],
-  "closed_R": -12.0,
-  "run": "2026-11-13 00:39 IST"
+  "closed_R": -15.0,
+  "run": "2026-11-13 05:43 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1709,6 +1707,6 @@
   "closed_R": -4.99,
   "run": "2026-11-11 14:10 IST"
  },
- "updated": "2026-11-13 00:39 IST",
+ "updated": "2026-11-13 05:43 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
