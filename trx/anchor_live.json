@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-15 15:00",
+  "last_closed_candle": "2026-11-15 21:45",
   "armed": [
    {
     "symbol": "ETHUSDT.P",
@@ -56,8 +56,8 @@
     "stop_pct": 3.818,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 71.994,
-    "R_now": 0.73
+    "last": 71.717,
+    "R_now": 0.63
    },
    {
     "symbol": "LTCUSDT.P",
@@ -76,9 +76,11 @@
     "stop_pct": 3.638,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 45.73,
-    "R_now": 0.91
-   },
+    "last": 45.18,
+    "R_now": 0.57
+   }
+  ],
+  "a1break_history": [
    {
     "symbol": "TRXUSDT.P",
     "side": "BUY",
@@ -95,12 +97,12 @@
     "entry_time": "2026-11-15 07:30",
     "stop_pct": 0.656,
     "variant": "No Filter",
-    "status": "OPEN",
-    "last": 0.30754,
-    "R_now": 0.48
-   }
-  ],
-  "a1break_history": [
+    "status": "STOP",
+    "exit_time": "2026-11-15 21:15",
+    "R": -1.0,
+    "last": 0.30394,
+    "R_now": -1.31
+   },
    {
     "symbol": "ETHUSDT.P",
     "side": "BUY",
@@ -738,32 +740,10 @@
     "R": 2.0,
     "last": 0.06568,
     "R_now": 1.58
-   },
-   {
-    "symbol": "PIUSDT.P",
-    "side": "BUY",
-    "anchor1": 0.06995,
-    "anchor1_time": "2026-11-08 20:45",
-    "anchor2": 0.06828,
-    "anchor2_time": "2026-11-09 05:30",
-    "anchor2_confirmed": "2026-11-09 05:30",
-    "trigger": 0.06995,
-    "id": "PIUSDT.P|BUY|2026-11-09 07:15",
-    "entry": 0.07,
-    "stop": 0.0695,
-    "target": 0.071,
-    "entry_time": "2026-11-09 07:15",
-    "stop_pct": 0.714,
-    "variant": "No Filter",
-    "status": "STOP",
-    "exit_time": "2026-11-09 08:15",
-    "R": -1.0,
-    "last": 0.06946,
-    "R_now": -1.08
    }
   ],
   "closed_R": 9.0,
-  "run": "2026-11-15 15:19 IST"
+  "run": "2026-11-15 22:08 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1883,6 +1863,6 @@
   "closed_R": 4.01,
   "run": "2026-11-13 12:12 IST"
  },
- "updated": "2026-11-15 15:19 IST",
+ "updated": "2026-11-15 22:08 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
