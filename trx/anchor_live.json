@@ -2,8 +2,29 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-18 11:15",
-  "armed": [
+  "last_closed_candle": "2026-11-18 20:45",
+  "armed": [],
+  "a1break_open": [
+   {
+    "symbol": "XRPUSDT.P",
+    "side": "SELL",
+    "anchor1": 0.9912,
+    "anchor1_time": "2026-11-18 04:30",
+    "anchor2": 1.0063,
+    "anchor2_time": "2026-11-18 13:15",
+    "anchor2_confirmed": "2026-11-18 13:15",
+    "trigger": 0.9912,
+    "id": "XRPUSDT.P|SELL|2026-11-18 16:30",
+    "entry": 0.9902,
+    "stop": 1.0009,
+    "target": 0.9688,
+    "entry_time": "2026-11-18 16:30",
+    "stop_pct": 1.081,
+    "variant": "Filter",
+    "status": "OPEN",
+    "last": 0.9814,
+    "R_now": 0.82
+   },
    {
     "symbol": "NEARUSDT.P",
     "side": "SELL",
@@ -13,10 +34,17 @@
     "anchor2_time": "2026-11-18 05:30",
     "anchor2_confirmed": "2026-11-18 05:30",
     "trigger": 3.31,
-    "status": "waiting entry (anchor 1 close)"
-   }
-  ],
-  "a1break_open": [
+    "id": "NEARUSDT.P|SELL|2026-11-18 20:00",
+    "entry": 3.296,
+    "stop": 3.339,
+    "target": 3.21,
+    "entry_time": "2026-11-18 20:00",
+    "stop_pct": 1.305,
+    "variant": "Filter",
+    "status": "OPEN",
+    "last": 3.288,
+    "R_now": 0.19
+   },
    {
     "symbol": "TAOUSDT.P",
     "side": "SELL",
@@ -34,11 +62,33 @@
     "stop_pct": 1.176,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 195.82,
-    "R_now": -0.08
+    "last": 193.35,
+    "R_now": 1.0
    }
   ],
   "a1break_history": [
+   {
+    "symbol": "XLMUSDT.P",
+    "side": "SELL",
+    "anchor1": 0.1413,
+    "anchor1_time": "2026-11-17 18:30",
+    "anchor2": 0.14237,
+    "anchor2_time": "2026-11-18 13:30",
+    "anchor2_confirmed": "2026-11-18 13:30",
+    "trigger": 0.1413,
+    "id": "XLMUSDT.P|SELL|2026-11-18 14:45",
+    "entry": 0.14108,
+    "stop": 0.14184,
+    "target": 0.13956,
+    "entry_time": "2026-11-18 14:45",
+    "stop_pct": 0.539,
+    "variant": "No Filter",
+    "status": "TARGET",
+    "exit_time": "2026-11-18 20:00",
+    "R": 2.0,
+    "last": 0.13986,
+    "R_now": 1.61
+   },
    {
     "symbol": "XMRUSDT.P",
     "side": "SELL",
@@ -676,32 +726,10 @@
     "R": -1.0,
     "last": 203.96,
     "R_now": -0.29
-   },
-   {
-    "symbol": "NOTUSDT.P",
-    "side": "SELL",
-    "anchor1": 0.0003291,
-    "anchor1_time": "2026-11-12 15:30",
-    "anchor2": 0.0003311,
-    "anchor2_time": "2026-11-13 05:45",
-    "anchor2_confirmed": "2026-11-13 05:45",
-    "trigger": 0.0003291,
-    "id": "NOTUSDT.P|SELL|2026-11-13 08:00",
-    "entry": 0.0003273,
-    "stop": 0.0003317,
-    "target": 0.0003185,
-    "entry_time": "2026-11-13 08:00",
-    "stop_pct": 1.344,
-    "variant": "Filter",
-    "status": "TARGET",
-    "exit_time": "2026-11-13 09:15",
-    "R": 2.0,
-    "last": 0.0003207,
-    "R_now": 1.5
    }
   ],
   "closed_R": 6.0,
-  "run": "2026-11-18 11:42 IST"
+  "run": "2026-11-18 21:05 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1734,6 +1762,6 @@
   "closed_R": -9.0,
   "run": "2026-11-18 11:42 IST"
  },
- "updated": "2026-11-18 11:42 IST",
+ "updated": "2026-11-18 21:05 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
