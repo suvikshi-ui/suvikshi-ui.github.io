@@ -2,7 +2,7 @@
  "crypto": {
   "universe": "BingX perps (33)",
   "timeframe": "15m",
-  "last_closed_candle": "2026-11-22 23:45",
+  "last_closed_candle": "2026-11-23 05:00",
   "armed": [
    {
     "symbol": "BNBUSDT.P",
@@ -34,8 +34,8 @@
     "stop_pct": 1.455,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 39.87,
-    "R_now": 0.0
+    "last": 40.15,
+    "R_now": 0.48
    },
    {
     "symbol": "ATOMUSDT.P",
@@ -54,8 +54,8 @@
     "stop_pct": 1.956,
     "variant": "Filter",
     "status": "OPEN",
-    "last": 1.16,
-    "R_now": -0.7
+    "last": 1.171,
+    "R_now": -0.22
    }
   ],
   "a1break_history": [
@@ -721,7 +721,7 @@
    }
   ],
   "closed_R": 3.0,
-  "run": "2026-11-23 00:12 IST"
+  "run": "2026-11-23 05:19 IST"
  },
  "nse": {
   "universe": "Nifty 100 (NSE)",
@@ -1678,6 +1678,6 @@
   "closed_R": -9.26,
   "run": "2026-11-20 14:45 IST"
  },
- "updated": "2026-11-23 00:12 IST",
+ "updated": "2026-11-23 05:19 IST",
  "rule_a1": "Rule (2 Nov 2026 16:35 IST): ZigZag++ 12/5/2 pivots (exact DevLucem/ZigLib port, confirmed only), raw swings ignored. SELL: A1 = previous day's last ZigZag HH; a ZigZag LH between A1 and A2 rejects (LL/HL allowed); A2 = first complete candle today fully above A1; entry = first close below A1. BUY mirror (ZigZag HH rejects). Stop = prior candle high/low, target 1:2, both-touch = stop. NSE entries 09:30-14:00, force-close 15:00. Crypto entries from 05:30 IST, no cutoff; unfilled Running force-closed at next 05:30."
 }
